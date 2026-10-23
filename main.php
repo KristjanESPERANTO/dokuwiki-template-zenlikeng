@@ -19,7 +19,22 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
 <head>
     <meta charset="UTF-8" />
     <title><?php tpl_pagetitle() ?> [<?php echo strip_tags($conf['title']) ?>]</title>
-    <script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script>
+        <script>
+            (function (root) {
+                root.className = root.className.replace(/\bno-js\b/, 'js');
+                var preference = 'system';
+                try {
+                    preference = localStorage.getItem('zenlike-theme') || 'system';
+                } catch (error) {}
+                var followsDark =
+                    preference === 'system' &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+                root.setAttribute(
+                    'data-theme',
+                    preference === 'dark' || followsDark ? 'dark' : 'light',
+                );
+            })(document.documentElement);
+        </script>
     <?php tpl_metaheaders() ?>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <?php echo tpl_favicon(array('favicon', 'mobile')) ?>

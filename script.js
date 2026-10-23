@@ -104,14 +104,111 @@ function setupSidebarToggle() {
   updateSidebarVisibility();
 }
 
+function setupThemePreference() {
+  const toggle = document.getElementById('toggle_theme');
+  if (!toggle) return;
+
+  const storageKey = 'zenlike-theme';
+  const modes = ['system', 'light', 'dark'];
+  const themeHome = toggle.parentElement;
+  const menuContent = document.getElementById('zenlike__menucontent');
+  const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
+  const systemPreference = document.defaultView.matchMedia(
+    '(prefers-color-scheme: dark)',
+  );
+  const root = document.documentElement;
+  let preference = 'system';
+
+  function readStoredPreference() {
+    try {
+      return document.defaultView.localStorage.getItem(storageKey);
+    } catch {
+      return null;
+    }
+  }
+
+  function storePreference(value) {
+    try {
+      document.defaultView.localStorage.setItem(storageKey, value);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  const savedPreference = readStoredPreference();
+  if (['system', 'light', 'dark'].includes(savedPreference)) {
+    preference = savedPreference;
+  }
+
+  function updateTheme() {
+    const isDark =
+      preference === 'dark' ||
+      (preference === 'system' && systemPreference.matches);
+    root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+
+    const currentIndex = modes.indexOf(preference);
+    const nextPreference = modes[(currentIndex + 1) % modes.length];
+    const currentLabel = toggle.dataset[`theme${capitalize(preference)}Label`];
+    const nextLabel = toggle.dataset[`theme${capitalize(nextPreference)}Label`];
+    const accessibleLabel = `${toggle.dataset.appearanceLabel}: ${currentLabel}. ${toggle.dataset.nextLabel}: ${nextLabel}`;
+    toggle.setAttribute('aria-label', accessibleLabel);
+    toggle.title = accessibleLabel;
+    toggle.querySelector('.appearance-icon').textContent = {
+      system: '◐',
+      light: '☀',
+      dark: '☾',
+    }[preference];
+  }
+
+  function capitalize(value) {
+    return value[0].toUpperCase() + value.slice(1);
+  }
+
+  function updateToggleLocation() {
+    if (mobileViewport.matches && menuContent) {
+      menuContent.appendChild(toggle);
+      toggle.classList.add('theme-toggle--menu');
+    } else {
+      themeHome.appendChild(toggle);
+      toggle.classList.remove('theme-toggle--menu');
+    }
+  }
+
+  toggle.addEventListener('click', function () {
+    preference = modes[(modes.indexOf(preference) + 1) % modes.length];
+    storePreference(preference);
+    updateTheme();
+  });
+
+  const updateSystemTheme = function () {
+    if (preference === 'system') updateTheme();
+  };
+  if (systemPreference.addEventListener) {
+    systemPreference.addEventListener('change', updateSystemTheme);
+  } else {
+    systemPreference.addListener(updateSystemTheme);
+  }
+
+  updateTheme();
+  updateToggleLocation();
+  if (mobileViewport.addEventListener) {
+    mobileViewport.addEventListener('change', updateToggleLocation);
+  } else {
+    mobileViewport.addListener(updateToggleLocation);
+  }
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
     setupSiteMenuToggle();
     setupSidebarToggle();
+    setupThemePreference();
   });
 } else {
   setupSiteMenuToggle();
   setupSidebarToggle();
+  setupThemePreference();
 }
 
 document.addEventListener('click', function (event) {

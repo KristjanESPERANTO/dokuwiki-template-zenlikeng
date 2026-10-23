@@ -201,11 +201,18 @@ ul.linklist li {
   color: #aaa;
 }
 
-#search {
+#header-tools {
   position: absolute;
   top: 5.5em;
   right: 2em;
-  padding-right: 0em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+#search {
+  position: static;
+  padding-right: 0;
 }
 
 #search .no {
@@ -409,12 +416,6 @@ ul.linklist li {
   margin-top: 1.5em;
   float: right;
   width: 18em;
-}
-
-#dokuwiki__footer .pad .doc {
-  position: absolute;
-  right: 2em;
-  bottom: 1.2em;
 }
 
 /**
@@ -685,25 +686,94 @@ input.button {
 
 #dokuwiki__footer {
   position: relative;
-  height: 2em;
+  height: auto;
   clear: both;
-  padding-top: 5em;
-  padding-bottom: 2em;
-  background: #fff url('images/border2.gif') repeat-x 0 2.5em;
+  padding: 2em 0;
+  background: #fff url('images/border2.gif') repeat-x 0 0.5em;
   font-size: 0.8em;
 }
 
 #dokuwiki__footer .pad {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1em;
+  box-sizing: border-box;
   width: 100%;
-  padding-left: 2em;
+  padding: 0 2em;
 }
 
 #dokuwiki__footer .pad .doc {
-  right: 2em;
+  position: static;
+  right: auto;
+  bottom: auto;
+  float: none;
 }
 
 #dokuwiki__footer .pad .license {
-  width: 50%;
+  clear: both;
+  width: auto;
+  max-width: 48em;
+  margin: 0;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ddd;
+  font: inherit;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.theme-toggle .appearance-icon {
+  font-family: system-ui, sans-serif;
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+.theme-toggle--menu {
+  position: static;
+}
+
+@media screen and (min-width: 70em) {
+  #dokuwiki__footer .pad {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'license doc';
+    align-items: center;
+    column-gap: 2em;
+  }
+
+  #dokuwiki__footer .pad .doc {
+    grid-area: doc;
+    justify-self: end;
+    text-align: right;
+  }
+
+  #dokuwiki__footer .pad .license {
+    grid-area: license;
+  }
 }
 
 /* TOC, copied from "box"-style */

@@ -29,12 +29,29 @@
       ></span>
     </button>
 
-    <div id="search">
-      <label class="a11y" for="qsearch__in"
-        ><?= hsc($lang['btn_search']) ?></label
-      >
-      <?php tpl_searchform() ?>
+    <div id="header-tools">
+      <div id="search">
+        <label class="a11y" for="qsearch__in"
+          ><?= hsc($lang['btn_search']) ?></label
+        >
+        <?php tpl_searchform() ?>
+      </div>
     </div>
+
+    <button
+      type="button"
+      id="toggle_theme"
+      class="theme-toggle"
+      data-appearance-label="<?= hsc($lang['appearance'] ?? 'Appearance') ?>"
+      data-theme-system-label="<?= hsc($lang['theme_system'] ?? 'System') ?>"
+      data-theme-light-label="<?= hsc($lang['theme_light'] ?? 'Light') ?>"
+      data-theme-dark-label="<?= hsc($lang['theme_dark'] ?? 'Dark') ?>"
+      data-next-label="<?= hsc($lang['theme_next'] ?? 'Next mode') ?>"
+      aria-label="<?= hsc(($lang['appearance'] ?? 'Appearance') . ': ' . ($lang['theme_system'] ?? 'System') . '. ' . ($lang['theme_next'] ?? 'Next mode') . ': ' . ($lang['theme_light'] ?? 'Light')) ?>"
+      title="<?= hsc(($lang['appearance'] ?? 'Appearance') . ': ' . ($lang['theme_system'] ?? 'System') . '. ' . ($lang['theme_next'] ?? 'Next mode') . ': ' . ($lang['theme_light'] ?? 'Light')) ?>"
+    >
+      <span class="appearance-icon" aria-hidden="true">◐</span>
+    </button>
   </div>
 
   <div id="headerpic"></div>
