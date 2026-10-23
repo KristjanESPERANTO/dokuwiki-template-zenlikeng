@@ -81,21 +81,28 @@
           <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false) ?>
           <?php if ($conf['useacl'] && $showTools): ?>
           <li class="menusplit">
-            <button
-              type="button"
-              id="toggle_usertools"
-              aria-controls="usertools"
-              aria-expanded="false"
-              aria-label="<?= hsc($lang['user_tools']) ?>"
-              title="<?= hsc($lang['user_tools']) ?>"
-            >
-              <img
-                src="<?= DOKU_BASE ?>lib/images/interwiki/user.svg"
-                width="16"
-                height="16"
-                alt=""
-              />
-            </button>
+            <details>
+              <summary
+                id="toggle_usertools"
+                aria-controls="usertools"
+                aria-label="<?= hsc($lang['user_tools']) ?>"
+                title="<?= hsc($lang['user_tools']) ?>"
+              >
+                <img
+                  src="<?= DOKU_BASE ?>lib/images/interwiki/user.svg"
+                  width="16"
+                  height="16"
+                  alt=""
+                />
+              </summary>
+              <div id="usertools">
+                <ul>
+                  <?= (new \dokuwiki\Menu\UserMenu())->getListItems('action ')
+                  ?>
+                  <?php _tpl_action('userpage', 1, 'li'); ?>
+                </ul>
+              </div>
+            </details>
           </li>
           <?php endif; ?>
         </ul>
@@ -103,13 +110,6 @@
       </div>
     </nav>
   </div>
-</div>
-
-<div id="usertools" hidden>
-  <ul>
-    <?= (new \dokuwiki\Menu\UserMenu())->getListItems('action ') ?>
-    <?php _tpl_action('userpage', 1, 'li'); ?>
-  </ul>
 </div>
 
 <div id="menubottom"></div>

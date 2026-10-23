@@ -237,7 +237,23 @@
   }
 
   #menu ul li.menusplit {
-    width: auto;
+    width: 100%;
+  }
+
+  #toggle_usertools {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 3em;
+    box-sizing: border-box;
+    padding: 0.65em 0.75em;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  #toggle_usertools:hover,
+  #toggle_usertools:focus-visible {
+    background: #656900;
   }
 
   #usertools {

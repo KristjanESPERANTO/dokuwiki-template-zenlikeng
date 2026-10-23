@@ -43,8 +43,10 @@ async function createPage(
           <button type="submit">Go</button>
         </form>
       </div>
-      <button id="toggle_usertools" aria-expanded="false"></button>
-      <div id="usertools" hidden><a href="#user">User tools</a></div>
+      <details>
+        <summary id="toggle_usertools">User tools</summary>
+        <div id="usertools"><a href="#user">User tools</a></div>
+      </details>
     </body></html>`,
     { runScripts: 'outside-only', url: pageUrl },
   );
@@ -354,18 +356,17 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   dom.window.close();
 });
 
-test('toggles user tools and keeps their ARIA state synchronized', async () => {
+test('uses native details disclosure for user tools', async () => {
   const { document, dom } = await createPage();
+  const disclosure = document.querySelector('details');
   const toggle = document.getElementById('toggle_usertools');
-  const userTools = document.getElementById('usertools');
+
+  assert.equal(disclosure.open, false);
+  toggle.click();
+  assert.equal(disclosure.open, true);
 
   toggle.click();
-  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
-  assert.equal(userTools.hidden, false);
-
-  toggle.click();
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(userTools.hidden, true);
+  assert.equal(disclosure.open, false);
 
   dom.window.close();
 });

@@ -793,6 +793,7 @@ input.button {
 #toggle_usertools {
   appearance: none;
   display: inline-flex;
+  list-style: none;
   align-items: center;
   gap: 4px;
   cursor: pointer;
@@ -800,6 +801,14 @@ input.button {
   border: 0;
   background: none;
   color: #fff;
+}
+
+#toggle_usertools::marker {
+  content: '';
+}
+
+#toggle_usertools::-webkit-details-marker {
+  display: none;
 }
 
 #toggle_usertools img {
@@ -822,6 +831,9 @@ input.button {
 
 #usertools {
   position: absolute;
+  top: 100%;
+  inset-inline-end: 0;
+  z-index: 20;
   background: linear-gradient(180deg, #898e00 0%, #737800 100%);
   height: 3.5em;
   right: 0;
