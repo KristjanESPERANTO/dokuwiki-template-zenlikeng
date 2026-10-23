@@ -64,14 +64,27 @@
 #mediamanager__page .ui-resizable-e {
   width: 6px;
   right: 2px;
-  background: transparent url(images/resizecol.png) center center no-repeat;
-  /*
-    @deprecated, change since Adora Belle:
-    background: transparent url(../../images/resizecol.png) center center no-repeat;
-    */
+  cursor: col-resize;
 }
-#mediamanager__page .ui-resizable-e:hover {
-  background-color: __background_alt__;
+
+#mediamanager__page .ui-resizable-e::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  border-radius: 2px;
+  background-color: var(--zenlike-border, __border__);
+  transition:
+    background-color 120ms ease,
+    height 120ms ease;
+}
+
+#mediamanager__page .ui-resizable-e:hover::after {
+  height: 32px;
+  background-color: var(--zenlike-link, __existing__);
 }
 
 #mediamanager__page dd {
