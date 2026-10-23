@@ -98,30 +98,33 @@
   padding-right: 0;
 }
 .dokuwiki ul.idx li {
-  list-style-image: url(images/bullet.png);
-  /*
-    @deprecated, change since Adora Belle:
-    list-style-image: url(../../images/bullet.png);
-    */
+  position: relative;
+  list-style: none;
+  padding-inline-start: 0.9em;
 }
-.dokuwiki ul.idx li.open {
-  list-style-image: url(images/open.png);
-  /*
-    @deprecated, change since Adora Belle:
-    list-style-image: url(../../images/open.png);
-    */
+.dokuwiki ul.idx li::before {
+  position: absolute;
+  top: 0.45em;
+  inset-inline-start: 0.1em;
+  width: 0.35em;
+  height: 0.35em;
+  border-radius: 50%;
+  background: currentColor;
+  content: '';
+  opacity: 0.65;
 }
-.dokuwiki ul.idx li.closed {
-  list-style-image: url(images/closed.png);
-  /*
-    @deprecated, change since Adora Belle:
-    list-style-image: url(../../images/closed.png);
-    */
+.dokuwiki ul.idx li.open::before,
+.dokuwiki ul.idx li.closed::before {
+  width: 0.42em;
+  height: 0.42em;
+  border-radius: 0;
+  background: currentColor;
+  clip-path: polygon(10% 0, 100% 50%, 10% 100%);
+  opacity: 0.75;
 }
-[dir='rtl'] .dokuwiki ul.idx li.closed {
-  list-style-image: url(images/closed-rtl.png);
-  /*
-    @deprecated, change since Adora Belle:
-    list-style-image: url(../../images/closed-rtl.png);
-    */
+.dokuwiki ul.idx li.open::before {
+  transform: rotate(90deg);
+}
+[dir='rtl'] .dokuwiki ul.idx li.closed::before {
+  transform: rotate(180deg);
 }
