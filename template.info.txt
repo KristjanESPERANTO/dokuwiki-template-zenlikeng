@@ -1,6 +1,6 @@
 base     zenlikeng
 author   KristjanESPERANTO (fork maintainer), Dennis Ploeger (original author)
-date     2026-10-22
+date     2026-10-24
 name     Zenlike NG template
 desc     Responsive DokuWiki template based on the classic Zenlike design
 url      https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng
