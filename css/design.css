@@ -13,10 +13,6 @@
 #dokuwiki__header {
     margin: 1em 0 0;
 }
-#IE7 #dokuwiki__header {
-    margin-top: 2em;
-}
-
 #dokuwiki__header .headings {
     margin-bottom: 2.1em;
 }
@@ -120,9 +116,6 @@
     max-width: __site_width__;
     padding: 0 1em;
 }
-#IE6 #dokuwiki__usertools ul {
-    width: 100%;
-}
 #dokuwiki__usertools ul li.user {
     float: left;
     margin-left: 0;
@@ -143,9 +136,6 @@
     width: 100%;
     z-index: 10;
 }
-#IE6 #dokuwiki__content {
-    margin-bottom: 1.4em;
-}
 #dokuwiki__pagetools ul li {
     display: inline;
     margin: 0 1.5em 0 0;
@@ -156,22 +146,6 @@
 [dir=rtl] #dokuwiki__pagetools ul li a.action.top {
     float: left;
 }
-#IE6 #dokuwiki__pagetools ul,
-#IE7 #dokuwiki__pagetools ul {
-    position: relative;
-}
-#IE6 #dokuwiki__pagetools ul li a.action.top,
-#IE7 #dokuwiki__pagetools ul li a.action.top {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-[dir=rtl] #IE6 #dokuwiki__pagetools ul li a.action.top,
-[dir=rtl] #IE7 #dokuwiki__pagetools ul li a.action.top {
-    right: auto;
-    left: 0;
-}
-
 
 /* sidebar
 ********************************************************************/
@@ -251,18 +225,9 @@
 .dokuwiki .wrapper {
     margin-bottom: 2.8em;
 }
-#IE6 .dokuwiki .wrapper {
-    margin-bottom: 1.4em;
-}
-
 #dokuwiki__footer {
     margin-bottom: 1em;
 }
-#IE6 #dokuwiki__footer,
-#IE7 #dokuwiki__footer {
-    height: 1%;
-}
-
 #dokuwiki__footer .doc {
     float: left;
 }

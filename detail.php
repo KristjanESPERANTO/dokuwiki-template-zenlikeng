@@ -10,7 +10,6 @@
 // must be run from within DokuWiki
 if (!defined('DOKU_INC')) die();
 @require_once(dirname(__FILE__).'/tpl_functions.php'); /* include hook for template functions */
-header('X-UA-Compatible: IE=edge,chrome=1');
 
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $conf['lang']?>"
@@ -29,7 +28,6 @@ header('X-UA-Compatible: IE=edge,chrome=1');
 </head>
 
 <body>
-    <!--[if IE 6 ]><div id="IE6"><![endif]--><!--[if IE 7 ]><div id="IE7"><![endif]--><!--[if IE 8 ]><div id="IE8"><![endif]-->
     <div id="dokuwiki__detail" class="dokuwiki">
         <?php html_msgarea() ?>
 
@@ -92,7 +90,6 @@ header('X-UA-Compatible: IE=edge,chrome=1');
 
         <?php } ?>
     </div>
-    <!--[if ( IE 6 | IE 7 | IE 8 ) ]></div><![endif]-->
 </body>
 </html>
 

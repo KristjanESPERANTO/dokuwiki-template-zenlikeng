@@ -242,9 +242,9 @@ html.popup {
     float: right;
 }
 #media__content form.meta textarea.edit {
-    /* needed because of IE8 hack in _edit.css for textarea.edit: */
-    max-width: 70%;
+    width: 70%;
     min-width: 70%;
+    max-width: 70%;
 }
 
 #media__content form.meta div.buttons {
