@@ -9,5 +9,3 @@ $lang['discussion']      = 'שיחה';
 $lang['main_navigation'] = 'תפריט ראשי';
 $lang['back_to_article'] = 'חזור אל המאמר';
 $lang['userpage']          = 'דף משתמש';
-
-//Setup VIM: ex: et ts=2 :

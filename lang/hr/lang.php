@@ -9,5 +9,3 @@ $lang['discussion']      = 'Razgovor';
 $lang['main_navigation'] = 'Glavni izbornik';
 $lang['back_to_article'] = 'Natrag na clanak';
 $lang['userpage']        = 'Stranica suradnika';
-
-//Setup VIM: ex: et ts=2 :

@@ -9,5 +9,3 @@ $lang['discussion']      = 'Беседа';
 $lang['main_navigation'] = 'Главно меню';
 $lang['back_to_article'] = 'Обратно към статията';
 $lang['userpage']        = 'Потребител';
-
-//Setup VIM: ex: et ts=2 :

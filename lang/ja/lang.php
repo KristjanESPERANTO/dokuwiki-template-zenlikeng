@@ -9,5 +9,3 @@ $lang['discussion']      = '議論';
 $lang['main_navigation'] = 'メインメニュー';
 $lang['back_to_article'] = '戻る記事へ';
 $lang['userpage']        = '利用者ページ';
-
-//Setup VIM: ex: et ts=2 :

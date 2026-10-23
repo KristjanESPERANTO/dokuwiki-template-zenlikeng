@@ -9,5 +9,3 @@ $lang['discussion']      = 'Tartışma';
 $lang['main_navigation'] = 'Ana menü';
 $lang['back_to_article'] = 'Geri makalenin';
 $lang['userpage']        = 'Kullanıcı sayfası';
-
-//Setup VIM: ex: et ts=2 :

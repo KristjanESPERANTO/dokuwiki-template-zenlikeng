@@ -9,5 +9,3 @@ $lang['discussion']      = 'Eztabaida';
 $lang['main_navigation'] = 'Menu nagusia';
 $lang['back_to_article'] = 'Bueltatu';
 $lang['userpage']        = 'Lankide orrialdea';//Erabiltzaile orrialdea
-
-//Setup VIM: ex: et ts=2 :

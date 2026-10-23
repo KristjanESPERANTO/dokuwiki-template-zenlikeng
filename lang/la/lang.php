@@ -8,5 +8,3 @@
 $lang['discussion']      = 'Disputatio';
 $lang['main_navigation'] = 'Menu principale';
 $lang['userpage']        = 'Pagina usoris';
-
-//Setup VIM: ex: et ts=2 :

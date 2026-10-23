@@ -9,5 +9,3 @@ $lang['discussion']      = 'Overleg';
 $lang['main_navigation'] = 'Hoofdmenu';
 $lang['back_to_article'] = 'Terug naar artikel';
 $lang['userpage']        = 'Gebruikerspagina';
-
-//Setup VIM: ex: et ts=2 :

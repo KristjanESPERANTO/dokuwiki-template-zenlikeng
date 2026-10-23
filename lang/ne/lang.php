@@ -8,5 +8,3 @@
 $lang['discussion']      = 'वार्तालाप';
 $lang['main_navigation'] = 'मुख्य मेनु';
 $lang['userpage']        = 'प्रयोगकर्ता पृष्ठ';
-
-//Setup VIM: ex: et ts=2 :

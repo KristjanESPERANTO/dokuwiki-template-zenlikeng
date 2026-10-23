@@ -9,5 +9,3 @@ $lang['discussion']      = 'Bespreking';
 $lang['main_navigation'] = 'Hoofkieslys';
 $lang['back_to_article'] = 'Terug na die artikel';
 $lang['userpage']        = 'Gebruikersbladsy';
-
-//Setup VIM: ex: et ts=2 :

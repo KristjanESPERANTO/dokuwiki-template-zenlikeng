@@ -9,5 +9,3 @@ $lang['discussion']      = 'Diskusjon';
 $lang['main_navigation'] = 'Hovedmeny';
 $lang['back_to_article'] = 'Tilbake til artikkelen';
 $lang['userpage']        = 'Brukerside';
-
-//Setup VIM: ex: et ts=2 :

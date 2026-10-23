@@ -10,5 +10,3 @@ $lang['main_navigation'] = 'القائمة الرئيسية';
 $lang['back_to_article'] = 'عودة إلى المقالة';
 //العودة إلى المقال
 $lang['userpage']        = 'صفحة مستخدم';
-
-//Setup VIM: ex: et ts=2 :

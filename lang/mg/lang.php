@@ -8,5 +8,3 @@
 $lang['discussion']      = 'Dinika';
 $lang['main_navigation'] = 'Menu lehibe';
 $lang['userpage']        = 'Pejy ny mpikambana';
-
-//Setup VIM: ex: et ts=2 :

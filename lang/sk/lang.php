@@ -9,5 +9,3 @@ $lang['discussion']      = 'Diskusia';
 $lang['main_navigation'] = 'Hlavné menu';
 $lang['back_to_article'] = 'Späť na článok';
 $lang['userpage']        = 'Stránka používateľa';
-
-//Setup VIM: ex: et ts=2 :

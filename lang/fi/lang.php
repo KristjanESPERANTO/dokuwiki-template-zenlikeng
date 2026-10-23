@@ -9,6 +9,3 @@ $lang['discussion']      = 'Keskustelu';
 $lang['main_navigation'] = 'Päävalikko';
 $lang['back_to_article'] = 'Takaisin artikkeliin';
 $lang['userpage']        = 'Käyttäjäsivu';
-
-
-//Setup VIM: ex: et ts=2 :
