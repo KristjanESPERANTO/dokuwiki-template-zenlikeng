@@ -657,7 +657,7 @@ input.button {
   padding: 1em 2em 0;
 }
 
-div.breadcrumbs {
+.breadcrumbs {
   padding-left: 2em;
   padding-right: 2em;
 }

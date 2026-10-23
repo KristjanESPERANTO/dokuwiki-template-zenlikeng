@@ -3,7 +3,7 @@
     $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
     $menuLabel = $lang['main_navigation'] ?? ($conf['lang'] === 'de' ? 'Menü' : 'Menu');
 ?>
-<div id="zenlikeheader">
+<header id="zenlikeheader">
   <div class="headings">
     <div id="headercontent">
       <h1><?= hsc($conf['title']) ?></h1>
@@ -45,7 +45,7 @@
     </li>
   </ul>
   <div class="clearer"></div>
-</div>
+</header>
 
 <div id="menu">
   <div id="zenlike__menucontent">
@@ -99,8 +99,12 @@
 
 <!-- BREADCRUMBS -->
 <?php if ($conf['breadcrumbs']): ?>
-<div class="breadcrumbs"><?php tpl_breadcrumbs() ?></div>
+<nav class="breadcrumbs" aria-label="<?= hsc($lang['breadcrumb']) ?>">
+  <?php tpl_breadcrumbs() ?>
+</nav>
 <?php endif; ?>
 <?php if ($conf['youarehere']): ?>
-<div class="breadcrumbs"><?php tpl_youarehere() ?></div>
+<nav class="breadcrumbs" aria-label="<?= hsc($lang['youarehere']) ?>">
+  <?php tpl_youarehere() ?>
+</nav>
 <?php endif; ?>
