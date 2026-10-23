@@ -228,7 +228,7 @@
   width: 100px;
   min-height: 130px;
   display: inline-block;
-  /* the right margin should visually be 10px, but because of its inline-block nature the whitespace inbetween is about 4px more */
+  /* Inline-block whitespace adds about 4px, so a 6px margin gives a 10px visual gap. */
   margin: 0 6px 10px 0;
   background-color: __background_neu__;
   color: __text__;
