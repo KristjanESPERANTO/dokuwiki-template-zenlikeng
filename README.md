@@ -80,11 +80,12 @@ push tags or publish anything. To choose a release type explicitly, pass
 After creating the release, build its installable ZIP with the tag just created:
 
 ```sh
-npm run release:package -- vX.Y.Z
+npm run release:package
 ```
 
-The script verifies that the working tree is clean and that the tag points to
-`HEAD` before creating the archive in `dist/`.
+The script derives the tag from the `package.json` version, verifies that it
+points to `HEAD` and that the working tree is clean, then creates the archive in
+`dist/`.
 
 ### Publish on GitHub
 
@@ -96,4 +97,5 @@ git push origin main --follow-tags
 
 The `Publish release` GitHub Actions workflow runs for `v*` tags, verifies that
 the tag matches the version in `package.json`, builds the installable ZIP, and
-creates a GitHub release with generated notes and the ZIP attached.
+creates a GitHub release with generated notes and the ZIP attached. If it does
+not start automatically, run it from the Actions tab with the release tag.

@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-    printf 'Usage: bash scripts/release.sh <tag>\n' >&2
+if [[ $# -gt 0 ]]; then
+    printf 'Usage: npm run release:package\n' >&2
     exit 2
 fi
 
 repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$repo_root"
-release_ref=$1
+release_version=$(node -p "require('./package.json').version")
+release_ref="v$release_version"
 
 if ! git show-ref --verify --quiet "refs/tags/$release_ref"; then
     printf 'Unknown release tag: %s\n' "$release_ref" >&2
