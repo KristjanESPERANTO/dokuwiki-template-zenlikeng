@@ -7,64 +7,6 @@
  */
 
 
-/* header
-********************************************************************/
-
-#dokuwiki__header {
-    margin: 1em 0 0;
-}
-#dokuwiki__header .headings {
-    margin-bottom: 2.1em;
-}
-#dokuwiki__header h1 {
-    margin-bottom: 0;
-    font-size: 1.5em;
-}
-#dokuwiki__header h1 a {
-    text-decoration: none;
-    color: #00c;
-    background-color: inherit;
-}
-#dokuwiki__header p.claim {
-    margin-bottom: 0;
-}
-#dokuwiki__header h2 {
-    margin-bottom: 0;
-    font-size: 1.125em;
-}
-
-#dokuwiki__header .tools {
-    margin-bottom: 2.1em;
-}
-#dokuwiki__header .tools ul {
-    margin-bottom: 0;
-}
-#dokuwiki__header .tools ul li {
-    display: inline;
-}
-
-#dokuwiki__header form.search {
-    margin: .5em 0 0;
-    display: block;
-}
-#dokuwiki__header form.search #qsearch__in {
-    width: 12em;
-    margin-right: .5em;
-}
-[dir=rtl] #dokuwiki__header form.search #qsearch__in {
-    margin-right: 0;
-    margin-left: .5em;
-}
-
-#dokuwiki__header div.breadcrumbs {
-    margin-bottom: .3em;
-}
-#dokuwiki__header div.breadcrumbs a {
-    color: __existing__;
-    background-color: inherit;
-}
-
-
 /* tools
 ********************************************************************/
 

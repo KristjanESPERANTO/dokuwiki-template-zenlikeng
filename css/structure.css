@@ -15,27 +15,6 @@ body {
 #dokuwiki__site > .site {
 }
 
-#dokuwiki__header {
-}
-#dokuwiki__header > .pad {
-}
-    #dokuwiki__header .headings {
-        float: left;
-    }
-    [dir=rtl] #dokuwiki__header .headings {
-        float: right;
-    }
-
-    #dokuwiki__header .tools {
-        float: right;
-        text-align: right;
-    }
-    [dir=rtl] #dokuwiki__header .tools {
-        float: left;
-        text-align: left;
-    }
-
-
 #dokuwiki__site .wrapper {
     position: relative;
 }

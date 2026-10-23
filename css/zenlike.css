@@ -442,12 +442,6 @@ h1#search {
     background-image: none;
 }
 
-#dokuwiki__header {
-
-    display: none;
-
-}
-
 #zenlikeheader #headercontent h1 {
     font-weight: normal;
     color: #fff;
