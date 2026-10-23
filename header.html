@@ -1,5 +1,5 @@
 <?php
-    global $conf, $INFO;
+    global $conf, $INFO, $lang;
     $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
     $menuLabel = $lang['main_navigation'] ?? ($conf['lang'] === 'de' ? 'Menü' : 'Menu');
 ?>

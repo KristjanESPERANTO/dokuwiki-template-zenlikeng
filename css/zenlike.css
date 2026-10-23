@@ -449,7 +449,7 @@ a:link,
 a:visited,
 a.breadcrumbs:visited,
 a.breadcrumbs:visited {
-  color: #b96d00;
+  color: __existing__;
   text-decoration: underline;
 }
 
