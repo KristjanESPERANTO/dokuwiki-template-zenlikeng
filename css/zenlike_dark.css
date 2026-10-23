@@ -84,7 +84,7 @@
   :root[data-theme='dark'] #headerpic {
     background-image:
       linear-gradient(rgba(24, 25, 27, 0.3), rgba(24, 25, 27, 0.3)),
-      url('images/hdrpic.jpg');
+      url('images/header.jpg');
   }
 
   :root[data-theme='dark'] #menubottom,
