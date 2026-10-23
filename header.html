@@ -1,7 +1,7 @@
 <?php
     global $conf, $lang;
     $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
-    $menuLabel = $lang['main_navigation'];
+    $menuLabel = tpl_getLang('main_navigation') ?: 'Menu';
 ?>
 <header id="zenlikeheader">
   <div class="headings">
