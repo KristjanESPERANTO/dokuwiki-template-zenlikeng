@@ -35,10 +35,8 @@ You can change these options in the Configuration Manager:
 
 ## Requirements
 
-Zenlike NG requires PHP 8.2 or newer and a DokuWiki release that provides the
-built-in `SiteMenu`, `UserMenu`, and `MobileMenu` classes. A minimum DokuWiki
-release has not been established, so compatibility with older releases is not
-guaranteed.
+Zenlike NG requires PHP 8.3 or newer and DokuWiki release 2026-07-14c ("Mort")
+or newer. It uses the built-in `SiteMenu`, `UserMenu`, and `MobileMenu` classes.
 
 ## Support
 
@@ -56,7 +54,7 @@ npm run check
 
 You need Node.js and PHP CLI. The checks cover PHP and HTML, JavaScript, Bash,
 CSS, formatting, and spelling. Run `npm run format` to format the files.
-GitHub Actions runs the checks with PHP 8.2 and 8.5. It does not test multiple
+GitHub Actions runs the checks with PHP 8.3 and 8.5. It does not test multiple
 DokuWiki releases.
 
 ### Create a release
