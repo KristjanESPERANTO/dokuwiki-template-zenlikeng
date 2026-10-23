@@ -1,5 +1,3 @@
-/* TODO: this file is not up to the best standards and will be fixed after an overhaul of the form code */
-
 /**
  * This file provides styles for forms in general and specifically
  * for ?do=
@@ -19,25 +17,14 @@
 
 .dokuwiki label.block {
   display: block;
-  text-align: right;
+  text-align: end;
   font-weight: bold;
-}
-[dir='rtl'] .dokuwiki label.block {
-  text-align: left;
 }
 
 .dokuwiki label.simple {
   display: block;
-  text-align: left;
+  text-align: start;
   font-weight: normal;
-}
-[dir='rtl'] .dokuwiki label.simple {
-  text-align: right;
-}
-
-.dokuwiki label.block select,
-.dokuwiki label.block input.edit {
-  width: 50%;
 }
 
 .dokuwiki label span {
@@ -45,57 +32,125 @@
 }
 
 .dokuwiki fieldset {
-  width: 400px;
-  text-align: center;
+  box-sizing: border-box;
+  max-inline-size: 100%;
+  text-align: start;
   border: 1px solid __border__;
-  padding: 0.5em;
-  margin: auto;
+  padding: 1rem;
+  margin-block: 0 1rem;
 }
 
 .dokuwiki input.edit,
-.dokuwiki select.edit {
+.dokuwiki select.edit,
+.dokuwiki textarea.edit {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: 100%;
   vertical-align: middle;
 }
 .dokuwiki select.edit {
   padding: 0.1em 0;
 }
 
+.dokuwiki label.block input.edit,
+.dokuwiki label.block select.edit {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
 .dokuwiki input.button,
 .dokuwiki button.button {
+  box-sizing: border-box;
+  min-block-size: 2.5rem;
+  padding-inline: 1rem;
   vertical-align: middle;
 }
+
+.dokuwiki form :is(input, select, textarea, button):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+#dw__login,
+#dw__resendpwd,
+#dw__register,
+[id^='dw__profile'],
+#subscribe__form {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 32rem;
+  margin-inline: auto;
+  text-align: start;
+}
+
+#dw__login fieldset,
+#dw__resendpwd fieldset,
+#dw__register fieldset,
+[id^='dw__profile'] fieldset,
+#subscribe__form fieldset {
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin: 0;
+}
+
+#dw__login br,
+#dw__resendpwd br,
+#dw__register br {
+  display: none;
+}
+
+#dw__login label.block,
+#dw__resendpwd label.block,
+#dw__register label.block {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-block-end: 0.9rem;
+  text-align: start;
+}
+
 /**
  * Styles for auth forms
  */
 #dw__login label[for='remember__me'] {
-  margin-left: 50%;
-  margin-bottom: 1.4em;
+  display: flex;
+  inline-size: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  font-weight: normal;
+  text-align: start;
 }
-#dw__login fieldset,
-#dw__resendpwd fieldset,
-#dw__register fieldset {
-  padding-bottom: 0.7em;
+
+#dw__login label[for='remember__me'] input {
+  margin: 0;
 }
 
 /**
  * Styles for the subscription page
  */
 
-#subscribe__form {
-  display: block;
-  width: 400px;
-  text-align: center;
+#subscribe__form fieldset {
+  margin-block-end: 1rem;
 }
 
-#subscribe__form fieldset {
-  text-align: left;
-  margin: 0.5em 0;
-}
-[dir='rtl'] #subscribe__form fieldset {
-  text-align: right;
+#subscribe__form fieldset + fieldset {
+  margin-block-start: 1rem;
 }
 
 #subscribe__form label {
-  display: block;
-  margin: 0 0.5em 0.5em;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin: 0.5rem 0;
+  text-align: start;
+}
+
+#subscribe__form input[type='radio'] {
+  flex: 0 0 auto;
+  margin-block-start: 0.2em;
 }

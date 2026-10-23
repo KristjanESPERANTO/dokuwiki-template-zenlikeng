@@ -348,10 +348,10 @@
     width: auto;
   }
 
-  /* Login */
-
-  .dokuwiki fieldset {
-    width: auto;
+  #dw__login label.block,
+  #dw__resendpwd label.block,
+  #dw__register label.block {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   /* Editor */
