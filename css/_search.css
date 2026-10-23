@@ -41,8 +41,7 @@
 }
 
 /* search snippet */
-.dokuwiki div.search_result div.search_snippet, /* old, until 2012-01-25 */
-.dokuwiki dl.search_results dd /* new */ {
+.dokuwiki dl.search_results dd {
   color: __text_alt__;
   background-color: inherit;
   margin: 0 0 1.2em 0;
@@ -54,13 +53,11 @@
   background-color: __highlight__;
 }
 /* search hit in search results */
-.dokuwiki div.search_result strong.search_hit, /* old */
-.dokuwiki .search_results strong.search_hit /* new */ {
+.dokuwiki .search_results strong.search_hit {
   font-weight: normal;
 }
 /* ellipsis separating snippets */
-.dokuwiki div.search_result .search_sep, /* old */
-.dokuwiki .search_results .search_sep /* new */ {
+.dokuwiki .search_results .search_sep {
   color: __text__;
   background-color: inherit;
 }

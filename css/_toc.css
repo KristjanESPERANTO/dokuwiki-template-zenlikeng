@@ -7,40 +7,33 @@
 ********************************************************************/
 
 /* toc container */
-.dokuwiki div.toc, /* old, until 2012-01-25 */
-#dw__toc /* new */ {
+#dw__toc {
   float: right;
   margin: 0 0 1.4em 1.4em;
   width: 12em;
   background-color: __background_alt__;
   color: inherit;
 }
-[dir=rtl] .dokuwiki div.toc, /* old, until 2012-01-25 */
-[dir=rtl] #dw__toc /* new */ {
+[dir='rtl'] #dw__toc {
   float: left;
   margin: 0 1.4em 1.4em 0;
 }
 
 /*____________ toc header ____________*/
 
-.dokuwiki div.tocheader, /* old */
-#dw__toc h3 /* new */ {
+#dw__toc h3 {
   padding: 0.2em 0.5em;
   font-weight: bold;
   margin-bottom: 0;
   font-size: 1em;
 }
 
-.dokuwiki .toc span.toc_open, /* old */
-.dokuwiki .toc span.toc_close, /* old */
-#dw__toc h3 strong /* new */ {
+#dw__toc h3 strong {
   float: right;
   margin: 0 0.2em;
   line-height: 1;
 }
-[dir=rtl] .dokuwiki .toc span.toc_open, /* old */
-[dir=rtl] .dokuwiki .toc span.toc_close, /* old */
-[dir=rtl] #dw__toc h3 strong /* new */ {
+[dir='rtl'] #dw__toc h3 strong {
   float: left;
 }
 
@@ -50,28 +43,23 @@
 #dw__toc > div {
   padding: 0.2em 0.5em;
 }
-.dokuwiki #toc__inside ul, /* old */
-#dw__toc ul /* new */ {
+#dw__toc ul {
   padding: 0;
   margin: 0;
 }
-.dokuwiki #toc__inside ul li, /* old */
-#dw__toc ul li /* new */ {
+#dw__toc ul li {
   list-style: none;
   padding: 0;
   margin: 0;
   line-height: 1.1;
 }
-.dokuwiki #toc__inside ul li div.li, /* old */
-#dw__toc ul li div.li /* new */ {
+#dw__toc ul li div.li {
   padding: 0.15em 0;
 }
-.dokuwiki #toc__inside ul ul, /* old */
-#dw__toc ul ul /* new */ {
+#dw__toc ul ul {
   padding-left: 1em;
 }
-[dir=rtl] .dokuwiki #toc__inside ul ul, /* old */
-[dir=rtl] #dw__toc ul ul /* new */ {
+[dir='rtl'] #dw__toc ul ul {
   padding-left: 0;
   padding-right: 1em;
 }

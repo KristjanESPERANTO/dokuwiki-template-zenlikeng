@@ -733,8 +733,7 @@ input.button {
 
 /* TOC, copied from "box"-style */
 
-.dokuwiki div.toc, /* old, until 2012-01-25 */
-#dw__toc /* new */ {
+#dw__toc {
   float: right;
   position: static;
   background: #fdfcf6;
@@ -746,8 +745,7 @@ input.button {
   width: 16em;
 }
 
-.dokuwiki div.tocheader, /* old, until 2012-01-25 */
-#dw__toc h3 /* new */ {
+#dw__toc h3 {
   font-size: 1.2em;
 }
 
