@@ -778,6 +778,11 @@ input.button {
   margin-left: __sidebar_width__;
 }
 
+[dir='rtl'] #dokuwiki__aside + #dokuwiki__content {
+  margin-left: 0;
+  margin-right: __sidebar_width__;
+}
+
 .columns-plugin td {
   border: 0;
 }

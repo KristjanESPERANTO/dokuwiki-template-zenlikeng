@@ -325,7 +325,11 @@
   }
 
   #dokuwiki__aside + #dokuwiki__content {
-    margin-left: 0;
+    margin: 0;
+  }
+
+  [dir='rtl'] #dokuwiki__aside + #dokuwiki__content {
+    margin: 0;
   }
 
   #dokuwiki__footer {
@@ -376,6 +380,10 @@
     float: none;
     width: 100%;
     min-width: 0;
+  }
+
+  [dir='rtl'] #mediamanager__page .panel {
+    float: none;
   }
 
   #mediamanager__page .ui-resizable-e {
