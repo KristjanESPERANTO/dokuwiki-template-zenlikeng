@@ -62,6 +62,26 @@
     color: var(--zenlike-missing);
   }
 
+  :root[data-theme='dark']
+    .dokuwiki
+    .ui-admin
+    ul.admin_tasks
+    li
+    a
+    span.icon
+    svg,
+  :root[data-theme='dark']
+    .dokuwiki
+    .ui-admin
+    ul.admin_tasks
+    li
+    a
+    span.icon
+    svg
+    path {
+    fill: var(--zenlike-link);
+  }
+
   :root[data-theme='dark'] #dokuwiki__usertools a.wikilink1,
   :root[data-theme='dark'] #dokuwiki__pagetools a.wikilink1,
   :root[data-theme='dark'] #dokuwiki__usertools a.wikilink2,
@@ -122,6 +142,59 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] .dokuwiki th {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki fieldset details {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki fieldset details > summary {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki ul.tabs::after {
+    border-color: var(--zenlike-border);
+  }
+
+  :root[data-theme='dark'] .dokuwiki ul.tabs li a {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-link);
+  }
+
+  :root[data-theme='dark'] .dokuwiki ul.tabs li strong {
+    border-color: var(--zenlike-border);
+    border-bottom-color: var(--zenlike-surface-raised);
+    background-color: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #extension__manager .panelHeader {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #extension__manager ul.tabs li a {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-link);
+  }
+
+  :root[data-theme='dark'] #extension__manager ul.tabs li.active a {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
   :root[data-theme='dark'] input,
   :root[data-theme='dark'] textarea,
   :root[data-theme='dark'] select {
@@ -174,6 +247,45 @@
 
   :root[data-theme='dark'] #config__manager td.label span.outkey {
     background-color: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #config__manager fieldset {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #config__manager tr .input,
+  :root[data-theme='dark'] #config__manager tr input,
+  :root[data-theme='dark'] #config__manager tr textarea,
+  :root[data-theme='dark'] #config__manager tr select {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #config__manager tr.default .input,
+  :root[data-theme='dark'] #config__manager tr.default input,
+  :root[data-theme='dark'] #config__manager tr.default textarea,
+  :root[data-theme='dark'] #config__manager tr.default select,
+  :root[data-theme='dark'] #config__manager .selection[class*='default'] {
+    background-color: #354358;
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #config__manager tr.protected .input,
+  :root[data-theme='dark'] #config__manager tr.protected input,
+  :root[data-theme='dark'] #config__manager tr.protected textarea,
+  :root[data-theme='dark'] #config__manager tr.protected select,
+  :root[data-theme='dark'] #config__manager tr.protected .selection {
+    background-color: #4b2d2b !important;
+    color: #ffe0dc !important;
+  }
+
+  :root[data-theme='dark'] #config__manager td.error {
+    background-color: #5a2727;
+    color: #ffe0dc;
   }
 
   :root[data-theme='dark'] .dokuwiki input.summary[style*='background-color'],
