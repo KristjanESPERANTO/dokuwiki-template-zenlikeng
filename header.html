@@ -1,7 +1,7 @@
 <?php
     global $conf;
     global $INFO;
-    $showTools = !tpl_getConf('hideTools') || ( tpl_getConf('hideTools') && $_SERVER['REMOTE_USER'] );
+    $showTools = !tpl_getConf('hideTools') || ( tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']) );
     global $_SERVER;
 ?>
 <div id="zenlikeheader">
@@ -42,15 +42,13 @@
 
         if ($INFO['ismobile']) {
 
-            tpl_actiondropdown($lang['tools']);
+            echo (new \dokuwiki\Menu\MobileMenu())->getDropdown($lang['tools']);
 
         } else {
 
             print '<ul>';
 
-            tpl_action('recent', 1, 'li');
-            tpl_action('media', 1, 'li');
-            tpl_action('index', 1, 'li');
+            echo (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false);
 
             if ($conf['useacl'] && $showTools) {
 
@@ -60,7 +58,7 @@
                     'images/icon-user.png" ' .
                     'id="toggle_usertools" ';
 
-                if ($_SERVER['REMOTE_USER']) {
+                if (!empty($_SERVER['REMOTE_USER'])) {
                     echo 'title="';
                     tpl_userinfo();
                     echo '" ';
@@ -88,11 +86,8 @@
 
 <?php
 
-    tpl_action('admin', 1, 'li');
+    echo (new \dokuwiki\Menu\UserMenu())->getListItems('action ');
     _tpl_action('userpage', 1, 'li');
-    tpl_action('profile', 1, 'li');
-    tpl_action('register', 1, 'li');
-    tpl_action('login', 1, 'li');
 
 ?>
     </ul>
