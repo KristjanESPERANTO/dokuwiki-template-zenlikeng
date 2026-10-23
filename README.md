@@ -85,3 +85,15 @@ npm run release:package -- vX.Y.Z
 
 The script verifies that the working tree is clean and that the tag points to
 `HEAD` before creating the archive in `dist/`.
+
+### Publish on GitHub
+
+Push the release commit and tag to GitHub:
+
+```sh
+git push origin main --follow-tags
+```
+
+The `Publish release` GitHub Actions workflow runs for `v*` tags, verifies that
+the tag matches the version in `package.json`, builds the installable ZIP, and
+creates a GitHub release with generated notes and the ZIP attached.

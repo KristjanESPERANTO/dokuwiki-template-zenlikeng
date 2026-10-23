@@ -1,0 +1,56 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: latest
+          cache: npm
+
+      - run: npm ci
+
+      - name: Verify tag version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          tag_version=${RELEASE_TAG#v}
+          package_version=$(npm pkg get version --json | node -e '
+          let input = "";
+          process.stdin.on("data", (chunk) => (input += chunk));
+          process.stdin.on("end", () => process.stdout.write(JSON.parse(input).version));
+          ')
+          if [[ "$tag_version" != "$package_version" ]]; then
+            printf 'Tag version %s does not match package.json version %s\n' "$tag_version" "$package_version" >&2
+            exit 1
+          fi
+
+      - name: Build installable ZIP
+        run: npm run release:package -- "$GITHUB_REF_NAME"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "dist/zenlikeng-${GITHUB_REF_NAME}.zip" \
+            --title "Zenlike NG ${GITHUB_REF_NAME}" \
+            --generate-notes \
+            --verify-tag
