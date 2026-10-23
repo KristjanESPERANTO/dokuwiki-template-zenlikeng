@@ -19,6 +19,8 @@ async function createPage(initiallyMobile = true) {
           </form>
         </div>
       </div>
+      <button id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="true" hidden>Sidebar</button>
+      <nav id="dokuwiki__aside"><a href="#sidebar">Sidebar link</a></nav>
       <div id="zenlike__menucontent" hidden>
         <nav><a href="#page">Page</a></nav>
       </div>
@@ -81,6 +83,40 @@ test('initializes the mobile menu and moves search into its panel', async () => 
   dom.window.close();
 });
 
+test('collapses the sidebar on mobile and toggles its ARIA state', async () => {
+  const { document, dom } = await createPage();
+  const toggle = document.getElementById('toggle_sidebar');
+  const sidebar = document.getElementById('dokuwiki__aside');
+
+  assert.equal(toggle.hidden, false);
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(sidebar.hidden, true);
+
+  toggle.click();
+  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+  assert.equal(sidebar.hidden, false);
+
+  dom.window.close();
+});
+
+test('closes the mobile sidebar on Escape and restores focus', async () => {
+  const { document, dom } = await createPage();
+  const toggle = document.getElementById('toggle_sidebar');
+  const sidebar = document.getElementById('dokuwiki__aside');
+  toggle.click();
+  toggle.focus();
+
+  document.dispatchEvent(
+    new dom.window.KeyboardEvent('keydown', { key: 'Escape' }),
+  );
+
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(sidebar.hidden, true);
+  assert.equal(document.activeElement, toggle);
+
+  dom.window.close();
+});
+
 test('opens and closes the mobile menu with synchronized ARIA state', async () => {
   const { document, dom } = await createPage();
   const toggle = document.getElementById('toggle_sitemenu');
@@ -134,17 +170,25 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   const menu = document.getElementById('zenlike__menucontent');
   const search = document.getElementById('search');
   const searchHome = document.getElementById('headercontent');
+  const sidebarToggle = document.getElementById('toggle_sidebar');
+  const sidebar = document.getElementById('dokuwiki__aside');
 
   setMobile(false);
   assert.equal(toggle.hidden, true);
   assert.equal(toggle.getAttribute('aria-expanded'), 'false');
   assert.equal(menu.hidden, false);
   assert.equal(search.parentElement, searchHome);
+  assert.equal(sidebarToggle.hidden, true);
+  assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'true');
+  assert.equal(sidebar.hidden, false);
 
   setMobile(true);
   assert.equal(toggle.hidden, false);
   assert.equal(menu.hidden, true);
   assert.equal(search.parentElement, menu);
+  assert.equal(sidebarToggle.hidden, false);
+  assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(sidebar.hidden, true);
 
   dom.window.close();
 });

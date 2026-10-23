@@ -40,6 +40,9 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
 
             <!-- ********** ASIDE ********** -->
             <?php if ($showSidebar): ?>
+                <button type="button" id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="true" hidden>
+                    <?php echo hsc($lang['sidebar']) ?>
+                </button>
                 <nav id="dokuwiki__aside" aria-label="<?php echo $lang['sidebar'] ?>"><div class="pad include">
                     <?php tpl_includeFile('sidebarheader.html') ?>
                     <?php tpl_include_page($conf['sidebar'], 1, 1) /* includes the nearest sidebar page */ ?>

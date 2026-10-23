@@ -64,10 +64,54 @@ function setupSiteMenuToggle() {
   updateMenuVisibility();
 }
 
+function setupSidebarToggle() {
+  const toggle = document.getElementById('toggle_sidebar');
+  const sidebar = document.getElementById('dokuwiki__aside');
+  if (!toggle || !sidebar) return;
+
+  const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
+
+  function setExpanded(expanded) {
+    toggle.setAttribute('aria-expanded', String(expanded));
+    sidebar.hidden = !expanded;
+  }
+
+  function updateSidebarVisibility() {
+    const isMobile = mobileViewport.matches;
+    toggle.hidden = !isMobile;
+    setExpanded(!isMobile);
+  }
+
+  toggle.addEventListener('click', function () {
+    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || !mobileViewport.matches || sidebar.hidden) {
+      return;
+    }
+
+    setExpanded(false);
+    toggle.focus();
+  });
+
+  if (mobileViewport.addEventListener) {
+    mobileViewport.addEventListener('change', updateSidebarVisibility);
+  } else {
+    mobileViewport.addListener(updateSidebarVisibility);
+  }
+
+  updateSidebarVisibility();
+}
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', setupSiteMenuToggle);
+  document.addEventListener('DOMContentLoaded', function () {
+    setupSiteMenuToggle();
+    setupSidebarToggle();
+  });
 } else {
   setupSiteMenuToggle();
+  setupSidebarToggle();
 }
 
 document.addEventListener('click', function (event) {
