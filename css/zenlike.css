@@ -45,20 +45,14 @@ h3,
 h4 {
   display: inline;
   font-weight: bold;
-  background-repeat: no-repeat;
-  background-position: right;
 }
 
 h3 {
   font-size: 1.7em;
-  padding-right: 34px;
-  background-image: url('images/db1.gif');
 }
 
 h4 {
   font-size: 1.2em;
-  padding-right: 28px;
-  background-image: url('images/db2.gif');
 }
 
 .contentarea {
@@ -475,14 +469,11 @@ h1,
 h2 {
   display: inline;
   font-weight: bold;
-  background: no-repeat right;
 }
 
 h1,
 h1#search {
   font-size: 1.7em;
-  padding-right: 34px;
-  background-image: url('images/db1.gif');
 }
 
 h2,
@@ -496,8 +487,6 @@ h6 {
 
 h2 {
   font-size: 1.2em;
-  padding-right: 28px;
-  background-image: url('images/db2.gif');
   line-height: 2em;
 }
 
@@ -794,8 +783,6 @@ input.button {
 .dokuwiki div.tocheader, /* old, until 2012-01-25 */
 #dw__toc h3 /* new */ {
   font-size: 1.2em;
-  padding-right: 28px;
-  background: transparent url('images/db2.gif') no-repeat right;
 }
 
 .contentarea {
