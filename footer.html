@@ -1,17 +1,16 @@
 <?php
-    if (tpl_getConf("headerPicture") != "") {
-    ?>
-    <script type="text/javascript">
+$headerPicture = tpl_getConf('headerPicture');
+if ($headerPicture !== '') {
+    $headerPictureJson = json_encode(
+        $headerPicture,
+        JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
+    );
 
-        // Exchange header logo
-
-        jQuery("#headerpic").css(
-                "background-image",
-                "url('<?php echo tpl_getConf("headerPicture"); ?>')"
-        );
-
-    </script>
-
-    <?php
-    }
+    tpl_inlineScript(
+        '(function () {' .
+        'const header = document.getElementById("headerpic");' .
+        'if (header) header.style.backgroundImage = "url(" + JSON.stringify(' . $headerPictureJson . ') + ")";' .
+        '})();'
+    );
+}
 ?>
