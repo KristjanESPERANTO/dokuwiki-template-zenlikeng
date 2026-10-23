@@ -341,6 +341,93 @@ ul.linklist li {
   background: rgba(0, 0, 0, 0.14);
 }
 
+@media (min-width: 80em) {
+  #zenlike__navigation {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    justify-content: stretch;
+    gap: 0;
+  }
+
+  #custommenu {
+    min-width: 0;
+  }
+
+  #custommenu ul {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  #menu ul li a {
+    padding-inline: 0.25em;
+    font-size: 0.75em;
+  }
+}
+
+@media (min-width: 42.01em) and (max-width: 79.99em) {
+  #zenlike__navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  #custommenu {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  #custommenu ul {
+    justify-content: center;
+  }
+
+  #custommenu ul li a {
+    padding-inline: 0.25em;
+    font-size: 0.75em;
+  }
+
+  #menu #rightmenu {
+    align-self: stretch;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  #menu #rightmenu .desktop-tools,
+  #menu #rightmenu .desktop-menu {
+    width: 100%;
+  }
+
+  #menu #rightmenu .desktop-menu {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 42.01em) {
+  #usertools {
+    height: auto;
+    min-width: 12em;
+    box-sizing: border-box;
+  }
+
+  #usertools ul {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+  }
+
+  #usertools ul li {
+    display: block;
+  }
+
+  #usertools ul li a {
+    justify-content: flex-start;
+    text-align: start;
+  }
+}
+
 #menubottom {
   border-top: 1px solid #eaeaea;
   box-sizing: border-box;
@@ -719,7 +806,7 @@ input.button {
   line-height: 1;
 }
 
-@media screen and (min-width: 70em) {
+@media (min-width: 70em) {
   #dokuwiki__footer .pad {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
