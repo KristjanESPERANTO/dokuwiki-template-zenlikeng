@@ -12,7 +12,7 @@ find . \( -path './.git' -o -path './node_modules' \) -prune -o \
     -type f \( -name '*.js' -o -name '*.mjs' -o -name '*.cjs' \) -print0 \
     | xargs -0 -n1 node --check
 
-bash -n scripts/check.sh scripts/release.sh
+bash -n scripts/check.sh scripts/pre-release.sh scripts/release.sh scripts/update-release-date.sh
 
 git diff --check HEAD
 git show --check --format= HEAD

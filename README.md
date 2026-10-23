@@ -59,16 +59,31 @@ CSS, formatting, and spelling. Run `npm run format` to format the files.
 GitHub Actions runs the checks with PHP 8.2 and 8.5. It does not test multiple
 DokuWiki releases.
 
-### Build a release package
+### Create a release
 
-Update the `date` field in `template.info.txt`, commit the release, and create
-and push a version tag such as `vYYYY-MM-DD`. Check out that tag and make sure
-the working tree is clean. Then run:
+Use [Conventional Commits](https://www.conventionalcommits.org/) for commit
+messages. `feat` commits trigger a minor release, `fix` commits trigger a patch
+release, and breaking changes trigger a major release. Run the release command
+from a clean working tree:
 
 ```sh
 npm ci
-bash scripts/release.sh vYYYY-MM-DD
+npm run release
 ```
 
-The script checks the tagged revision and creates an installable ZIP in
-`dist/`. It does not create tags or publish releases.
+This runs the project checks, updates `CHANGELOG.md` and the `date` field in
+`template.info.txt`, then creates a release commit and a `vX.Y.Z` tag. Review
+the generated changelog and release commit before pushing; the command does not
+push tags or publish anything. To choose a release type explicitly, pass
+`--release-as major`, `--release-as minor`, or `--release-as patch` after `--`.
+
+### Build the release package
+
+After creating the release, build its installable ZIP with the tag just created:
+
+```sh
+npm run release:package -- vX.Y.Z
+```
+
+The script verifies that the working tree is clean and that the tag points to
+`HEAD` before creating the archive in `dist/`.
