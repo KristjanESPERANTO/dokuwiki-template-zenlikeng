@@ -127,6 +127,10 @@
     display: block;
   }
 
+  #zenlike__navigation {
+    display: block;
+  }
+
   .zenlike-menu-icon {
     display: flex;
     flex-direction: column;

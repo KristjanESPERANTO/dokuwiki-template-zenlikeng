@@ -46,38 +46,40 @@
 
 <div id="menu">
   <div id="zenlike__menucontent">
-    <div id="custommenu">
-      <?php tpl_include_page(tpl_getConf('menuid')); ?>
-    </div>
+    <nav id="zenlike__navigation" aria-label="<?= hsc($menuLabel) ?>">
+      <div id="custommenu">
+        <?php tpl_include_page(tpl_getConf('menuid')); ?>
+      </div>
 
-    <div id="rightmenu">
-      <?php if ($INFO['ismobile']): ?>
-      <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown($lang['tools']) ?>
-      <?php else: ?>
-      <ul>
-        <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false) ?>
-        <?php if ($conf['useacl'] && $showTools): ?>
-        <li class="menusplit">
-          <button
-            type="button"
-            id="toggle_usertools"
-            aria-controls="usertools"
-            aria-expanded="false"
-            aria-label="<?= hsc($lang['user_tools']) ?>"
-            title="<?= hsc($lang['user_tools']) ?>"
-          >
-            <img
-              src="<?= tpl_basedir() ?>images/icon-user.png"
-              width="32"
-              height="16"
-              alt=""
-            />
-          </button>
-        </li>
+      <div id="rightmenu">
+        <?php if ($INFO['ismobile']): ?>
+        <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown($lang['tools']) ?>
+        <?php else: ?>
+        <ul>
+          <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false) ?>
+          <?php if ($conf['useacl'] && $showTools): ?>
+          <li class="menusplit">
+            <button
+              type="button"
+              id="toggle_usertools"
+              aria-controls="usertools"
+              aria-expanded="false"
+              aria-label="<?= hsc($lang['user_tools']) ?>"
+              title="<?= hsc($lang['user_tools']) ?>"
+            >
+              <img
+                src="<?= tpl_basedir() ?>images/icon-user.png"
+                width="32"
+                height="16"
+                alt=""
+              />
+            </button>
+          </li>
+          <?php endif; ?>
+        </ul>
         <?php endif; ?>
-      </ul>
-      <?php endif; ?>
-    </div>
+      </div>
+    </nav>
   </div>
 </div>
 

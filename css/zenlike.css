@@ -306,6 +306,16 @@ ul.linklist li {
   width: 100%;
 }
 
+#zenlike__navigation {
+  display: flex;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  width: 100%;
+}
+
 #custommenu {
   flex: 1 1 max-content;
   min-width: 0;
