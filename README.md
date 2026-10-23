@@ -1,11 +1,25 @@
-# Zenlike DokuWiki Template
+# Zenlike NG DokuWiki Template
 
-Zenlike is a classic DokuWiki template adapted from the original Zenlike design.
+Zenlike NG is a responsive DokuWiki template based on the classic Zenlike design,
+originally created by NodeThirtyThree and adapted for DokuWiki by Dennis Ploeger.
+See the [original project](https://github.com/DRINGOT/dokuwiki-template-zenlike)
+and its [DokuWiki template page](https://www.dokuwiki.org/template:zenlike).
+
+## Installation
+
+Zenlike NG uses the `zenlikeng` template ID, so it can be installed alongside
+the original `zenlike` template. Settings are stored separately and are not
+copied from the original template automatically.
 
 ## Requirements
 
 - Current DokuWiki with the menu API (`dokuwiki\Menu\UserMenu` and related classes)
 - PHP 8.2 or newer
+
+## Support
+
+For support or bug reports, use the
+[GitHub issue tracker](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/issues).
 
 ## Development checks
 
@@ -31,6 +45,6 @@ run:
 bash scripts/release.sh vYYYY-MM-DD
 ```
 
-The script validates the tagged revision and writes an installable archive to
-`dist/`. Run `npm ci` before building. The script does not create tags or
-publish releases.
+The script validates the tagged revision and writes an installable
+`zenlikeng/` archive to `dist/`. Run `npm ci` before building. The script does
+not create tags or publish releases.

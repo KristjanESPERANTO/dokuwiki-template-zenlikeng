@@ -31,7 +31,7 @@ git diff --check "${release_commit}^" "$release_commit"
 
 mkdir -p dist
 safe_tag=${release_ref//[^a-zA-Z0-9._-]/-}
-archive="dist/zenlike-${safe_tag}.zip"
-git archive --format=zip --prefix=zenlike/ --output="$archive" "$release_commit"
+archive="dist/zenlikeng-${safe_tag}.zip"
+git archive --format=zip --prefix=zenlikeng/ --output="$archive" "$release_commit"
 sha256sum "$archive"
 printf 'Created %s\n' "$archive"

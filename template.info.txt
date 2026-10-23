@@ -1,7 +1,6 @@
-base     zenlike
-author   Dennis Ploeger
-email    dennis@dieploegers.de
-date     2012-10-11
-name     zenlike template
-desc     Template based on "zenlike" 1.0 by NodeThirtyThree
-url      http://www.dokuwiki.org/template:zenlike
+base     zenlikeng
+author   KristjanESPERANTO (fork maintainer), Dennis Ploeger (original author)
+date     2026-10-22
+name     Zenlike NG template
+desc     Responsive DokuWiki template based on the classic Zenlike design
+url      https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng
