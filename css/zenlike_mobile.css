@@ -8,6 +8,7 @@
   #dokuwiki__site {
     box-sizing: border-box;
     width: 100%;
+    max-width: none;
     border-width: 0;
   }
 
@@ -29,13 +30,13 @@
     height: auto;
   }
 
-  #zenlikeheader ul.a11y.skip {
-    display: none;
-  }
-
   #headercontent {
     position: relative;
     padding-top: 1.5em;
+  }
+
+  #zenlikeheader #headercontent h1 {
+    font-size: 1.7em;
   }
 
   #search {
@@ -98,12 +99,18 @@
   #headerpic {
     background-position: center;
     background-size: cover;
+    height: 6em;
+  }
+
+  .page {
+    padding: 1em;
   }
 
   #dokuwiki__pagetools {
     display: block;
-    float: none;
+    position: static;
     clear: both;
+    width: auto;
     padding: 0 1em 1em;
   }
 
@@ -123,13 +130,9 @@
     margin-left: 0;
   }
 
-  .page {
-    padding: 1em;
-  }
-
   #dokuwiki__footer {
     height: auto;
-    padding: 5em 1em 1em;
+    padding: 3em 1em 1em;
   }
 
   #dokuwiki__footer .pad,

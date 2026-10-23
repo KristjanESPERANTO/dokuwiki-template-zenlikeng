@@ -231,7 +231,7 @@ ul.linklist li {
 
 #headerpic {
   position: relative;
-  height: 109px;
+  height: 8em;
   background: #fff url('images/hdrpic.jpg') no-repeat top left;
   margin-bottom: 2px;
 }
@@ -543,7 +543,9 @@ input.button {
 #dokuwiki__site {
   z-index: 2;
   position: relative;
-  width: 82%;
+  box-sizing: border-box;
+  width: __site_width__;
+  max-width: 90em;
   border: 7px solid #fff;
   background-color: #fff;
   margin: 0 auto;
@@ -561,11 +563,31 @@ input.button {
 /* Page, copied from "#content" */
 
 .page {
-  padding: 1em 2em 0 2em;
+  padding: 1em 2em 0;
 }
 
 div.breadcrumbs {
-  padding: 0 2em 0 2em;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+#zenlikeheader ul.a11y.skip:focus-within {
+  position: fixed;
+  top: 0.5em;
+  left: 0.5em;
+  z-index: 20;
+  display: block;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  padding: 0.75em;
+  border: 1px solid __border__;
+  background: __background__;
+}
+
+[dir='rtl'] #zenlikeheader ul.a11y.skip:focus-within {
+  right: 0.5em;
+  left: auto;
 }
 
 /* Dokuwiki-Footer, copied from #footer */
