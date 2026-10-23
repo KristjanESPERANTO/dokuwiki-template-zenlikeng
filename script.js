@@ -195,12 +195,13 @@ function setupThemePreference() {
   const storageKey = 'zenlike-theme';
   const modes = ['system', 'light', 'dark'];
   const themeHome = toggle.parentElement;
-  const menuContent = document.getElementById('zenlike__menucontent');
+  const toolsSelect = document.querySelector('.mobile-tools select');
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
   const systemPreference = document.defaultView.matchMedia(
     '(prefers-color-scheme: dark)',
   );
   const root = document.documentElement;
+  const appearanceOptions = new Map();
   let preference = 'system';
 
   function readStoredPreference() {
@@ -243,19 +244,68 @@ function setupThemePreference() {
       light: '☀',
       dark: '☾',
     }[preference];
+
+    appearanceOptions.forEach((option, mode) => {
+      const label = toggle.dataset[`theme${capitalize(mode)}Label`];
+      option.textContent = `${preference === mode ? '✓ ' : ''}${label}`;
+    });
   }
 
   function capitalize(value) {
     return value[0].toUpperCase() + value.slice(1);
   }
 
+  function closeMobileMenu() {
+    if (!mobileViewport.matches) return;
+
+    const menuToggle = document.getElementById('toggle_sitemenu');
+    const menuContent = document.getElementById('zenlike__menucontent');
+    if (!menuToggle || !menuContent) return;
+
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuContent.hidden = true;
+    menuToggle.focus();
+  }
+
+  if (toolsSelect) {
+    const placeholder = toolsSelect.querySelector('option[value=""]');
+    if (placeholder) placeholder.hidden = true;
+
+    const appearanceGroup = document.createElement('optgroup');
+    appearanceGroup.label = toggle.dataset.appearanceLabel;
+    modes.forEach((mode) => {
+      const option = document.createElement('option');
+      option.value = `zenlike-theme-${mode}`;
+      option.textContent = toggle.dataset[`theme${capitalize(mode)}Label`];
+      appearanceGroup.append(option);
+      appearanceOptions.set(mode, option);
+    });
+    toolsSelect.append(appearanceGroup);
+
+    toolsSelect.addEventListener(
+      'change',
+      function (event) {
+        const selectedMode = modes.find(
+          (mode) => toolsSelect.value === `zenlike-theme-${mode}`,
+        );
+        if (!selectedMode) return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        toolsSelect.value = '';
+        preference = selectedMode;
+        storePreference(preference);
+        updateTheme();
+        closeMobileMenu();
+      },
+      true,
+    );
+  }
+
   function updateToggleLocation() {
-    if (mobileViewport.matches && menuContent) {
-      menuContent.appendChild(toggle);
-      toggle.classList.add('theme-toggle--menu');
-    } else {
+    toggle.hidden = mobileViewport.matches;
+    if (!mobileViewport.matches) {
       themeHome.appendChild(toggle);
-      toggle.classList.remove('theme-toggle--menu');
     }
   }
 

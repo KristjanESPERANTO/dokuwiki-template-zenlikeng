@@ -33,6 +33,14 @@ async function createPage(
       <nav id="dokuwiki__aside"><a href="#sidebar">Sidebar link</a></nav>
       <div id="zenlike__menucontent" hidden>
         <nav><a href="#page">Page</a></nav>
+        <div class="mobile-tools">
+          <form>
+            <select name="do">
+              <option value="">Tools</option>
+              <option value="recent">Recent Changes</option>
+            </select>
+          </form>
+        </div>
       </div>
       <div class="diffoptions">
         <form>
@@ -128,9 +136,8 @@ test('initializes the mobile menu and moves search into its panel', async () => 
   assert.equal(toggle.getAttribute('aria-expanded'), 'false');
   assert.equal(menu.hidden, true);
   assert.equal(search.parentElement, menu);
-  assert.equal(themeToggle.parentElement, menu);
-  assert.equal(themeToggle, menu.lastElementChild);
-  assert.equal(themeToggle.classList.contains('theme-toggle--menu'), true);
+  assert.equal(themeToggle.parentElement, document.querySelector('.headings'));
+  assert.equal(themeToggle.hidden, true);
   assert.equal(input.placeholder, 'Search ...');
 
   dom.window.close();
@@ -261,6 +268,75 @@ test('follows system appearance and stores explicit theme choices', async () => 
   dom.window.close();
 });
 
+test('adds theme modes to mobile tools without submitting navigation', async () => {
+  const { document, dom } = await createPage();
+  const select = document.querySelector('.mobile-tools select');
+  const toggle = document.getElementById('toggle_theme');
+  const menuToggle = document.getElementById('toggle_sitemenu');
+  const menu = document.getElementById('zenlike__menucontent');
+  const appearanceGroup = select.querySelector('optgroup:last-of-type');
+  const appearanceOptions = [...appearanceGroup.querySelectorAll('option')];
+  let submissions = 0;
+
+  select.addEventListener('change', () => {
+    submissions += 1;
+  });
+
+  assert.equal(select.options[0].hidden, true);
+  assert.equal(appearanceGroup.label, 'Appearance');
+  assert.deepEqual(
+    appearanceOptions.map((option) => option.value),
+    ['zenlike-theme-system', 'zenlike-theme-light', 'zenlike-theme-dark'],
+  );
+  assert.deepEqual(
+    appearanceOptions.map((option) => option.textContent),
+    ['✓ System', 'Light', 'Dark'],
+  );
+  assert.equal(toggle.hidden, true);
+
+  menuToggle.click();
+  select.value = 'zenlike-theme-light';
+  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+
+  assert.equal(menu.hidden, true);
+  assert.equal(menuToggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(document.activeElement, menuToggle);
+  assert.equal(document.documentElement.getAttribute('data-theme'), 'light');
+  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'light');
+  assert.deepEqual(
+    appearanceOptions.map((option) => option.textContent),
+    ['System', '✓ Light', 'Dark'],
+  );
+  assert.equal(select.value, '');
+  assert.equal(submissions, 0);
+
+  menuToggle.click();
+  select.value = 'zenlike-theme-dark';
+  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  assert.equal(document.documentElement.getAttribute('data-theme'), 'dark');
+  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'dark');
+  assert.deepEqual(
+    appearanceOptions.map((option) => option.textContent),
+    ['System', 'Light', '✓ Dark'],
+  );
+
+  menuToggle.click();
+  select.value = 'zenlike-theme-system';
+  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  assert.equal(document.documentElement.getAttribute('data-theme'), 'light');
+  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'system');
+  assert.deepEqual(
+    appearanceOptions.map((option) => option.textContent),
+    ['✓ System', 'Light', 'Dark'],
+  );
+
+  select.value = 'recent';
+  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  assert.equal(submissions, 1);
+
+  dom.window.close();
+});
+
 test('restores a saved theme preference on initialization', async () => {
   const { document, dom } = await createPage(false, false, 'dark');
 
@@ -338,7 +414,7 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   assert.equal(menu.hidden, false);
   assert.equal(search.parentElement, searchHome);
   assert.equal(themeToggle.parentElement, themeHome);
-  assert.equal(themeToggle.classList.contains('theme-toggle--menu'), false);
+  assert.equal(themeToggle.hidden, false);
   assert.equal(sidebarToggle.hidden, true);
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'true');
   assert.equal(sidebar.hidden, false);
@@ -347,8 +423,8 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   assert.equal(toggle.hidden, false);
   assert.equal(menu.hidden, true);
   assert.equal(search.parentElement, menu);
-  assert.equal(themeToggle.parentElement, menu);
-  assert.equal(themeToggle.classList.contains('theme-toggle--menu'), true);
+  assert.equal(themeToggle.parentElement, themeHome);
+  assert.equal(themeToggle.hidden, true);
   assert.equal(sidebarToggle.hidden, false);
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'false');
   assert.equal(sidebar.hidden, true);

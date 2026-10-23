@@ -1,5 +1,5 @@
 <?php
-    global $conf, $INFO, $lang;
+    global $conf, $lang;
     $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
     $menuLabel = $lang['main_navigation'];
 ?>
@@ -72,41 +72,43 @@
       </div>
 
       <div id="rightmenu">
-        <?php if ($INFO['ismobile']): ?>
-        <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown( $lang['tools'],
-        '<span class="a11y">' . hsc($lang['tools']) . '</span
-        ><span aria-hidden="true">&gt;</span>', ) ?>
-        <?php else: ?>
-        <ul>
-          <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false) ?>
-          <?php if ($conf['useacl'] && $showTools): ?>
-          <li class="menusplit">
-            <details>
-              <summary
-                id="toggle_usertools"
-                aria-controls="usertools"
-                aria-label="<?= hsc($lang['user_tools']) ?>"
-                title="<?= hsc($lang['user_tools']) ?>"
-              >
-                <img
-                  src="<?= DOKU_BASE ?>lib/images/interwiki/user.svg"
-                  width="16"
-                  height="16"
-                  alt=""
-                />
-              </summary>
-              <div id="usertools">
-                <ul>
-                  <?= (new \dokuwiki\Menu\UserMenu())->getListItems('action ')
-                  ?>
-                  <?php _tpl_action('userpage', 1, 'li'); ?>
-                </ul>
-              </div>
-            </details>
-          </li>
-          <?php endif; ?>
-        </ul>
-        <?php endif; ?>
+        <div class="mobile-tools">
+          <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown( $lang['tools'],
+          '<span class="a11y">' . hsc($lang['tools']) . '</span
+          ><span aria-hidden="true">&gt;</span>' ) ?>
+        </div>
+        <div class="desktop-tools">
+          <ul class="desktop-menu">
+            <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false)
+            ?>
+            <?php if ($conf['useacl'] && $showTools): ?>
+            <li class="menusplit">
+              <details>
+                <summary
+                  id="toggle_usertools"
+                  aria-controls="usertools"
+                  aria-label="<?= hsc($lang['user_tools']) ?>"
+                  title="<?= hsc($lang['user_tools']) ?>"
+                >
+                  <img
+                    src="<?= DOKU_BASE ?>lib/images/interwiki/user.svg"
+                    width="16"
+                    height="16"
+                    alt=""
+                  />
+                </summary>
+                <div id="usertools">
+                  <ul>
+                    <?= (new \dokuwiki\Menu\UserMenu())->getListItems('action ')
+                    ?>
+                    <?php _tpl_action('userpage', 1, 'li'); ?>
+                  </ul>
+                </div>
+              </details>
+            </li>
+            <?php endif; ?>
+          </ul>
+        </div>
       </div>
     </nav>
   </div>

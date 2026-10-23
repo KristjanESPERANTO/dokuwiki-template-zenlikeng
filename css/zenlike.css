@@ -292,7 +292,7 @@ ul.linklist li {
   float: none;
 }
 
-#menu ul {
+#menu .desktop-menu {
   position: static;
   top: auto;
   display: flex;
@@ -300,7 +300,7 @@ ul.linklist li {
   margin: 0;
 }
 
-#menu ul li {
+#menu .desktop-menu li {
   position: relative;
   display: block;
 }
@@ -552,7 +552,15 @@ input.button {
   text-align: center;
 }
 
-#menu #rightmenu ul {
+#menu .mobile-tools {
+  display: none;
+}
+
+#menu #rightmenu .desktop-tools {
+  display: block;
+}
+
+#menu #rightmenu .desktop-menu {
   position: static;
   top: auto;
   display: flex;
@@ -560,23 +568,23 @@ input.button {
   justify-content: center;
 }
 
-#menu #rightmenu ul li {
+#menu #rightmenu .desktop-menu li {
   display: block;
   float: none;
 }
 
-#menu ul {
+#menu .desktop-menu {
   padding: 0;
 }
 
-#menu ul li {
+#menu .desktop-menu li {
   float: none;
   padding: 0;
   margin: 0;
   color: #fff;
 }
 
-#menu ul li.menusplit {
+#menu .desktop-menu li.menusplit {
   padding-left: 1em;
 }
 
@@ -692,6 +700,10 @@ input.button {
   cursor: pointer;
 }
 
+.theme-toggle[hidden] {
+  display: none;
+}
+
 .theme-toggle:hover {
   background: rgba(255, 255, 255, 0.12);
 }
@@ -705,10 +717,6 @@ input.button {
   font-family: system-ui, sans-serif;
   font-size: 1.1em;
   line-height: 1;
-}
-
-.theme-toggle--menu {
-  position: static;
 }
 
 @media screen and (min-width: 70em) {
