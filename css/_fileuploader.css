@@ -27,11 +27,6 @@
 }
 
 
-* html .qq-upload-button,
-*+html .qq-upload-button {
-    display: inline;
-}
-
 .qq-upload-button-focus {
     outline: 1px dotted;
 }

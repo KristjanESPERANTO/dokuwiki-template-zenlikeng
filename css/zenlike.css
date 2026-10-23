@@ -307,6 +307,13 @@ ul.linklist li
     text-decoration: underline;
 }
 
+#menu ul li a:focus-visible,
+#usertools ul li a:focus-visible,
+#dokuwiki__pagetools ul li a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+
 #menu ul li .current a, #usertools ul li .current a
 {
     background: #7F8400 url('images/menuactive.gif') repeat-x top left;
@@ -678,7 +685,16 @@ div.breadcrumbs {
 }
 
 #toggle_usertools {
+    appearance: none;
     cursor: pointer;
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+#toggle_usertools:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
 }
 
 #usertools {

@@ -52,23 +52,11 @@
 
             if ($conf['useacl'] && $showTools) {
 
-                echo '<li class="menusplit">';
-
-                echo '<img src="' . tpl_basedir() .
-                    'images/icon-user.png" ' .
-                    'id="toggle_usertools" ';
-
-                if (!empty($_SERVER['REMOTE_USER'])) {
-                    echo 'title="';
-                    tpl_userinfo();
-                    echo '" ';
-                }
-
-                echo 'width="32" height="16" alt="' .
-                    $lang['user_tools'] .
-                    '" />';
-
-                echo '</li>';
+                echo '<li class="menusplit"><button type="button" id="toggle_usertools" ' .
+                    'aria-controls="usertools" aria-expanded="false" ' .
+                    'aria-label="' . hsc($lang['user_tools']) . '" title="' . hsc($lang['user_tools']) . '">';
+                echo '<img src="' . tpl_basedir() . 'images/icon-user.png" width="32" height="16" alt="" />';
+                echo '</button></li>';
 
             }
 

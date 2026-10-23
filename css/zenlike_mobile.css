@@ -2,10 +2,14 @@
 
     /* General site */
 
+    body {
+        padding: 0;
+    }
+
     #dokuwiki__site {
-
-        border-width: 2px;
-
+        box-sizing: border-box;
+        width: 100%;
+        border-width: 0;
     }
 
     #menubottom {
@@ -87,10 +91,62 @@
 
     }
 
+    #menu #rightmenu ul {
+        top: 0;
+    }
+
+    #menu ul li.menusplit {
+        width: auto;
+    }
+
+    #usertools {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: .5em;
+        box-sizing: border-box;
+    }
+
+    #usertools ul {
+        position: static;
+        top: auto;
+        padding: .5em;
+    }
+
+    #usertools ul li {
+        width: auto;
+    }
+
+    #headerpic {
+        background-position: center;
+        background-size: cover;
+    }
+
     #dokuwiki__pagetools {
+        display: block;
+        float: none;
+        clear: both;
+        padding: 0 1em 1em;
+    }
 
-        display: none;
+    #dokuwiki__pagetools ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5em;
+    }
 
+    #dokuwiki__aside {
+        position: static;
+        width: auto;
+        margin: 1em;
+    }
+
+    #dokuwiki__aside + #dokuwiki__content {
+        margin-left: 0;
+    }
+
+    .page {
+        padding: 1em;
     }
 
     #dokuwiki__footer {
