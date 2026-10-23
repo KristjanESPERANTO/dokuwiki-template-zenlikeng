@@ -17,7 +17,8 @@ npm run check
 ```
 
 The checks require PHP CLI and Node.js. They validate PHP/HTML, JavaScript,
-Bash scripts, and CSS with ESLint's CSS plugin. GitHub Actions runs them on
+Bash scripts, CSS with ESLint's CSS plugin, and all Prettier-supported files.
+Run `npm run format` to apply formatting. GitHub Actions runs the checks on
 PHP 8.2 and 8.5 for pushes and pull requests.
 
 ## Release package
