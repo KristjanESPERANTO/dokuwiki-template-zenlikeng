@@ -1,9 +1,8 @@
 // Zenlike JavaScript Functions
 
-jQuery(document).ready(function() {
+document.addEventListener('click', function (event) {
+    if (!event.target.closest('#toggle_usertools')) return;
 
-    jQuery("#toggle_usertools").click(function() {
-        jQuery("div#usertools").fadeToggle();
-    });
-
+    const userTools = document.getElementById('usertools');
+    if (userTools) userTools.hidden = !userTools.hidden;
 });
