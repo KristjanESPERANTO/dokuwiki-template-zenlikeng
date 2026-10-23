@@ -11,7 +11,6 @@
 }
 
 body {
-  background: #000000 url('images/bg1.jpg');
   padding: 35px 0px 35px 0px;
 }
 
@@ -377,7 +376,13 @@ ul.linklist li {
 /* Basics */
 
 html {
-  background: #000 url('images/bg1.jpg') !important;
+  background-color: #696252 !important;
+  background-image:
+    linear-gradient(rgba(100, 93, 76, 0.48), rgba(100, 93, 76, 0.48)),
+    url('images/wood-texture.jpg') !important;
+  background-size:
+    auto,
+    141px 184px;
 }
 
 body {

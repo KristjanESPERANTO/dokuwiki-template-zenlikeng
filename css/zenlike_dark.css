@@ -15,10 +15,13 @@
   }
 
   :root[data-theme='dark'] {
-    background-color: var(--zenlike-canvas) !important;
+    background-color: #282820 !important;
     background-image:
-      linear-gradient(rgba(24, 25, 27, 0.82), rgba(24, 25, 27, 0.82)),
-      url('images/bg1.jpg') !important;
+      linear-gradient(rgba(30, 31, 26, 0.75), rgba(30, 31, 26, 0.75)),
+      url('images/wood-texture.jpg') !important;
+    background-size:
+      auto,
+      141px 184px;
     color: var(--zenlike-text);
   }
 
