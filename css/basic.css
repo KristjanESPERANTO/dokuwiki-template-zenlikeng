@@ -113,7 +113,7 @@ figure,
 details,
 fieldset,
 address {
-  margin: 0 0 1.4em 0; /* bottom margin = line-height */
+  margin-block: 0 1.4em; /* bottom margin = line-height */
   padding: 0;
 }
 
@@ -126,21 +126,14 @@ div {
 
 ul,
 ol {
-  padding: 0 0 0 1.5em;
-}
-[dir='rtl'] ul,
-[dir='rtl'] ol {
-  padding: 0 1.5em 0 0;
+  padding-inline-start: 1.5em;
 }
 
 li,
 dd {
   padding: 0;
-  margin: 0 0 0 1.5em;
-}
-[dir='rtl'] li,
-[dir='rtl'] dd {
-  margin: 0 1.5em 0 0;
+  margin: 0;
+  margin-inline-start: 1.5em;
 }
 
 dt {
@@ -192,10 +185,7 @@ table {
 
 caption {
   caption-side: top;
-  text-align: left;
-}
-[dir='rtl'] caption {
-  text-align: right;
+  text-align: start;
 }
 
 th,
@@ -209,10 +199,7 @@ th {
   font-weight: bold;
   background-color: __background_alt__;
   color: inherit;
-  text-align: left;
-}
-[dir='rtl'] th {
-  text-align: right;
+  text-align: start;
 }
 
 /*____________ links ____________*/
@@ -233,6 +220,11 @@ a:visited:active {
 a:link:focus,
 a:visited:focus {
   outline: 1px dotted;
+}
+#dokuwiki__site a:link:focus-visible,
+#dokuwiki__site a:visited:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 a:link:active,
 a:visited:active {
@@ -314,12 +306,9 @@ pre {
 }
 
 blockquote {
-  padding: 0 0.5em;
-  border: solid __border__;
-  border-width: 0 0 0 0.25em;
-}
-[dir='rtl'] blockquote {
-  border-width: 0 0.25em 0 0;
+  padding-inline: 0.5em;
+  border: 0;
+  border-inline-start: 0.25em solid __border__;
 }
 q:before,
 q:after {
@@ -383,8 +372,6 @@ progress {
   line-height: normal;
   margin: 0;
   vertical-align: middle;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
 }
 
@@ -424,7 +411,16 @@ select:focus,
 keygen:focus,
 textarea:focus {
   box-shadow: 0 0 5px #999;
-  outline: 0;
+  outline: 1px dotted currentColor;
+}
+input:focus-visible,
+button:focus-visible,
+select:focus-visible,
+keygen:focus-visible,
+textarea:focus-visible {
+  box-shadow: none;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 input::-moz-focus-inner,
 button::-moz-focus-inner {
@@ -447,19 +443,4 @@ div.clearer {
   /* additional to what's already in DokuWiki's lib/styles/all.css: */
   font-size: 1px;
   visibility: hidden;
-}
-
-/* @deprecated: has been in lib/styles/screen.css since Angua */
-.a11y {
-  position: absolute;
-  left: -99999em;
-  top: 0;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  display: inline;
-}
-[dir='rtl'] .a11y {
-  left: auto;
-  right: -99999em;
 }
