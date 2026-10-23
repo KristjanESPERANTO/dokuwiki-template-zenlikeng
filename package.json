@@ -2,9 +2,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "bash scripts/check.sh && npm run test && npm run lint:js && npm run lint:css && npm run format:check && npm run spellcheck",
-    "lint:js": "eslint \"**/*.js\"",
-    "lint:css": "eslint \"css/**/*.css\"",
+    "check": "bash scripts/check.sh && npm run test && npm run lint && npm run format:check && npm run spellcheck",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "test": "node --test tests/*.test.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

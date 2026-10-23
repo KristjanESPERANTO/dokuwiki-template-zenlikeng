@@ -75,19 +75,8 @@
   padding-left: 0;
   padding-right: 1em;
 }
-.dokuwiki #toc__inside ul ul li, /* old */
-#dw__toc ul ul li /* new */ {
-}
-.dokuwiki #toc__inside ul li a, /* old */
-#dw__toc ul li a /* new */ {
-}
-
 /* in case of toc list jumping one level
   (e.g. if heading level 3 follows directly after heading level 1) */
-.dokuwiki #toc__inside ul li.clear, /* old */
-#dw__toc ul li.clear /* new */ {
-}
-
 /* sitemap (and backlinks)
 ********************************************************************/
 

@@ -6,9 +6,6 @@
 /* edit view
 ********************************************************************/
 
-.dokuwiki div.editBox {
-}
-
 /*____________ toolbar ____________*/
 
 .dokuwiki div.toolbar {
@@ -32,8 +29,6 @@
 }
 
 /* buttons inside of toolbar */
-.dokuwiki div.toolbar button.toolbutton {
-}
 /* picker popups (outside of .dokuwiki) */
 div.picker {
   width: 300px;
@@ -91,10 +86,6 @@ div.picker button.toolbutton {
   margin-right: 0;
   margin-left: 1em;
 }
-.dokuwiki #wiki__editbar .editButtons input, /* old, until 2012-01-25 */
-.dokuwiki div.editBar .editButtons input /* new */ {
-}
-
 /* summary input and minor changes checkbox */
 .dokuwiki #wiki__editbar .summary, /* old, until 2012-01-25 */
 .dokuwiki div.editBar .summary /* new */ {
@@ -108,9 +99,6 @@ div.picker button.toolbutton {
 .dokuwiki #wiki__editbar .summary label span, /* old, until 2012-01-25 */
 .dokuwiki div.editBar .summary label span /* new */ {
   vertical-align: middle;
-}
-.dokuwiki #wiki__editbar .summary input, /* old, until 2012-01-25 */
-.dokuwiki div.editBar .summary input /* new */ {
 }
 /* change background colour if summary is missing */
 .dokuwiki #wiki__editbar .summary input.missing, /* old, until 2012-01-25 */

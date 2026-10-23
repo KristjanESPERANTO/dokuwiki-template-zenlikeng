@@ -12,9 +12,6 @@ body {
   max-width: 90em;
   padding: 1.4em 1em;
 }
-#dokuwiki__site > .site {
-}
-
 #dokuwiki__site .wrapper {
   position: relative;
 }
@@ -55,6 +52,4 @@ body {
 
 #dokuwiki__footer {
   clear: both;
-}
-#dokuwiki__footer > .pad {
 }

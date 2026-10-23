@@ -5,8 +5,6 @@
 /*____________ links to wiki pages ____________*/
 
 /* existing wikipage */
-.dokuwiki a.wikilink1 {
-}
 /* not existing wikipage */
 .dokuwiki a.wikilink2 {
   text-decoration: none;
@@ -53,11 +51,7 @@
 
 /* icons of the following are set by dokuwiki in lib/exe/css.php */
 /* link to some embedded media */
-.dokuwiki a.mediafile {
-}
 /* interwiki link */
-.dokuwiki a.interwiki {
-}
 
 /* RTL corrections */
 [dir='rtl'] .dokuwiki a.urlextern,

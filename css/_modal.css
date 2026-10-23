@@ -9,9 +9,6 @@
 /* link wizard (opens from the link button in the edit toolbar)
 ********************************************************************/
 
-#link__wiz {
-}
-
 #link__wiz_result {
   background-color: __background__;
   width: 293px;

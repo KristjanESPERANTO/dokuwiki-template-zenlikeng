@@ -16,7 +16,7 @@ export default [
     files: ['css/**/*.css'],
     language: 'css/css',
     rules: {
-      'css/no-empty-blocks': 'off',
+      'css/no-empty-blocks': 'error',
       'css/no-invalid-properties': 'off',
       'css/no-important': 'off',
     },
