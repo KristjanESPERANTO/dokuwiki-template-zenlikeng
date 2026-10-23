@@ -16,3 +16,11 @@ bash -n scripts/check.sh scripts/release.sh
 
 git diff --check HEAD
 git show --check --format= HEAD
+
+while IFS= read -r -d '' file; do
+    if ! awk 'END { if (NR && $0 ~ /^[[:space:]]*$/) exit 1 }' "$file"; then
+        printf 'Blank line at EOF: %s\n' "$file" >&2
+        exit 1
+    fi
+done < <(find . \( -path './.git' -o -path './node_modules' \) -prune -o \
+    -type f \( -name '*.php' -o -name '*.html' \) -print0)

@@ -92,4 +92,3 @@ if (!defined('DOKU_INC')) die();
     </div>
 </body>
 </html>
-
