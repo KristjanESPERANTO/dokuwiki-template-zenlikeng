@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']      = 'Discussão';
+$lang['main_navigation'] = 'Menu principal';
 $lang['back_to_article'] = 'Voltar ao artigo';
 $lang['userpage']        = 'Página de usuário';
 

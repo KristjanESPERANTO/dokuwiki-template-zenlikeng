@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']      = 'Разговор';
+$lang['main_navigation'] = 'Главно мени';
 $lang['back_to_article'] = 'Назад кон статијата';
 $lang['userpage']        = 'Корисник';
 

@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']      = 'Spjall';
+$lang['main_navigation'] = 'Aðalvalmynd';
 $lang['back_to_article'] = 'Til baka á greinar';
 $lang['userpage']        = 'Notandi';
 

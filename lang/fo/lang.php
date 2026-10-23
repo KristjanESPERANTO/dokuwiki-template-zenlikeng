@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']   = 'Kjak';
+$lang['main_navigation'] = 'Høvuðsvalmynd';
 $lang['userpage']     = 'Brúkarasíða';
 
 //Setup VIM: ex: et ts=2 :

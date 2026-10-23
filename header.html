@@ -1,6 +1,7 @@
 <?php
     global $conf, $INFO;
     $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
+    $menuLabel = $lang['main_navigation'] ?? ($conf['lang'] === 'de' ? 'Menü' : 'Menu');
 ?>
 <div id="zenlikeheader">
   <div class="headings">
@@ -14,6 +15,19 @@
       <p class="claim"><?= $conf['tagline'] ?></p>
       <?php endif; ?>
     </div>
+
+    <button
+      type="button"
+      id="toggle_sitemenu"
+      aria-controls="zenlike__menucontent"
+      aria-expanded="false"
+      aria-label="<?= hsc($menuLabel) ?>"
+      hidden
+    >
+      <span class="zenlike-menu-icon" aria-hidden="true"
+        ><span></span><span></span><span></span
+      ></span>
+    </button>
 
     <div id="search">
       <?php tpl_searchform() ?>
@@ -31,35 +45,39 @@
 </div>
 
 <div id="menu">
-  <?php tpl_include_page(tpl_getConf('menuid')); ?>
+  <div id="zenlike__menucontent">
+    <div id="custommenu">
+      <?php tpl_include_page(tpl_getConf('menuid')); ?>
+    </div>
 
-  <div id="rightmenu">
-    <?php if ($INFO['ismobile']): ?>
-    <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown($lang['tools']) ?>
-    <?php else: ?>
-    <ul>
-      <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false) ?>
-      <?php if ($conf['useacl'] && $showTools): ?>
-      <li class="menusplit">
-        <button
-          type="button"
-          id="toggle_usertools"
-          aria-controls="usertools"
-          aria-expanded="false"
-          aria-label="<?= hsc($lang['user_tools']) ?>"
-          title="<?= hsc($lang['user_tools']) ?>"
-        >
-          <img
-            src="<?= tpl_basedir() ?>images/icon-user.png"
-            width="32"
-            height="16"
-            alt=""
-          />
-        </button>
-      </li>
+    <div id="rightmenu">
+      <?php if ($INFO['ismobile']): ?>
+      <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown($lang['tools']) ?>
+      <?php else: ?>
+      <ul>
+        <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false) ?>
+        <?php if ($conf['useacl'] && $showTools): ?>
+        <li class="menusplit">
+          <button
+            type="button"
+            id="toggle_usertools"
+            aria-controls="usertools"
+            aria-expanded="false"
+            aria-label="<?= hsc($lang['user_tools']) ?>"
+            title="<?= hsc($lang['user_tools']) ?>"
+          >
+            <img
+              src="<?= tpl_basedir() ?>images/icon-user.png"
+              width="32"
+              height="16"
+              alt=""
+            />
+          </button>
+        </li>
+        <?php endif; ?>
+      </ul>
       <?php endif; ?>
-    </ul>
-    <?php endif; ?>
+    </div>
   </div>
 </div>
 

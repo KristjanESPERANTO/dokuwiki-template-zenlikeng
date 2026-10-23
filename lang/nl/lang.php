@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']      = 'Overleg';
+$lang['main_navigation'] = 'Hoofdmenu';
 $lang['back_to_article'] = 'Terug naar artikel';
 $lang['userpage']        = 'Gebruikerspagina';
 

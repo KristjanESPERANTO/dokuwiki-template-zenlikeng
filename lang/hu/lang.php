@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']      = 'Vitalap';
+$lang['main_navigation'] = 'Főmenü';
 $lang['back_to_article'] = 'Vissza a cikket';
 $lang['userpage']        = 'Szerkesztoi lap';
 

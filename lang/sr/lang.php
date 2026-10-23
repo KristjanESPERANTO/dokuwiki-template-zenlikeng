@@ -6,3 +6,4 @@
  */
 
 $lang['discussion']              = 'Разговор';
+$lang['main_navigation'] = 'Главни мени';

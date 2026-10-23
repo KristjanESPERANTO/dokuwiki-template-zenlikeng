@@ -7,5 +7,6 @@
  */
 
 $lang['discussion']      = 'Обсуждение';
+$lang['main_navigation'] = 'Главное меню';
 $lang['back_to_article'] = 'Назад к статье';
 $lang['userpage']        = 'Участник';

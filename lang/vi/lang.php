@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']      = 'Thảo luận';
+$lang['main_navigation'] = 'Menu chính';
 $lang['back_to_article'] = 'Trở lại bài viết';
 $lang['userpage']        = 'Thành viên';
 

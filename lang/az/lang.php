@@ -6,6 +6,7 @@
  */
 
 $lang['discussion']      = 'Müzakirə';
+$lang['main_navigation'] = 'Əsas menyu';
 $lang['back_to_article'] = 'Geri makalenin'; // Məqalədə qayıt
 $lang['userpage']      = 'İstifadəçi səhifəsi';
 
