@@ -11,7 +11,8 @@ if (!defined('DOKU_INC')) die(); /* must be run from within DokuWiki */
 @require_once(dirname(__FILE__).'/tpl_functions.php'); /* include hook for template functions */
 
 $showTools = !tpl_getConf('hideTools') || ( tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']) );
-$showSidebar = page_findnearest($conf['sidebar']) && ($ACT=='show');
+$hasSidebar = page_findnearest($conf['sidebar']);
+$showSidebar = $hasSidebar && ($ACT == 'show');
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $conf['lang'] ?>"
   lang="<?php echo $conf['lang'] ?>" dir="<?php echo $lang['direction'] ?>" class="no-js">
@@ -31,7 +32,7 @@ $showSidebar = page_findnearest($conf['sidebar']) && ($ACT=='show');
          see http://www.dokuwiki.org/devel:action_modes for a list of action modes */ ?>
     <?php /* .dokuwiki should always be in one of the surrounding elements (e.g. plugins and templates depend on it) */ ?>
     <div id="dokuwiki__site"><div id="dokuwiki__top"
-        class="dokuwiki site mode_<?php echo $ACT ?> <?php echo ($showSidebar) ? 'hasSidebar' : '' ?>">
+        class="site <?php echo tpl_classes(); ?> <?php echo ($showSidebar) ? 'hasSidebar' : '' ?>">
         <?php html_msgarea() /* occasional error and info messages on top of the page */ ?>
         <?php tpl_includeFile('header.html') ?>
 
@@ -39,16 +40,16 @@ $showSidebar = page_findnearest($conf['sidebar']) && ($ACT=='show');
 
             <!-- ********** ASIDE ********** -->
             <?php if ($showSidebar): ?>
-                <div id="dokuwiki__aside"><div class="pad include">
+                <nav id="dokuwiki__aside" aria-label="<?php echo $lang['sidebar'] ?>"><div class="pad include">
                     <?php tpl_includeFile('sidebarheader.html') ?>
                     <?php tpl_include_page($conf['sidebar'], 1, 1) /* includes the nearest sidebar page */ ?>
                     <?php tpl_includeFile('sidebarfooter.html') ?>
                     <div class="clearer"></div>
-                </div></div><!-- /aside -->
+                </div></nav><!-- /aside -->
             <?php endif; ?>
 
             <!-- ********** CONTENT ********** -->
-            <div id="dokuwiki__content"><div class="pad">
+            <main id="dokuwiki__content"><div class="pad">
                 <?php tpl_flush() /* flush the output buffer */ ?>
                 <?php tpl_includeFile('pageheader.html') ?>
 
@@ -61,22 +62,22 @@ $showSidebar = page_findnearest($conf['sidebar']) && ($ACT=='show');
 
                 <?php tpl_flush() ?>
                 <?php tpl_includeFile('pagefooter.html') ?>
-            </div></div><!-- /content -->
+            </div></main><!-- /content -->
 
             <div class="clearer"></div>
             <hr class="a11y" />
 
             <!-- PAGE ACTIONS -->
             <?php if ($showTools): ?>
-                <div id="dokuwiki__pagetools">
-                    <h3 class="a11y"><?php echo $lang['page_tools'] ?></h3>
+                <nav id="dokuwiki__pagetools" aria-labelledby="dokuwiki__pagetools__heading">
+                    <h3 class="a11y" id="dokuwiki__pagetools__heading"><?php echo $lang['page_tools'] ?></h3>
                     <ul>
                         <?php
                             echo (new \dokuwiki\Menu\PageMenu())->getListItems('action ');
                             _tpl_action('discussion', 1, 'li');
                         ?>
                     </ul>
-                </div>
+                </nav>
             <?php endif; ?>
         </div><!-- /wrapper -->
 
