@@ -367,6 +367,26 @@
     overflow: auto;
   }
 
+  #mediamanager__page {
+    min-width: 0;
+  }
+
+  #mediamanager__page .panel {
+    box-sizing: border-box;
+    float: none;
+    width: 100%;
+    min-width: 0;
+  }
+
+  #mediamanager__page .ui-resizable-e {
+    display: none;
+  }
+
+  #mediamanager__page .namespaces .panelContent {
+    height: auto !important;
+    max-height: 12em;
+  }
+
   /* Wide tables and side-by-side page diffs */
 
   .dokuwiki div.table {
@@ -376,5 +396,22 @@
 
   .dokuwiki table.diff_sidebyside {
     min-width: 40em;
+  }
+
+  .dokuwiki table.diff_inline {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .dokuwiki table.diff_inline th,
+  .dokuwiki table.diff_inline td {
+    overflow-wrap: anywhere;
+  }
+
+  .dokuwiki table.diff_inline select {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
   }
 }
