@@ -232,7 +232,8 @@ ul.linklist li {
 #headerpic {
   position: relative;
   height: 8em;
-  background: #fff url('images/hdrpic.jpg') no-repeat top left;
+  background: #fff url('images/hdrpic.jpg') no-repeat center center;
+  background-size: cover;
   margin-bottom: 2px;
 }
 
