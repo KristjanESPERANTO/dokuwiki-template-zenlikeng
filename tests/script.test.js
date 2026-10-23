@@ -10,6 +10,8 @@ async function createPage(
   initiallyMobile = true,
   systemDark = false,
   savedTheme = null,
+  initialDiffMode = 'sidebyside',
+  pageUrl = 'https://example.test/',
 ) {
   const dom = new JSDOM(
     `<!doctype html>
@@ -32,13 +34,30 @@ async function createPage(
       <div id="zenlike__menucontent" hidden>
         <nav><a href="#page">Page</a></nav>
       </div>
+      <div class="diffoptions">
+        <form>
+          <select name="difftype">
+            <option value="sidebyside" ${initialDiffMode === 'sidebyside' ? 'selected' : ''}>Side by Side</option>
+            <option value="inline" ${initialDiffMode === 'inline' ? 'selected' : ''}>Inline</option>
+          </select>
+          <button type="submit">Go</button>
+        </form>
+      </div>
       <button id="toggle_usertools" aria-expanded="false"></button>
       <div id="usertools" hidden><a href="#user">User tools</a></div>
     </body></html>`,
-    { runScripts: 'outside-only', url: 'https://example.test/' },
+    { runScripts: 'outside-only', url: pageUrl },
   );
   const { document } = dom.window;
   if (savedTheme) dom.window.localStorage.setItem('zenlike-theme', savedTheme);
+  let diffSubmissions = 0;
+  const diffForm = document.querySelector('.diffoptions form');
+  diffForm.requestSubmit = () => {
+    diffSubmissions += 1;
+    diffForm.dispatchEvent(
+      new dom.window.Event('submit', { bubbles: true, cancelable: true }),
+    );
+  };
   let matches = initiallyMobile;
   const listeners = new Set();
   let systemMatches = systemDark;
@@ -83,6 +102,7 @@ async function createPage(
   return {
     dom,
     document,
+    getDiffSubmissions: () => diffSubmissions,
     setMobile(value) {
       matches = value;
       for (const listener of listeners) listener();
@@ -111,6 +131,67 @@ test('initializes the mobile menu and moves search into its panel', async () => 
   assert.equal(themeToggle.classList.contains('theme-toggle--menu'), true);
   assert.equal(input.placeholder, 'Search ...');
 
+  dom.window.close();
+});
+
+test('uses inline diffs on mobile and side-by-side diffs on desktop', async () => {
+  const mobilePage = await createPage();
+  assert.equal(
+    mobilePage.document.querySelector('[name="difftype"]').value,
+    'inline',
+  );
+  assert.equal(mobilePage.getDiffSubmissions(), 1);
+  mobilePage.setMobile(false);
+  assert.equal(
+    mobilePage.document.querySelector('[name="difftype"]').value,
+    'sidebyside',
+  );
+  assert.equal(mobilePage.getDiffSubmissions(), 2);
+  mobilePage.dom.window.close();
+
+  const desktopPage = await createPage(false);
+  assert.equal(
+    desktopPage.document.querySelector('[name="difftype"]').value,
+    'sidebyside',
+  );
+  assert.equal(desktopPage.getDiffSubmissions(), 0);
+  desktopPage.dom.window.close();
+
+  const inlineDesktopPage = await createPage(false, false, null, 'inline');
+  assert.equal(
+    inlineDesktopPage.document.querySelector('[name="difftype"]').value,
+    'inline',
+  );
+  assert.equal(inlineDesktopPage.getDiffSubmissions(), 0);
+  inlineDesktopPage.dom.window.close();
+});
+
+test('keeps an explicit mobile diff selection', async () => {
+  const { document, dom, getDiffSubmissions } = await createPage(
+    true,
+    false,
+    null,
+    'sidebyside',
+    'https://example.test/?difftype=sidebyside',
+  );
+
+  assert.equal(document.querySelector('[name="difftype"]').value, 'sidebyside');
+  assert.equal(getDiffSubmissions(), 0);
+
+  dom.window.close();
+});
+
+test('keeps a manual diff selection when the viewport changes', async () => {
+  const { document, dom, getDiffSubmissions, setMobile } = await createPage();
+  const diffType = document.querySelector('[name="difftype"]');
+
+  diffType.value = 'sidebyside';
+  diffType.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  setMobile(false);
+  setMobile(true);
+
+  assert.equal(diffType.value, 'sidebyside');
+  assert.equal(getDiffSubmissions(), 1);
   dom.window.close();
 });
 

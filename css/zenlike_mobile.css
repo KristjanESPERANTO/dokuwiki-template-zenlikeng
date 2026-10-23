@@ -366,4 +366,15 @@
   .mode_media div.page {
     overflow: auto;
   }
+
+  /* Wide tables and side-by-side page diffs */
+
+  .dokuwiki div.table {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .dokuwiki table.diff_sidebyside {
+    min-width: 40em;
+  }
 }

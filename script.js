@@ -55,11 +55,7 @@ function setupSiteMenuToggle() {
     toggle.focus();
   });
 
-  if (mobileViewport.addEventListener) {
-    mobileViewport.addEventListener('change', updateMenuVisibility);
-  } else {
-    mobileViewport.addListener(updateMenuVisibility);
-  }
+  mobileViewport.addEventListener('change', updateMenuVisibility);
 
   updateMenuVisibility();
 }
@@ -95,13 +91,101 @@ function setupSidebarToggle() {
     toggle.focus();
   });
 
-  if (mobileViewport.addEventListener) {
-    mobileViewport.addEventListener('change', updateSidebarVisibility);
-  } else {
-    mobileViewport.addListener(updateSidebarVisibility);
-  }
+  mobileViewport.addEventListener('change', updateSidebarVisibility);
 
   updateSidebarVisibility();
+}
+
+function setupResponsiveDiff() {
+  const form = document.querySelector('.diffoptions form');
+  const select = form?.querySelector('select[name="difftype"]');
+  if (!form || !select) return;
+
+  const manualChoiceKey = 'zenlike-diff-manual-choice';
+  const desktopTypeKey = 'zenlike-diff-desktop-type';
+  const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
+  let automaticSubmission = false;
+
+  function hasManualChoice() {
+    if (
+      new document.defaultView.URL(
+        document.defaultView.location.href,
+      ).searchParams.has('difftype')
+    ) {
+      return true;
+    }
+
+    try {
+      return (
+        document.defaultView.sessionStorage.getItem(manualChoiceKey) === 'true'
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  function rememberManualChoice() {
+    if (automaticSubmission) return;
+
+    try {
+      document.defaultView.sessionStorage.setItem(manualChoiceKey, 'true');
+      document.defaultView.sessionStorage.removeItem(desktopTypeKey);
+    } catch {
+      // Keep the selected view when session storage is unavailable.
+    }
+  }
+
+  form.addEventListener('submit', rememberManualChoice);
+  select.addEventListener('change', rememberManualChoice);
+
+  function submitDiffType(type) {
+    select.value = type;
+    automaticSubmission = true;
+    try {
+      if (typeof form.requestSubmit === 'function') {
+        form.requestSubmit();
+      } else {
+        form.submit();
+      }
+    } finally {
+      automaticSubmission = false;
+    }
+  }
+
+  function updateDiffType() {
+    if (hasManualChoice()) return;
+
+    if (mobileViewport.matches) {
+      if (select.value !== 'sidebyside') return;
+
+      try {
+        document.defaultView.sessionStorage.setItem(
+          desktopTypeKey,
+          select.value,
+        );
+      } catch {
+        return;
+      }
+
+      submitDiffType('inline');
+      return;
+    }
+
+    let desktopType;
+    try {
+      desktopType = document.defaultView.sessionStorage.getItem(desktopTypeKey);
+    } catch {
+      return;
+    }
+
+    if (!desktopType) return;
+    document.defaultView.sessionStorage.removeItem(desktopTypeKey);
+    if (select.value !== desktopType) submitDiffType(desktopType);
+  }
+
+  mobileViewport.addEventListener('change', updateDiffType);
+
+  updateDiffType();
 }
 
 function setupThemePreference() {
@@ -184,30 +268,24 @@ function setupThemePreference() {
   const updateSystemTheme = function () {
     if (preference === 'system') updateTheme();
   };
-  if (systemPreference.addEventListener) {
-    systemPreference.addEventListener('change', updateSystemTheme);
-  } else {
-    systemPreference.addListener(updateSystemTheme);
-  }
+  systemPreference.addEventListener('change', updateSystemTheme);
 
   updateTheme();
   updateToggleLocation();
-  if (mobileViewport.addEventListener) {
-    mobileViewport.addEventListener('change', updateToggleLocation);
-  } else {
-    mobileViewport.addListener(updateToggleLocation);
-  }
+  mobileViewport.addEventListener('change', updateToggleLocation);
 }
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
     setupSiteMenuToggle();
     setupSidebarToggle();
+    setupResponsiveDiff();
     setupThemePreference();
   });
 } else {
   setupSiteMenuToggle();
   setupSidebarToggle();
+  setupResponsiveDiff();
   setupThemePreference();
 }
 
