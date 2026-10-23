@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "check": "bash scripts/check.sh && npm run lint:js && npm run lint:css",
+    "lint:js": "eslint \"**/*.js\"",
+    "lint:css": "eslint \"css/**/*.css\""
+  },
+  "devDependencies": {
+    "@eslint/css": "^2.0.1",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0"
+  }
+}
