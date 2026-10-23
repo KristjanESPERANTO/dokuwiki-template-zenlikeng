@@ -7,4 +7,5 @@
 
 $lang['discussion']      = 'Discussion';
 $lang['main_navigation'] = 'Menu principal';
+$lang['back_to_article'] = 'Retornar al articulo';
 $lang['userpage']        = 'Pagina de usator';

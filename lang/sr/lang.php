@@ -5,5 +5,7 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  */
 
-$lang['discussion']              = 'Разговор';
+$lang['discussion']      = 'Разговор';
 $lang['main_navigation'] = 'Главни мени';
+$lang['back_to_article'] = 'Назад на чланак';
+$lang['userpage']        = 'Корисничка страница';
