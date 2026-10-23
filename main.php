@@ -103,6 +103,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
         <footer id="dokuwiki__footer"><div class="pad">
             <div class="doc"><?php tpl_pageinfo() /* 'Last modified' etc */ ?></div>
             <?php tpl_license('button') /* content license, parameters: img=*badge|button|0, imgonly=*0|1, return=*0|1 */ ?>
+            <nav id="zenlike__footer-pagetools" aria-label="<?php echo hsc($lang['page_tools']) ?>" hidden><ul></ul></nav>
         </div></footer><!-- /footer -->
 
         <?php tpl_includeFile('footer.html') ?>

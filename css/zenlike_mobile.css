@@ -304,7 +304,83 @@
   }
 
   #dokuwiki__pagetools {
+    display: block;
+    position: static;
+    bottom: auto;
+    left: auto;
+    float: none;
+    clear: both;
+    width: auto;
+    padding: 0 1em 1em;
+    border: 0;
+    background: transparent;
+    z-index: auto;
+  }
+
+  #dokuwiki__pagetools[hidden] {
     display: none;
+  }
+
+  #dokuwiki__pagetools ul {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0;
+  }
+
+  #dokuwiki__pagetools li:not(.top) {
+    display: none;
+  }
+
+  #dokuwiki__pagetools li.top a,
+  #zenlike__footer-pagetools li.top a {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 0.5em;
+    min-height: 44px;
+    padding: 0 0.5em;
+    border: 0;
+    background: transparent;
+    color: #b96d00;
+    text-decoration: none;
+  }
+
+  #zenlike__footer-pagetools {
+    align-self: stretch;
+    display: flex;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 0.5em;
+    border-top: 1px solid #d5d5d5;
+  }
+
+  #zenlike__footer-pagetools ul {
+    display: flex;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  #zenlike__footer-pagetools li.top {
+    margin: 0;
+  }
+
+  #dokuwiki__pagetools li.top a:hover,
+  #dokuwiki__pagetools li.top a:focus-visible,
+  #zenlike__footer-pagetools li.top a:hover,
+  #zenlike__footer-pagetools li.top a:focus-visible {
+    text-decoration: underline;
+  }
+
+  #dokuwiki__pagetools li.top a:focus-visible,
+  #zenlike__footer-pagetools li.top a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   #dokuwiki__aside {

@@ -66,7 +66,8 @@
   :root[data-theme='dark'] #dokuwiki__pagetools a.wikilink1,
   :root[data-theme='dark'] #dokuwiki__usertools a.wikilink2,
   :root[data-theme='dark'] #dokuwiki__pagetools a.wikilink2,
-  :root[data-theme='dark'] #dokuwiki__pagetools ul li a {
+  :root[data-theme='dark'] #dokuwiki__pagetools ul li a,
+  :root[data-theme='dark'] #dokuwiki__pagetools li.top a {
     color: var(--zenlike-text);
   }
 
@@ -207,5 +208,20 @@
 
   :root[data-theme='dark'] .theme-toggle:hover {
     background: var(--zenlike-surface-raised);
+  }
+}
+
+@media screen and (max-width: 42em) {
+  :root[data-theme='dark'] #dokuwiki__pagetools {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  :root[data-theme='dark'] #zenlike__footer-pagetools {
+    border-color: var(--zenlike-border);
+  }
+
+  :root[data-theme='dark'] #zenlike__footer-pagetools li.top a {
+    color: var(--zenlike-link);
   }
 }

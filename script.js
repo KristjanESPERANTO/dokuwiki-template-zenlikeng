@@ -4,6 +4,8 @@ function setupSiteMenuToggle() {
   const toggle = document.getElementById('toggle_sitemenu');
   const menuContent = document.getElementById('zenlike__menucontent');
   const search = document.getElementById('search');
+  const pageTools = document.getElementById('dokuwiki__pagetools');
+  const footerPageTools = document.getElementById('zenlike__footer-pagetools');
   if (!toggle || !menuContent || !search) return;
 
   const searchInput = search.querySelector('input.edit');
@@ -20,6 +22,32 @@ function setupSiteMenuToggle() {
 
   const searchHome = search.parentElement;
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
+  const backToTop = pageTools?.querySelector('li.top');
+  const originalTopList = backToTop?.parentElement;
+  const originalTopNext = backToTop?.nextSibling;
+
+  function updateBackToTopLocation() {
+    if (!backToTop || !originalTopList || !footerPageTools) return;
+
+    if (mobileViewport.matches) {
+      const footerList = footerPageTools.querySelector('ul');
+      if (!footerList) return;
+
+      footerList.append(backToTop);
+      footerPageTools.hidden = false;
+      pageTools.hidden = true;
+      return;
+    }
+
+    originalTopList.insertBefore(
+      backToTop,
+      originalTopNext?.parentElement === originalTopList
+        ? originalTopNext
+        : null,
+    );
+    footerPageTools.hidden = true;
+    pageTools.hidden = false;
+  }
 
   function updateMenuVisibility() {
     if (mobileViewport.matches) {
@@ -31,6 +59,7 @@ function setupSiteMenuToggle() {
     toggle.hidden = !mobileViewport.matches;
     menuContent.hidden = mobileViewport.matches;
     toggle.setAttribute('aria-expanded', 'false');
+    updateBackToTopLocation();
   }
 
   function closeMenu() {
@@ -270,6 +299,8 @@ function setupThemePreference() {
   if (toolsSelect) {
     const placeholder = toolsSelect.querySelector('option[value=""]');
     if (placeholder) placeholder.hidden = true;
+    const pageTools = document.getElementById('dokuwiki__pagetools');
+    const menuActions = new Map();
 
     const appearanceGroup = document.createElement('optgroup');
     appearanceGroup.label = toggle.dataset.appearanceLabel;
@@ -282,21 +313,53 @@ function setupThemePreference() {
     });
     toolsSelect.append(appearanceGroup);
 
+    const discussionLink = pageTools?.querySelector(
+      'a[data-wiki-id^="discussion:"]',
+    );
+    if (discussionLink) {
+      const pageToolsHeading = pageTools
+        .querySelector('h3')
+        ?.textContent.trim();
+      let pageToolsGroup = [...toolsSelect.querySelectorAll('optgroup')].find(
+        (group) => group.label === pageToolsHeading,
+      );
+      if (!pageToolsGroup && pageToolsHeading) {
+        pageToolsGroup = document.createElement('optgroup');
+        pageToolsGroup.label = pageToolsHeading;
+        toolsSelect.prepend(pageToolsGroup);
+      }
+
+      if (pageToolsGroup) {
+        const option = document.createElement('option');
+        option.value = 'zenlike-action-discussion';
+        option.textContent = discussionLink.textContent.trim();
+        pageToolsGroup.append(option);
+        menuActions.set(option.value, discussionLink);
+      }
+    }
+
     toolsSelect.addEventListener(
       'change',
       function (event) {
         const selectedMode = modes.find(
           (mode) => toolsSelect.value === `zenlike-theme-${mode}`,
         );
-        if (!selectedMode) return;
+        const selectedAction = menuActions.get(toolsSelect.value);
+        if (!selectedMode && !selectedAction) return;
 
         event.preventDefault();
         event.stopImmediatePropagation();
         toolsSelect.value = '';
-        preference = selectedMode;
-        storePreference(preference);
-        updateTheme();
         closeMobileMenu();
+
+        if (selectedMode) {
+          preference = selectedMode;
+          storePreference(preference);
+          updateTheme();
+          return;
+        }
+
+        selectedAction.click();
       },
       true,
     );
