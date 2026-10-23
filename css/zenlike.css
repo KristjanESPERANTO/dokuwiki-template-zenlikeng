@@ -788,10 +788,27 @@ input.button {
 
 #toggle_usertools {
   appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   cursor: pointer;
   padding: 0;
   border: 0;
   background: none;
+  color: #fff;
+}
+
+#toggle_usertools img {
+  filter: brightness(0) invert(1);
+}
+
+#toggle_usertools::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 5px solid currentColor;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
 }
 
 #toggle_usertools:focus-visible {
