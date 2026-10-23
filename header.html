@@ -1,93 +1,81 @@
 <?php
-    global $conf;
-    global $INFO;
-    $showTools = !tpl_getConf('hideTools') || ( tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']) );
-    global $_SERVER;
+    global $conf, $INFO;
+    $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
 ?>
 <div id="zenlikeheader">
-    <div class="headings">
-        <div id="headercontent">
-            <h1><?php echo hsc($conf['title']); ?></h1>
-            <?php /* how to insert logo instead (if no CSS image replacement technique is used):
+  <div class="headings">
+    <div id="headercontent">
+      <h1><?= hsc($conf['title']) ?></h1>
+      <?php /* how to insert logo instead (if no CSS image replacement technique is used):
                                 upload your logo into the data/media folder (root of the media manager) and replace 'logo.png' accordingly:
-                                tpl_link(wl(),'<img src="'.ml('logo.png').'" alt="'.$conf['title'].'" />','id="dokuwiki__top" accesskey="h" title="[H]"') */ ?>
-            <?php if ($conf['tagline']): ?>
-            <p class="claim"><?php echo $conf['tagline'] ?></p>
-            <?php endif ?>
-        </div>
-
-        <div id="search">
-            <?php tpl_searchform() ?>
-        </div>
-
+                                tpl_link(wl(),'<img src="'.ml('logo.png').'" alt="'.$conf['title'].'" />','id="dokuwiki__top"
+      accesskey="h" title="[H]"') */ ?>
+      <?php if ($conf['tagline']): ?>
+      <p class="claim"><?= $conf['tagline'] ?></p>
+      <?php endif; ?>
     </div>
 
-    <div id="headerpic"></div>
+    <div id="search">
+      <?php tpl_searchform() ?>
+    </div>
+  </div>
 
-    <ul class="a11y skip">
-        <li><a href="#dokuwiki__content"><?php echo $lang['skip_to_content'] ?></a></li>
-    </ul>
-    <div class="clearer"></div>
+  <div id="headerpic"></div>
+
+  <ul class="a11y skip">
+    <li>
+      <a href="#dokuwiki__content"><?php echo $lang['skip_to_content'] ?></a>
+    </li>
+  </ul>
+  <div class="clearer"></div>
 </div>
 
 <div id="menu">
+  <?php tpl_include_page(tpl_getConf('menuid')); ?>
 
-    <?php
-        tpl_include_page(tpl_getConf('menuid'));
-    ?>
-
-    <div id="rightmenu">
-
-        <?php
-
-        if ($INFO['ismobile']) {
-
-            echo (new \dokuwiki\Menu\MobileMenu())->getDropdown($lang['tools']);
-
-        } else {
-
-            print '<ul>';
-
-            echo (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false);
-
-            if ($conf['useacl'] && $showTools) {
-
-                echo '<li class="menusplit"><button type="button" id="toggle_usertools" ' .
-                    'aria-controls="usertools" aria-expanded="false" ' .
-                    'aria-label="' . hsc($lang['user_tools']) . '" title="' . hsc($lang['user_tools']) . '">';
-                echo '<img src="' . tpl_basedir() . 'images/icon-user.png" width="32" height="16" alt="" />';
-                echo '</button></li>';
-
-            }
-
-            print '</ul>';
-
-        }
-
-    ?>
-
-    </div>
+  <div id="rightmenu">
+    <?php if ($INFO['ismobile']): ?>
+    <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown($lang['tools']) ?>
+    <?php else: ?>
+    <ul>
+      <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false) ?>
+      <?php if ($conf['useacl'] && $showTools): ?>
+      <li class="menusplit">
+        <button
+          type="button"
+          id="toggle_usertools"
+          aria-controls="usertools"
+          aria-expanded="false"
+          aria-label="<?= hsc($lang['user_tools']) ?>"
+          title="<?= hsc($lang['user_tools']) ?>"
+        >
+          <img
+            src="<?= tpl_basedir() ?>images/icon-user.png"
+            width="32"
+            height="16"
+            alt=""
+          />
+        </button>
+      </li>
+      <?php endif; ?>
+    </ul>
+    <?php endif; ?>
+  </div>
 </div>
 
 <div id="usertools" hidden>
-    <ul>
-
-<?php
-
-    echo (new \dokuwiki\Menu\UserMenu())->getListItems('action ');
-    _tpl_action('userpage', 1, 'li');
-
-?>
-    </ul>
+  <ul>
+    <?= (new \dokuwiki\Menu\UserMenu())->getListItems('action ') ?>
+    <?php _tpl_action('userpage', 1, 'li'); ?>
+  </ul>
 </div>
 
 <div id="menubottom"></div>
 
 <!-- BREADCRUMBS -->
-<?php if($conf['breadcrumbs']){ ?>
-    <div class="breadcrumbs"><?php tpl_breadcrumbs() ?></div>
-<?php } ?>
-<?php if($conf['youarehere']){ ?>
-    <div class="breadcrumbs"><?php tpl_youarehere() ?></div>
-<?php } ?>
-
+<?php if ($conf['breadcrumbs']): ?>
+<div class="breadcrumbs"><?php tpl_breadcrumbs() ?></div>
+<?php endif; ?>
+<?php if ($conf['youarehere']): ?>
+<div class="breadcrumbs"><?php tpl_youarehere() ?></div>
+<?php endif; ?>
