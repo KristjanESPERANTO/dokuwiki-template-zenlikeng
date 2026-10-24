@@ -877,7 +877,8 @@ input.button {
 
 #dokuwiki__aside {
   width: __sidebar_width__;
-  position: absolute;
+  float: left;
+  position: relative;
   display: block;
   margin: 1em 1em;
 }

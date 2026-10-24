@@ -401,6 +401,7 @@
   }
 
   #dokuwiki__aside {
+    float: none;
     position: static;
     width: auto;
     margin: 1em;
@@ -415,7 +416,7 @@
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    width: calc(100% - 2em);
+    width: calc(100% - var(--mobile-sidebar-gutter, 2em));
     min-height: 44px;
     margin: 1em 1em 0;
     padding: 0.65em 0.75em;
