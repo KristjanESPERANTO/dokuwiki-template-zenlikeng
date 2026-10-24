@@ -1,13 +1,28 @@
 # Zenlike NG DokuWiki Template
 
-Zenlike NG brings the classic Zenlike look to DokuWiki: a prominent header,
-simple horizontal navigation, a readable content area, and an optional
-sidebar. This responsive version adds mobile navigation and sidebar controls,
-right-to-left support, and light, dark, or system-based appearance modes.
+Zenlike NG modernizes the existing Zenlike DokuWiki template. It preserves the
+familiar prominent header, horizontal navigation, readable content area, and
+optional sidebar while adding responsive mobile navigation and sidebar
+controls, right-to-left support, and light, dark, or system-based appearance
+modes.
 
 The original Zenlike design was created by NodeThirtyThree and adapted for
 DokuWiki by Dennis Ploeger. See the [original project](https://github.com/DRINGOT/dokuwiki-template-zenlike)
 and the [DokuWiki template page](https://www.dokuwiki.org/template:zenlike).
+
+## Screenshots
+
+### Desktop
+
+| Light mode                                                    | Dark mode                                                   |
+| ------------------------------------------------------------- | ----------------------------------------------------------- |
+| ![Zenlike NG in light mode](screenshots/screenshot-light.png) | ![Zenlike NG in dark mode](screenshots/screenshot-dark.png) |
+
+### Mobile
+
+| Light mode                                                                  | Dark mode                                                                 |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| ![Zenlike NG mobile in light mode](screenshots/screenshot-light-mobile.png) | ![Zenlike NG mobile in dark mode](screenshots/screenshot-dark-mobile.png) |
 
 ## Installation
 
