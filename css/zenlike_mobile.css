@@ -1,8 +1,20 @@
 @media only screen and (max-width: 42em) {
   /* General site */
 
+  html {
+    background-image: none !important;
+  }
+
   body {
     padding: 0;
+  }
+
+  body > .no {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    line-height: 0;
   }
 
   #dokuwiki__site {
@@ -435,6 +447,11 @@
   #dokuwiki__footer {
     height: auto;
     padding: 3em 1em 1em;
+    box-shadow: inset 0 -1em #737800;
+  }
+
+  :root[data-theme='dark'] #dokuwiki__footer {
+    box-shadow: inset 0 -1em #303323;
   }
 
   #dokuwiki__footer .pad,
