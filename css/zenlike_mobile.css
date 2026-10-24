@@ -24,6 +24,11 @@
     border-width: 0;
   }
 
+  #dokuwiki__site > .site {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
   #menubottom {
     margin: 0;
   }

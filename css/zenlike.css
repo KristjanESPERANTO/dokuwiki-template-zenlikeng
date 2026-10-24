@@ -690,6 +690,20 @@ input.button {
   margin: 0 auto;
 }
 
+#dokuwiki__site > .site {
+  display: flex;
+  flex-direction: column;
+  min-height: 75vh;
+}
+
+#dokuwiki__site > .site > .wrapper {
+  flex: 1 0 auto;
+}
+
+#dokuwiki__site > .site > #dokuwiki__footer {
+  margin-top: auto;
+}
+
 #media__manager,
 #dokuwiki__detail {
   background-color: #fff;
