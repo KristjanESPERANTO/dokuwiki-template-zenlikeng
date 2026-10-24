@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.0.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.0.0...v7.0.1) (2026-10-24)
+
+### Bug Fixes
+
+* **layout:** prevent sidebar layout overflow ([8688f21](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/8688f218a237b92a07221eaf20ec5deb0431bdca))
+* **layout:** push footer down on short pages ([126c7d3](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/126c7d3e2d984e9788ec8c7f0ca23ccca3fd44b3))
+* **theme:** align mobile footer colors and spacing ([9979bfd](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/9979bfdb12d8efc60225688bd36f726763b7e079))
+
 ## [7.0.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v6.0.1...v7.0.0) (2026-10-23)
 
 ### Features
