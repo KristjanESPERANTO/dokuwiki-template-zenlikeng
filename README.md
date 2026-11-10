@@ -48,6 +48,10 @@ You can change these options in the Configuration Manager:
 | `hideTools`      | `0`               | When enabled, hides user tools from visitors who are not logged in.                                   |
 | `headerPicture`  | empty             | URL of the header image. Leave empty to use the default background.                                   |
 
+## Sidebar
+
+By default, the sidebar displays the `sidebar` wiki page.
+
 ## Requirements
 
 Zenlike NG requires PHP 8.3 or newer and DokuWiki release 2026-07-14c ("Mort")
