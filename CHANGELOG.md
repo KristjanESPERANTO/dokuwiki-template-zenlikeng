@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.0.2](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.0.1...v7.0.2) (2026-11-10)
+
+### Bug Fixes
+
+* prevent section edit button from overlapping text ([d9ed734](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/d9ed734a8119ddb03777c62999cc8286c084eaa8))
+
 ## [7.0.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.0.0...v7.0.1) (2026-10-24)
 
 ### Bug Fixes
