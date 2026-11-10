@@ -21,6 +21,6 @@ jobs:
           php-version: ${{ matrix.php-version }}
       - uses: actions/setup-node@v7
         with:
-          node-version: latest
+          node-version: lts/*
       - run: npm ci
       - run: npm run check
