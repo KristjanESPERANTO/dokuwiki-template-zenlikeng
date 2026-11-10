@@ -56,3 +56,6 @@ The `Publish release` GitHub Actions workflow runs for `v*` tags, verifies that
 the tag matches the version in `package.json`, builds the installable ZIP, and
 creates a GitHub release with generated notes and the ZIP attached. If it does
 not start automatically, run it from the Actions tab with the release tag.
+
+After the release, update `lastupdate_dt` and `downloadurl` on the
+[DokuWiki template page](https://www.dokuwiki.org/template:zenlikeng).
