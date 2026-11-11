@@ -717,6 +717,7 @@ input.button {
 
 .page {
   padding: 1em 2em 0;
+  font-size: __content_font_size__;
 }
 
 .breadcrumbs {

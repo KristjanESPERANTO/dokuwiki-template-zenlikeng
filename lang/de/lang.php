@@ -14,3 +14,7 @@ $lang['theme_system']      = 'System';
 $lang['theme_light']       = 'Hell';
 $lang['theme_dark']        = 'Dunkel';
 $lang['theme_next']        = 'Nächster Modus';
+
+$lang['__site_width__']         = 'Seitenbreite';
+$lang['__sidebar_width__']      = 'Sidebar-Breite';
+$lang['__content_font_size__']  = 'Schriftgröße des Inhalts';

@@ -13,3 +13,7 @@ $lang['theme_system']      = 'System';
 $lang['theme_light']       = 'Light';
 $lang['theme_dark']        = 'Dark';
 $lang['theme_next']        = 'Next mode';
+
+$lang['__site_width__']         = 'Site width';
+$lang['__sidebar_width__']      = 'Sidebar width';
+$lang['__content_font_size__']  = 'Content font size';
