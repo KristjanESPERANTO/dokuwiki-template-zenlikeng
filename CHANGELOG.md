@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.1.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.0.2...v7.1.0) (2026-11-11)
+
+### Features
+
+* **style:** add content font size setting ([1e1682c](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/1e1682cde11dbcaa969f5b57630b897e044372e3))
+* **style:** make dark core palette configurable ([0d915d4](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/0d915d4656d0a4388761bd24687edd5f8d4b6328))
+* **style:** use __link__ for generic links ([58c4b5c](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/58c4b5c235852dd818e0b2f530eb66e83f4b0fca))
+
+### Bug Fixes
+
+* **dark:** style fullscreen media manager ([4379d19](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/4379d1980b9ddf5104eefd17b850dfe665400fcc))
+
 ## [7.0.2](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.0.1...v7.0.2) (2026-11-10)
 
 ### Bug Fixes
