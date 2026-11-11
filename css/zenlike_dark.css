@@ -2,13 +2,13 @@
   :root[data-theme='dark'] {
     color-scheme: dark;
     --zenlike-canvas: #18191b;
-    --zenlike-page: #202124;
-    --zenlike-surface: #2a2c30;
+    --zenlike-page: __dark_page__;
+    --zenlike-surface: __dark_surface__;
     --zenlike-surface-raised: #34373c;
-    --zenlike-border: #4b4f55;
-    --zenlike-text: #e6e1d8;
+    --zenlike-border: __dark_border__;
+    --zenlike-text: __dark_text__;
     --zenlike-muted: #c0b8ad;
-    --zenlike-link: #f2bf79;
+    --zenlike-link: __dark_link__;
     --zenlike-missing: #ff9b8f;
     --zenlike-menu: #404a20;
     --zenlike-menu-active: #58632d;

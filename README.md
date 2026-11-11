@@ -53,6 +53,8 @@ You can change these options in the Configuration Manager:
 Colors, widths, and the content font size can be changed in DokuWiki's
 Template Styling admin page (`?do=admin&page=styling`). The content font size
 (`__content_font_size__`, default `1em`) accepts any CSS size such as `1.1em`.
+The `__dark_*__` colors apply to dark mode only; switch the appearance to dark
+to check them.
 
 ## Sidebar
 
