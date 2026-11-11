@@ -15,6 +15,7 @@ $lang['theme_light']       = 'Hell';
 $lang['theme_dark']        = 'Dunkel';
 $lang['theme_next']        = 'Nächster Modus';
 
+$lang['__link__']               = 'Linkfarbe (externe und sonstige Links)';
 $lang['__existing__']           = 'Linkfarbe (vorhandene Seite)';
 $lang['__missing__']            = 'Linkfarbe (fehlende Seite)';
 $lang['__dark_page__']          = 'Dunkelmodus: Seitenhintergrund';

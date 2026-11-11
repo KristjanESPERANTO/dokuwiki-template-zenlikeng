@@ -494,7 +494,7 @@ a:link,
 a:visited,
 a.breadcrumbs:visited,
 a.breadcrumbs:visited {
-  color: __existing__;
+  color: __link__;
   text-decoration: underline;
 }
 

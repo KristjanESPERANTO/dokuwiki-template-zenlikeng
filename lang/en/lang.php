@@ -14,6 +14,7 @@ $lang['theme_light']       = 'Light';
 $lang['theme_dark']        = 'Dark';
 $lang['theme_next']        = 'Next mode';
 
+$lang['__link__']               = 'Link color (external and other links)';
 $lang['__existing__']           = 'Link color (existing page)';
 $lang['__missing__']            = 'Link color (missing page)';
 $lang['__dark_page__']          = 'Dark mode: page background';
