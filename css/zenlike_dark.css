@@ -312,6 +312,85 @@
     color: #e1f5e2;
   }
 
+  :root[data-theme='dark'] #mediamanager__page .panelHeader,
+  :root[data-theme='dark'] #mediamanager__page .namespaces h2,
+  :root[data-theme='dark'] #mediamanager__page .file dl dt {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .namespaces h2 {
+    border-bottom-color: var(--zenlike-surface);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .panelHeader ul li,
+  :root[data-theme='dark'] #mediamanager__page form.changes ul li div.li div {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .namespaces ul .selected {
+    background-color: var(--zenlike-menu-active);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .file dl dd,
+  :root[data-theme='dark'] #mediamanager__page .filelist .thumbs li,
+  :root[data-theme='dark'] #mediamanager__page .filelist .rows li {
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark']
+    #mediamanager__page
+    .filelist
+    .rows
+    li:nth-child(2n + 1),
+  :root[data-theme='dark']
+    #mediamanager__page
+    .filelist
+    .panelContent
+    ul
+    li:hover {
+    background-color: var(--zenlike-surface-raised);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .ui-button,
+  :root[data-theme='dark'] #mediamanager__page .ui-state-default {
+    border-color: var(--zenlike-border);
+    background: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .ui-button:hover,
+  :root[data-theme='dark'] #mediamanager__page .ui-button:focus,
+  :root[data-theme='dark'] #mediamanager__page .ui-state-hover,
+  :root[data-theme='dark'] #mediamanager__page .ui-state-focus {
+    background: var(--zenlike-menu);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .ui-state-active,
+  :root[data-theme='dark']
+    #mediamanager__page
+    .ui-button.ui-state-active:hover {
+    border-color: var(--zenlike-menu-active);
+    background: var(--zenlike-menu-active);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #mediamanager__diff th,
+  :root[data-theme='dark'] #mediamanager__diff td {
+    border-color: var(--zenlike-page);
+    background-color: var(--zenlike-page);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #mediamanager__diff dl dd strong {
+    background-color: var(--zenlike-menu-active);
+    color: var(--zenlike-text);
+  }
+
   :root[data-theme='dark'] .theme-toggle {
     border-color: var(--zenlike-border);
     background: var(--zenlike-surface);
