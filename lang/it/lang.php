@@ -2,13 +2,14 @@
 /**
  * Italian language file
  *
+ * @author "Tassoman" <tassoman@gmail.com"
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  */
 
 $lang['discussion']        = 'Discussione';
 $lang['main_navigation']   = 'Menu principale';
 $lang['back_to_article']   = 'Torna all\'articolo';
-$lang['userpage']          = 'Pagina utente';
+$lang['userpage']          = 'Pagina dell\'autore';
 $lang['appearance']        = 'Aspetto';
 $lang['theme_system']      = 'Sistema';
 $lang['theme_light']       = 'Chiaro';
@@ -25,4 +26,4 @@ $lang['__dark_text__']          = 'Modalità scura: colore del testo';
 $lang['__dark_link__']          = 'Modalità scura: colore dei link';
 $lang['__site_width__']         = 'Layout: larghezza del sito';
 $lang['__sidebar_width__']      = 'Layout: larghezza della barra laterale';
-$lang['__content_font_size__']  = 'Tipografia: dimensione del carattere del contenuto';
+$lang['__content_font_size__']  = 'Tipografia: dimensione carattere';
