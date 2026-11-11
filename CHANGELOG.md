@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.2.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.1.0...v7.2.0) (2026-11-11)
+
+### Features
+
+* **i18n:** complete Esperanto and Italian translation ([bb2bec3](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/bb2bec3fe0109d7b6952e45b030fbe5eaaa0ab44))
+
+### Bug Fixes
+
+* **i18n:** read theme toggle labels from template ([57b0a82](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/57b0a82d47e35f80c51e05d2fc299cbc14d0e955))
+* **style:** remove link icons ([db65d63](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/db65d63df0e3ada1be821345733ae1946624b917))
+
 ## [7.1.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.0.2...v7.1.0) (2026-11-11)
 
 ### Features
