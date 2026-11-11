@@ -2,6 +2,7 @@
     global $conf, $lang;
     $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
     $menuLabel = tpl_getLang('main_navigation') ?: 'Menu';
+    $themeLabel = tpl_getLang('appearance') . ': ' . tpl_getLang('theme_system') . '. ' . tpl_getLang('theme_next') . ': ' . tpl_getLang('theme_light');
 ?>
 <header id="zenlikeheader">
   <div class="headings">
@@ -42,13 +43,13 @@
       type="button"
       id="toggle_theme"
       class="theme-toggle"
-      data-appearance-label="<?= hsc($lang['appearance'] ?? 'Appearance') ?>"
-      data-theme-system-label="<?= hsc($lang['theme_system'] ?? 'System') ?>"
-      data-theme-light-label="<?= hsc($lang['theme_light'] ?? 'Light') ?>"
-      data-theme-dark-label="<?= hsc($lang['theme_dark'] ?? 'Dark') ?>"
-      data-next-label="<?= hsc($lang['theme_next'] ?? 'Next mode') ?>"
-      aria-label="<?= hsc(($lang['appearance'] ?? 'Appearance') . ': ' . ($lang['theme_system'] ?? 'System') . '. ' . ($lang['theme_next'] ?? 'Next mode') . ': ' . ($lang['theme_light'] ?? 'Light')) ?>"
-      title="<?= hsc(($lang['appearance'] ?? 'Appearance') . ': ' . ($lang['theme_system'] ?? 'System') . '. ' . ($lang['theme_next'] ?? 'Next mode') . ': ' . ($lang['theme_light'] ?? 'Light')) ?>"
+      data-appearance-label="<?= hsc(tpl_getLang('appearance')) ?>"
+      data-theme-system-label="<?= hsc(tpl_getLang('theme_system')) ?>"
+      data-theme-light-label="<?= hsc(tpl_getLang('theme_light')) ?>"
+      data-theme-dark-label="<?= hsc(tpl_getLang('theme_dark')) ?>"
+      data-next-label="<?= hsc(tpl_getLang('theme_next')) ?>"
+      aria-label="<?= hsc($themeLabel) ?>"
+      title="<?= hsc($themeLabel) ?>"
     >
       <span class="appearance-icon" aria-hidden="true">◐</span>
     </button>
