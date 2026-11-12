@@ -2,7 +2,7 @@
 /**
  * Italian language file
  *
- * @author "Tassoman" <tassoman@gmail.com"
+ * @author "Tassoman" <tassoman@gmail.com>
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  */
 
