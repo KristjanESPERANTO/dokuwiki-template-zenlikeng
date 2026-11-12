@@ -9,7 +9,7 @@
 $lang['discussion']        = 'Discussione';
 $lang['main_navigation']   = 'Menu principale';
 $lang['back_to_article']   = 'Torna all’articolo';
-$lang['userpage']          = 'Pagina dell\'autore';
+$lang['userpage']          = 'Pagina dell’autore';
 $lang['appearance']        = 'Aspetto';
 $lang['theme_system']      = 'Sistema';
 $lang['theme_light']       = 'Chiaro';
