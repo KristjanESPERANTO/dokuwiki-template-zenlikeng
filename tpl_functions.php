@@ -11,6 +11,24 @@
 if (!defined('DOKU_INC')) die();
 
 /**
+ * Print the inline script that sets the JS flag and the theme before first paint
+ */
+function _tpl_init_theme() {
+    echo <<<'HTML'
+<script>
+    (function (root) {
+        var theme;
+        try { theme = localStorage.getItem('zenlike-theme'); } catch (e) {}
+        root.className = root.className.replace(/\bno-js\b/, 'js');
+        root.dataset.theme = theme === 'dark' ||
+            (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
+            ? 'dark' : 'light';
+    })(document.documentElement);
+</script>
+HTML;
+}
+
+/**
  * Create link/button to discussion page and back
  *
  * @author Anika Henke <anika@selfthinker.org>

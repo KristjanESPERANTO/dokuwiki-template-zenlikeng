@@ -6,6 +6,43 @@ import { JSDOM } from 'jsdom';
 
 const script = readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 
+test('sets the theme before first paint on every page type', () => {
+  const functions = readFileSync(
+    new URL('../tpl_functions.php', import.meta.url),
+    'utf8',
+  );
+  const initialScript = functions.match(/<script>([\s\S]*?)<\/script>/)[1];
+
+  for (const file of ['main.php', 'mediamanager.php', 'detail.php']) {
+    const template = readFileSync(
+      new URL(`../${file}`, import.meta.url),
+      'utf8',
+    );
+    assert.match(template, /_tpl_init_theme\(\)/, file);
+  }
+
+  for (const [preference, systemDark, expected] of [
+    ['dark', false, 'dark'],
+    ['light', true, 'light'],
+    ['system', true, 'dark'],
+    ['system', false, 'light'],
+    [null, true, 'dark'],
+  ]) {
+    const dom = new JSDOM('<!doctype html><html class="no-js"></html>', {
+      runScripts: 'outside-only',
+      url: 'https://example.test/',
+    });
+    if (preference)
+      dom.window.localStorage.setItem('zenlike-theme', preference);
+    dom.window.matchMedia = () => ({ matches: systemDark });
+    dom.window.eval(initialScript);
+
+    assert.equal(dom.window.document.documentElement.dataset.theme, expected);
+    assert.equal(dom.window.document.documentElement.className, 'js');
+    dom.window.close();
+  }
+});
+
 async function createPage(
   initiallyMobile = true,
   systemDark = false,

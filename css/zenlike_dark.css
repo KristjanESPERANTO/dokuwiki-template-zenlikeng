@@ -210,6 +210,25 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] .qq-upload-button {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .qq-uploader li {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .qq-upload-drop-area {
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .qq-upload-drop-area-active {
+    background-color: var(--zenlike-surface-raised);
+  }
+
   :root[data-theme='dark'] input::placeholder,
   :root[data-theme='dark'] textarea::placeholder {
     color: var(--zenlike-muted);
