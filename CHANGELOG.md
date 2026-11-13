@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.2.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.2.0...v7.2.1) (2026-11-13)
+
+### Bug Fixes
+
+* apply dark theme to media popup and image detail ([ea0135b](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/ea0135b4c8817e4c9942fc7f7ba021651109aeb0))
+
 ## [7.2.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.1.0...v7.2.0) (2026-11-11)
 
 ### Features
