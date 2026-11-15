@@ -524,6 +524,48 @@ a.breadcrumbs:hover {
   text-decoration: none;
 }
 
+.dokuwiki
+  :is(#dokuwiki__content .page, #dokuwiki__aside)
+  :is(p, li, td, th, dd)
+  a:is(.wikilink1, .wikilink2):not(:where(#index__tree *)) {
+  text-decoration: none;
+}
+
+.dokuwiki
+  #dokuwiki__content
+  .page
+  :is(p, li, td, th, dd)
+  a:is(.wikilink1, .wikilink2):not(:where(#index__tree *)) {
+  font-weight: 600;
+}
+
+.dokuwiki
+  :is(#dokuwiki__content .page, #dokuwiki__aside)
+  span.curid
+  a:is(.wikilink1, .wikilink2) {
+  font-weight: bold;
+}
+
+.dokuwiki
+  :is(#dokuwiki__content .page, #dokuwiki__aside)
+  a:is(.urlextern, .windows, .mail, .mediafile, .interwiki) {
+  text-decoration: none;
+}
+
+.dokuwiki
+  :is(#dokuwiki__content .page, #dokuwiki__aside)
+  a:is(
+    .wikilink1,
+    .wikilink2,
+    .urlextern,
+    .windows,
+    .mail,
+    .mediafile,
+    .interwiki
+  ):is(:hover, :focus-visible) {
+  text-decoration: underline;
+}
+
 /* HEADINGS */
 
 h1,
