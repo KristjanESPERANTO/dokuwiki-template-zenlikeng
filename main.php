@@ -65,6 +65,15 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
 
                 <?php tpl_flush() ?>
                 <?php tpl_includeFile('pagefooter.html') ?>
+                <?php
+                    $pageMenuItems = $showTools ? (new \dokuwiki\Menu\PageMenu())->getItems() : [];
+                    foreach ($pageMenuItems as $item) {
+                        if ($item->getType() !== 'top') continue;
+                        echo '<nav id="zenlike__back-to-top" aria-label="' . hsc($lang['page_tools']) . '"><ul><li class="action top">';
+                        echo $item->asHtmlLink(false);
+                        echo '</li></ul></nav>';
+                    }
+                ?>
             </div></main><!-- /content -->
 
             <div class="clearer"></div>
@@ -79,7 +88,10 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
                     <h3 class="a11y" id="dokuwiki__pagetools__heading"><?php echo $lang['page_tools'] ?></h3>
                     <ul>
                         <?php
-                            echo (new \dokuwiki\Menu\PageMenu())->getListItems('action ');
+                            foreach ($pageMenuItems as $item) {
+                                if ($item->getType() === 'top') continue;
+                                echo '<li class="action ' . hsc($item->getType()) . '">' . $item->asHtmlLink(false) . '</li>';
+                            }
                             if (tpl_getConf('discussionPage')) {
                                 echo '<li class="action discussion">';
                                 _tpl_action('discussion', 1);
@@ -93,7 +105,6 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
         <div class="pad">
             <div class="doc"><?php tpl_pageinfo() /* 'Last modified' etc */ ?></div>
             <?php tpl_license('button') /* content license, parameters: img=*badge|button|0, imgonly=*0|1, return=*0|1 */ ?>
-            <nav id="zenlike__footer-pagetools" aria-label="<?php echo hsc($lang['page_tools']) ?>" hidden><ul></ul></nav>
         </div></footer><!-- /footer -->
 
         <?php tpl_includeFile('footer.html') ?>

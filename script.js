@@ -5,7 +5,6 @@ function setupSiteMenuToggle() {
   const menuContent = document.getElementById('zenlike__menucontent');
   const search = document.getElementById('search');
   const pageTools = document.getElementById('dokuwiki__pagetools');
-  const footerPageTools = document.getElementById('zenlike__footer-pagetools');
   const desktopMenu = document.getElementById('desktop-tools-content');
   const desktopPageToolsContent = document.getElementById(
     'desktop-pagetools-content',
@@ -33,17 +32,10 @@ function setupSiteMenuToggle() {
 
   const searchHome = search.parentElement;
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
-  const backToTop = pageTools?.querySelector('li.top');
   const pageToolsHome = pageTools?.parentElement;
   const pageToolsNext = pageTools?.nextSibling;
   function updatePageToolsLocation() {
     if (!pageTools || !pageToolsHome || !desktopPageToolsContent) return;
-
-    const footerList = footerPageTools?.querySelector('ul');
-    if (backToTop && footerList) {
-      footerList.append(backToTop);
-      footerPageTools.hidden = false;
-    }
 
     if (mobileViewport.matches) {
       pageToolsHome.insertBefore(
@@ -125,6 +117,26 @@ function setupSiteMenuToggle() {
 
   updateMenuVisibility();
   return closeMenu;
+}
+
+function setupBackToTopVisibility() {
+  const content = document.querySelector('#dokuwiki__content .page');
+  const backToTop = document.getElementById('zenlike__back-to-top');
+  if (!content || !backToTop) return;
+
+  function updateVisibility() {
+    backToTop.hidden =
+      content.offsetHeight <= document.defaultView.innerHeight * 2;
+  }
+
+  document.defaultView.addEventListener('resize', updateVisibility);
+  document.defaultView.addEventListener('load', updateVisibility, {
+    once: true,
+  });
+  if (document.defaultView.ResizeObserver) {
+    new document.defaultView.ResizeObserver(updateVisibility).observe(content);
+  }
+  updateVisibility();
 }
 
 function setupSidebarToggle() {
@@ -399,12 +411,14 @@ function setupThemePreference(closeSiteMenu) {
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
     const closeSiteMenu = setupSiteMenuToggle();
+    setupBackToTopVisibility();
     setupSidebarToggle();
     setupResponsiveDiff();
     setupThemePreference(closeSiteMenu);
   });
 } else {
   const closeSiteMenu = setupSiteMenuToggle();
+  setupBackToTopVisibility();
   setupSidebarToggle();
   setupResponsiveDiff();
   setupThemePreference(closeSiteMenu);

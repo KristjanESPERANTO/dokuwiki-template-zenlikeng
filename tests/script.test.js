@@ -92,15 +92,14 @@ async function createPage(
           </div>
         </div>
       </div>
+      <main id="dokuwiki__content"><div class="page"></div><nav id="zenlike__back-to-top"><ul><li class="action top"><a href="#dokuwiki__top">Back to top</a></li></ul></nav></main>
       <footer id="dokuwiki__footer">
         <nav id="dokuwiki__pagetools">
           <h3>Page Tools</h3>
           <ul>
-            <li class="action top"><a href="#dokuwiki__top">Back to top</a></li>
             <li class="action discussion"><a href="/doku.php?id=talk:welcome" data-wiki-id="talk:welcome">Discussion</a></li>
           </ul>
         </nav>
-        <nav id="zenlike__footer-pagetools" hidden><ul></ul></nav>
       </footer>
       <div class="diffoptions">
         <form>
@@ -119,6 +118,21 @@ async function createPage(
     { runScripts: 'outside-only', url: pageUrl },
   );
   const { document } = dom.window;
+  let contentHeight = 0;
+  const resizeObservers = [];
+  Object.defineProperty(
+    document.querySelector('#dokuwiki__content .page'),
+    'offsetHeight',
+    {
+      get: () => contentHeight,
+    },
+  );
+  dom.window.ResizeObserver = class {
+    constructor(callback) {
+      resizeObservers.push(callback);
+    }
+    observe() {}
+  };
   if (savedTheme) dom.window.localStorage.setItem('zenlike-theme', savedTheme);
   let diffSubmissions = 0;
   const diffForm = document.querySelector('.diffoptions form');
@@ -173,6 +187,14 @@ async function createPage(
     dom,
     document,
     getDiffSubmissions: () => diffSubmissions,
+    setContentHeight(height) {
+      contentHeight = height;
+      for (const callback of resizeObservers) callback();
+    },
+    setViewportHeight(height) {
+      dom.window.innerHeight = height;
+      dom.window.dispatchEvent(new dom.window.Event('resize'));
+    },
     setMobile(value) {
       matches = value;
       for (const listener of listeners) listener();
@@ -183,6 +205,22 @@ async function createPage(
     },
   };
 }
+
+test('shows back to top only for content over two viewport heights', async () => {
+  const { document, dom, setContentHeight, setViewportHeight } =
+    await createPage();
+  const backToTop = document.getElementById('zenlike__back-to-top');
+  setViewportHeight(800);
+  setContentHeight(1600);
+  assert.equal(backToTop.hidden, true);
+  setContentHeight(1601);
+  assert.equal(backToTop.hidden, false);
+  setViewportHeight(900);
+  assert.equal(backToTop.hidden, true);
+  setContentHeight(2000);
+  assert.equal(backToTop.hidden, false);
+  dom.window.close();
+});
 
 test('initializes the mobile menu and moves search into its panel', async () => {
   const { document, dom } = await createPage();
@@ -449,10 +487,7 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   const sidebarToggle = document.getElementById('toggle_sidebar');
   const sidebar = document.getElementById('dokuwiki__aside');
   const pageTools = document.getElementById('dokuwiki__pagetools');
-  const footerPageTools = document.getElementById('zenlike__footer-pagetools');
-  const backToTop = document.querySelector(
-    '#zenlike__footer-pagetools li.action.top',
-  );
+  const backToTop = document.querySelector('#zenlike__back-to-top li.top');
 
   assert.equal(pageTools.parentElement.id, 'dokuwiki__footer');
   setMobile(false);
@@ -468,9 +503,8 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'true');
   assert.equal(sidebar.hidden, false);
   assert.equal(pageTools.parentElement.id, 'desktop-pagetools-content');
-  assert.equal(backToTop.parentElement, footerPageTools.querySelector('ul'));
+  assert.equal(backToTop.closest('main').id, 'dokuwiki__content');
   assert.equal(pageTools.hidden, false);
-  assert.equal(footerPageTools.hidden, false);
   assert.equal(document.getElementById('desktop-tools-content').hidden, true);
   assert.deepEqual(
     [...document.querySelectorAll('#desktop-sitetools li')].map(
@@ -489,10 +523,9 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   assert.equal(sidebarToggle.hidden, false);
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'false');
   assert.equal(sidebar.hidden, true);
-  assert.equal(backToTop.parentElement, footerPageTools.querySelector('ul'));
+  assert.equal(backToTop.closest('main').id, 'dokuwiki__content');
   assert.equal(pageTools.parentElement.id, 'dokuwiki__footer');
   assert.equal(pageTools.hidden, true);
-  assert.equal(footerPageTools.hidden, false);
   assert.equal(document.getElementById('desktop-tools-content').hidden, true);
   assert.equal(toggle.getAttribute('aria-controls'), 'zenlike__menucontent');
   assert.equal(toggle.getAttribute('aria-label'), 'Menu');

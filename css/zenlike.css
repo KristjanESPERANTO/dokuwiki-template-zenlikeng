@@ -714,7 +714,7 @@ input.button {
 }
 
 #dokuwiki__pagetools svg,
-#zenlike__footer-pagetools svg {
+#zenlike__back-to-top svg {
   flex: none;
   width: 1.1em;
   height: 1.1em;
@@ -1059,40 +1059,55 @@ nav.breadcrumbs {
   vertical-align: middle;
 }
 
-#zenlike__footer-pagetools:not([hidden]) {
-  align-self: stretch;
+#zenlike__back-to-top:not([hidden]) {
   display: flex;
   justify-content: flex-end;
-  box-sizing: border-box;
-  width: 100%;
-  padding-top: 0.5em;
-  border-top: 1px solid __border__;
+  margin-top: 0.5rem;
+  padding: 0 2em;
 }
 
-#zenlike__footer-pagetools ul {
+#zenlike__back-to-top ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-#zenlike__footer-pagetools li.top {
+#zenlike__back-to-top li {
   margin: 0;
 }
 
-#zenlike__footer-pagetools li.top a {
-  display: inline-flex;
+#zenlike__back-to-top a {
+  display: flex;
   align-items: center;
-  gap: 0.5em;
-  min-height: 2.5rem;
-  padding: 0 0.5em;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  border-radius: 0.25rem;
+  color: __link__;
   text-decoration: none;
 }
 
-#zenlike__footer-pagetools li.top a:hover {
-  text-decoration: underline;
+#zenlike__back-to-top a span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-#zenlike__footer-pagetools li.top a:focus-visible {
+#zenlike__back-to-top svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+#zenlike__back-to-top a:hover,
+#zenlike__back-to-top a:focus-visible {
+  background: __background_neu__;
+}
+
+#zenlike__back-to-top a:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
@@ -1140,7 +1155,7 @@ nav.breadcrumbs {
   #dokuwiki__footer .pad {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: 'license doc' 'top top';
+    grid-template-areas: 'license doc';
     align-items: center;
     column-gap: 2em;
   }
@@ -1153,10 +1168,6 @@ nav.breadcrumbs {
 
   #dokuwiki__footer .pad .license {
     grid-area: license;
-  }
-
-  #zenlike__footer-pagetools {
-    grid-area: top;
   }
 }
 

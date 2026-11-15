@@ -102,6 +102,15 @@
     background: var(--zenlike-surface-raised);
   }
 
+  :root[data-theme='dark'] #zenlike__back-to-top a {
+    color: var(--zenlike-link);
+  }
+
+  :root[data-theme='dark'] #zenlike__back-to-top a:hover,
+  :root[data-theme='dark'] #zenlike__back-to-top a:focus-visible {
+    background: var(--zenlike-surface-raised);
+  }
+
   :root[data-theme='dark'] #desktop-tools-content {
     border-color: var(--zenlike-border);
     background: var(--zenlike-surface);
@@ -577,13 +586,5 @@
   :root[data-theme='dark'] #dokuwiki__pagetools {
     border-color: transparent;
     background: transparent;
-  }
-
-  :root[data-theme='dark'] #zenlike__footer-pagetools {
-    border-color: var(--zenlike-border);
-  }
-
-  :root[data-theme='dark'] #zenlike__footer-pagetools li.top a {
-    color: var(--zenlike-link);
   }
 }
