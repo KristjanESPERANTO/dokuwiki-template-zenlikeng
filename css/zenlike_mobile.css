@@ -396,6 +396,10 @@
     margin-bottom: 0;
   }
 
+  #zenlikeheader:has(#toggle_sitemenu[aria-expanded='true']) #headerpic {
+    display: none;
+  }
+
   .page {
     padding: 1em;
   }
