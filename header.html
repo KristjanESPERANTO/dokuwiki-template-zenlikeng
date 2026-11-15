@@ -160,7 +160,8 @@
 <div id="menubottom"></div>
 
 <!-- BREADCRUMBS -->
-<?php if ($conf['breadcrumbs']): ?>
+<?php if ($conf['breadcrumbs'] && count(breadcrumbs()) >
+1): ?>
 <nav
   class="breadcrumbs breadcrumb-trace"
   aria-label="<?= hsc(tpl_getLang('recently_visited')) ?>"
