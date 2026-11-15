@@ -97,6 +97,11 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] #dokuwiki__pagetools ul li a:hover,
+  :root[data-theme='dark'] #dokuwiki__pagetools ul li a:focus-visible {
+    background: var(--zenlike-surface-raised);
+  }
+
   :root[data-theme='dark'] #menu,
   :root[data-theme='dark'] #usertools {
     background: #303323;
@@ -115,15 +120,23 @@
   }
 
   :root[data-theme='dark'] #menubottom,
-  :root[data-theme='dark'] #dokuwiki__footer {
+  :root[data-theme='dark'] #dokuwiki__footer,
+  :root[data-theme='dark'] #dokuwiki__pagetools {
     border-color: var(--zenlike-border);
+  }
+
+  :root[data-theme='dark'] #menubottom,
+  :root[data-theme='dark'] #dokuwiki__footer {
     background: var(--zenlike-page);
+  }
+
+  :root[data-theme='dark'] #dokuwiki__footer {
+    color: var(--zenlike-muted);
   }
 
   :root[data-theme='dark'] #dw__toc,
   :root[data-theme='dark'] .dokuwiki div.toc,
   :root[data-theme='dark'] .box,
-  :root[data-theme='dark'] #dokuwiki__pagetools,
   :root[data-theme='dark'] #dokuwiki__usertools {
     border-color: var(--zenlike-border);
     background: var(--zenlike-surface);

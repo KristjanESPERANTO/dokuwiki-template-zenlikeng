@@ -69,7 +69,10 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
 
             <div class="clearer"></div>
             <hr class="a11y" />
+        </div><!-- /wrapper -->
 
+        <!-- ********** FOOTER ********** -->
+        <footer id="dokuwiki__footer">
             <!-- PAGE ACTIONS -->
             <?php if ($showTools): ?>
                 <nav id="dokuwiki__pagetools" aria-labelledby="dokuwiki__pagetools__heading">
@@ -82,10 +85,8 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
                     </ul>
                 </nav>
             <?php endif; ?>
-        </div><!-- /wrapper -->
 
-        <!-- ********** FOOTER ********** -->
-        <footer id="dokuwiki__footer"><div class="pad">
+        <div class="pad">
             <div class="doc"><?php tpl_pageinfo() /* 'Last modified' etc */ ?></div>
             <?php tpl_license('button') /* content license, parameters: img=*badge|button|0, imgonly=*0|1, return=*0|1 */ ?>
             <nav id="zenlike__footer-pagetools" aria-label="<?php echo hsc($lang['page_tools']) ?>" hidden><ul></ul></nav>

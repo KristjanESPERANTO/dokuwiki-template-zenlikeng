@@ -179,7 +179,7 @@ ul.linklist li {
   margin: 0;
   vertical-align: middle;
   border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 2px;
+  border-radius: 0.375rem;
   padding: 0.4em 0.65em;
   width: 10em;
   background: rgba(0, 0, 0, 0.16);
@@ -199,7 +199,7 @@ ul.linklist li {
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.06);
   border: solid 1px rgba(255, 255, 255, 0.28);
-  border-radius: 2px;
+  border-radius: 0.375rem;
   font-weight: normal;
   height: 2.5em;
   min-height: 2.25em;
@@ -246,7 +246,7 @@ ul.linklist li {
   position: relative;
   display: flex;
   align-items: center;
-  background: linear-gradient(180deg, #898e00 0%, #737800 100%);
+  background: #626b2b;
   min-height: 3.5em;
   height: auto;
   padding: 0em 1em 0em 1em;
@@ -324,6 +324,12 @@ ul.linklist li {
   text-decoration: none;
 }
 
+@media (min-width: 42.01em) {
+  #menu ul li a {
+    border-radius: 0.25rem;
+  }
+}
+
 #menu ul li a:hover,
 #usertools ul li a:hover {
   text-decoration: underline;
@@ -369,8 +375,8 @@ ul.linklist li {
   }
 
   #menu ul li a {
-    padding-inline: 0.25em;
-    font-size: 0.75em;
+    padding-inline: 0.75em;
+    font-size: 0.875em;
   }
 }
 
@@ -392,8 +398,8 @@ ul.linklist li {
   }
 
   #custommenu ul li a {
-    padding-inline: 0.25em;
-    font-size: 0.75em;
+    padding-inline: 0.75em;
+    font-size: 0.875em;
   }
 
   #menu #rightmenu {
@@ -589,6 +595,29 @@ h1#search {
   display: block;
 }
 
+.dokuwiki
+  :is(.page, .page > .section_highlight_wrapper)
+  > :is(h1, h2, h3, h4, h5, h6) {
+  display: block;
+  clear: none;
+  line-height: 1.25;
+  margin-block: 1.5em 0.6em;
+}
+
+.dokuwiki :is(.page, .page > .section_highlight_wrapper) > h1 {
+  font-size: 2em;
+  margin-block-start: 0;
+}
+
+.dokuwiki :is(.page, .page > .section_highlight_wrapper) > h2 {
+  font-size: 1.4em;
+}
+
+.dokuwiki :is(.page, .page > .section_highlight_wrapper) > h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 #media__manager h1,
 #media__manager h2 {
   border-bottom: 0;
@@ -604,13 +633,21 @@ img {
 
 /* Fixes to better fit Dokuwiki style to zenlike */
 
+.dokuwiki :where(button, input, select) {
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+
 .dokuwiki div.toolbar button.toolbutton {
   width: 2rem;
   height: 2rem;
   margin-inline-end: 0.125rem;
   padding: 0;
   border: 1px solid __text_alt__;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   background-color: __background_neu__;
 }
 
@@ -625,29 +662,63 @@ input.button {
 /* MENUS */
 
 #dokuwiki__pagetools {
-  float: right;
+  float: none;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+@media (min-width: 42.01em) {
+  #dokuwiki__pagetools {
+    margin: 0 0 1em;
+    padding: 0 2em 0.75rem;
+    border-bottom: 1px solid __border__;
+  }
 }
 
 #dokuwiki__pagetools ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.125rem;
   padding: 0;
   margin: 0;
 }
 
 #dokuwiki__pagetools ul li {
   position: relative;
-  display: inline;
+  display: block;
   padding: 0;
   margin: 0;
 }
 
 #dokuwiki__pagetools ul li a {
-  padding: 0.5em 1em 0 1em;
-  color: #000;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 2.5rem;
+  box-sizing: border-box;
+  padding: 0.4em 0.7em;
+  border-radius: 0.25rem;
+  color: __text__;
+  font-size: 0.875rem;
   text-decoration: none;
 }
 
-#dokuwiki__pagetools ul li a:hover {
-  text-decoration: underline;
+#dokuwiki__pagetools ul li a:hover,
+#dokuwiki__pagetools ul li a:focus-visible {
+  background: __background_neu__;
+}
+
+#dokuwiki__pagetools svg,
+#zenlike__footer-pagetools svg {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  fill: currentColor;
 }
 
 #menu #rightmenu {
@@ -706,6 +777,7 @@ input.button {
   border: 7px solid #fff;
   background-color: #fff;
   margin: 0 auto;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
 }
 
 #dokuwiki__site > .site {
@@ -716,6 +788,12 @@ input.button {
 
 #dokuwiki__site > .site > .wrapper {
   flex: 1 0 auto;
+}
+
+@media (min-width: 42.01em) {
+  #dokuwiki__site > .site > .wrapper {
+    padding-block-end: 1.5rem;
+  }
 }
 
 #dokuwiki__site > .site > #dokuwiki__footer {
@@ -738,7 +816,7 @@ input.button {
   font-size: __content_font_size__;
 }
 
-.breadcrumbs {
+nav.breadcrumbs {
   padding-left: 2em;
   padding-right: 2em;
 }
@@ -769,11 +847,23 @@ input.button {
   position: relative;
   height: auto;
   clear: both;
-  padding: 2em 0;
-  background:
-    linear-gradient(#eaeaea, #eaeaea) left 0.5em / 100% 1px no-repeat,
-    #fff;
-  font-size: 0.8em;
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid __border__;
+  background: #fff;
+  color: __text_neu__;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 42.01em) {
+  #dokuwiki__footer {
+    padding-block-start: 0.75rem;
+  }
 }
 
 #dokuwiki__footer .pad {
@@ -800,6 +890,10 @@ input.button {
   margin: 0;
 }
 
+#dokuwiki__footer .license img {
+  vertical-align: middle;
+}
+
 .theme-toggle {
   position: absolute;
   top: 0.75em;
@@ -813,7 +907,7 @@ input.button {
   margin: 0;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  border-radius: 0.375rem;
   background: rgba(255, 255, 255, 0.04);
   color: #ddd;
   font: inherit;
@@ -864,17 +958,54 @@ input.button {
 #dw__toc {
   float: right;
   position: static;
-  background: #fdfcf6;
-  left: -1.5em;
-  top: -1.5em;
-  padding: 1.5em;
-  border-bottom: 1px solid #e1d2bd;
-  margin: 1em;
-  width: 16em;
+  box-sizing: border-box;
+  background: #f5f6f1;
+  border: 1px solid __border__;
+  border-radius: 0.5rem;
+  padding: 1em;
+  margin: 0 0 1.5em 1.5em;
+  width: 14rem;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-size: 0.875rem;
 }
 
 #dw__toc h3 {
-  font-size: 1.2em;
+  font-family: inherit;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+#dw__toc a {
+  text-decoration: none;
+}
+
+#dw__toc a:hover,
+#dw__toc a:focus-visible {
+  text-decoration: underline;
+}
+
+#dw__toc ul li {
+  line-height: 1.4;
+}
+
+.dokuwiki pre {
+  border-radius: 0.25rem;
+}
+
+.dokuwiki pre:is(.code, .file) {
+  min-height: 2em;
+}
+
+.dokuwiki :is(div.error, div.info, div.success, div.notify) {
+  border-radius: 0.5rem;
+}
+
+.JSpopup {
+  border-radius: 0.375rem;
 }
 
 .contentarea {

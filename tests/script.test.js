@@ -84,14 +84,14 @@ async function createPage(
           </form>
         </div>
       </div>
-      <nav id="dokuwiki__pagetools">
-        <h3>Page Tools</h3>
-        <ul>
-          <li class="action top"><a href="#dokuwiki__top">Back to top</a></li>
-          <li><a href="/doku.php?id=discussion:welcome" data-wiki-id="discussion:welcome">Discussion</a></li>
-        </ul>
-      </nav>
       <footer id="dokuwiki__footer">
+        <nav id="dokuwiki__pagetools">
+          <h3>Page Tools</h3>
+          <ul>
+            <li class="action top"><a href="#dokuwiki__top">Back to top</a></li>
+            <li><a href="/doku.php?id=discussion:welcome" data-wiki-id="discussion:welcome">Discussion</a></li>
+          </ul>
+        </nav>
         <nav id="zenlike__footer-pagetools" hidden><ul></ul></nav>
       </footer>
       <div class="diffoptions">
@@ -496,6 +496,7 @@ test('restores the search on desktop and updates menu visibility on resize', asy
     '#zenlike__footer-pagetools li.action.top',
   );
 
+  assert.equal(pageTools.parentElement.id, 'dokuwiki__footer');
   setMobile(false);
   assert.equal(toggle.hidden, true);
   assert.equal(toggle.getAttribute('aria-expanded'), 'false');
