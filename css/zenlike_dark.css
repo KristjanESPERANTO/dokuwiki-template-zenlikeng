@@ -80,6 +80,10 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] .mode_index .page > .level1:has(+ #index__tree) > p {
+    color: var(--zenlike-muted);
+  }
+
   :root[data-theme='dark']
     .dokuwiki
     .ui-admin

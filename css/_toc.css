@@ -105,3 +105,45 @@
 [dir='rtl'] .dokuwiki ul.idx li.closed::before {
   transform: rotate(180deg);
 }
+
+.mode_index .page > .level1:has(+ #index__tree) > p {
+  color: __text_neu__;
+  font-size: 0.9rem;
+}
+
+#index__tree ul.idx {
+  margin: 0;
+  padding: 0;
+}
+
+#index__tree ul.idx ul.idx {
+  padding-inline-start: 1.5rem;
+}
+
+#index__tree ul.idx li {
+  padding-inline-start: 1.25rem;
+  line-height: 1.5;
+}
+
+#index__tree ul.idx li::before {
+  top: 0.75em;
+}
+
+#index__tree .li {
+  padding-block: 0.2rem;
+  overflow-wrap: anywhere;
+}
+
+#index__tree a {
+  text-decoration: none;
+}
+
+#index__tree a:hover,
+#index__tree a:focus-visible {
+  text-decoration: underline;
+}
+
+#index__tree a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
