@@ -57,3 +57,79 @@
   clear: right;
   float: left;
 }
+
+.dokuwiki .ui-admin {
+  display: flex;
+  flex-direction: column;
+}
+
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.125rem 1rem;
+  float: none;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font:
+    0.9375rem/1.4 system-ui,
+    sans-serif;
+}
+
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: none;
+  font-weight: normal;
+}
+
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.75rem;
+  box-sizing: border-box;
+  padding: 0.45rem 0.5rem;
+  border-radius: 0.25rem;
+  color: __text__;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) a:hover,
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) a:focus-visible {
+  background: __background_alt__;
+  text-decoration: underline;
+}
+
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) .icon {
+  display: inline-flex;
+  flex: 0 0 1.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) .icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+.dokuwiki .ui-admin #admin__version {
+  order: 1;
+  float: none;
+  margin-block: 1.5rem;
+}
+
+@media (min-width: 42.01em) {
+  .dokuwiki .ui-admin :is(ul.admin_tasks, ul.admin_plugins) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

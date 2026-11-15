@@ -87,21 +87,17 @@
   :root[data-theme='dark']
     .dokuwiki
     .ui-admin
-    ul.admin_tasks
-    li
-    a
-    span.icon
-    svg,
+    :is(ul.admin_tasks, ul.admin_plugins)
+    a {
+    color: var(--zenlike-text);
+  }
+
   :root[data-theme='dark']
     .dokuwiki
     .ui-admin
-    ul.admin_tasks
-    li
-    a
-    span.icon
-    svg
-    path {
-    fill: var(--zenlike-link);
+    :is(ul.admin_tasks, ul.admin_plugins)
+    a:is(:hover, :focus-visible) {
+    background: var(--zenlike-surface-raised);
   }
 
   :root[data-theme='dark'] #dokuwiki__usertools a.wikilink1,
