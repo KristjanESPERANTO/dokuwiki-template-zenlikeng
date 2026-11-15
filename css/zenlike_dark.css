@@ -312,6 +312,39 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] .dokuwiki table.diff :is(th, td) {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-page);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki table.diff th {
+    background-color: var(--zenlike-surface-raised);
+  }
+
+  :root[data-theme='dark'] .dokuwiki table.diff .diff-context {
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki table.diff .diff-addedline {
+    background-color: #28432d;
+    color: #e1f5e2;
+  }
+
+  :root[data-theme='dark'] .dokuwiki table.diff .diff-deletedline {
+    background-color: #492827;
+    color: #ffe0dc;
+  }
+
+  :root[data-theme='dark'] .dokuwiki table.diff .diff-addedline strong {
+    color: #a7e9ae;
+  }
+
+  :root[data-theme='dark'] .dokuwiki table.diff .diff-deletedline strong {
+    color: #ffada6;
+  }
+
   :root[data-theme='dark'] .dokuwiki fieldset details {
     border-color: var(--zenlike-border);
     background-color: var(--zenlike-surface);
