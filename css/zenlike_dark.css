@@ -156,7 +156,8 @@
     color: var(--zenlike-text);
   }
 
-  :root[data-theme='dark'] #desktop-sitetools {
+  :root[data-theme='dark'] #desktop-sitetools,
+  :root[data-theme='dark'] #desktop-sitetools li.user-tools-start {
     border-color: var(--zenlike-border);
   }
 

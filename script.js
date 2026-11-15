@@ -18,6 +18,21 @@ function setupSiteMenuToggle() {
     )
     .forEach((item) => desktopSiteTools?.append(item));
 
+  if (desktopSiteTools) {
+    const userActions = document.querySelectorAll(
+      '#usertools li.action.login, #usertools li.action.register',
+    );
+    if (desktopSiteTools.children.length) {
+      userActions[0]?.classList.add('user-tools-start');
+    }
+    userActions.forEach((item) => desktopSiteTools.append(item));
+
+    const userTools = document.getElementById('usertools');
+    if (userTools && !userTools.querySelector('li')) {
+      userTools.closest('li.menusplit')?.remove();
+    }
+  }
+
   const searchInput = search.querySelector('input.edit');
   const searchButton = search.querySelector(
     'button[type="submit"], input[type="submit"]',

@@ -49,6 +49,7 @@ async function createPage(
   savedTheme = null,
   initialDiffMode = 'sidebyside',
   pageUrl = 'https://example.test/',
+  userToolsItems = '<li class="action profile"><a href="#user">User tools</a></li>',
 ) {
   const dom = new JSDOM(
     `<!doctype html>
@@ -110,10 +111,10 @@ async function createPage(
           <button type="submit">Go</button>
         </form>
       </div>
-      <details>
+      <ul><li class="menusplit"><details>
         <summary id="toggle_usertools">User tools</summary>
-        <div id="usertools"><a href="#user">User tools</a></div>
-      </details>
+        <div id="usertools"><ul>${userToolsItems}</ul></div>
+      </details></li></ul>
     </body></html>`,
     { runScripts: 'outside-only', url: pageUrl },
   );
@@ -575,6 +576,68 @@ test('changes appearance from the desktop tools menu', async () => {
   assert.equal(menu.hidden, true);
   setMobile(false);
   assert.equal(select.value, 'dark');
+  dom.window.close();
+});
+
+test('moves login and registration into desktop tools', async () => {
+  const { document, dom, setMobile } = await createPage(
+    false,
+    false,
+    null,
+    'sidebyside',
+    'https://example.test/',
+    '<li class="action register"><a href="#register">Register</a></li><li class="action login"><a href="#login">Log In</a></li>',
+  );
+
+  assert.ok(document.querySelector('#desktop-sitetools .action.register'));
+  assert.ok(document.querySelector('#desktop-sitetools .action.login'));
+  assert.ok(
+    document
+      .querySelector('#desktop-sitetools .action.register')
+      .classList.contains('user-tools-start'),
+  );
+  assert.equal(
+    document
+      .querySelector('#desktop-sitetools .action.login')
+      .classList.contains('user-tools-start'),
+    false,
+  );
+  assert.equal(document.getElementById('toggle_usertools'), null);
+  setMobile(true);
+  setMobile(false);
+  assert.ok(document.querySelector('#desktop-sitetools .action.login'));
+  dom.window.close();
+});
+
+test('separates login when registration is unavailable', async () => {
+  const { document, dom } = await createPage(
+    false,
+    false,
+    null,
+    'sidebyside',
+    'https://example.test/',
+    '<li class="action login"><a href="#login">Log In</a></li>',
+  );
+
+  assert.ok(
+    document.querySelector('#desktop-sitetools .login.user-tools-start'),
+  );
+  dom.window.close();
+});
+
+test('keeps logged-in user actions in the user menu', async () => {
+  const { document, dom } = await createPage(
+    false,
+    false,
+    null,
+    'sidebyside',
+    'https://example.test/',
+    '<li class="action admin"><a href="#admin">Admin</a></li><li class="action logout"><a href="#logout">Log Out</a></li>',
+  );
+
+  assert.ok(document.querySelector('#usertools .action.admin'));
+  assert.ok(document.querySelector('#usertools .action.logout'));
+  assert.ok(document.getElementById('toggle_usertools'));
   dom.window.close();
 });
 
