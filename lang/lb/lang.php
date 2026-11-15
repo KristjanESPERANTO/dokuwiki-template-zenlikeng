@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Diskussioun';
 $lang['main_navigation'] = 'Haaptmenü';
+$lang['recently_visited'] = 'Viru kuerzem besicht';
 $lang['back_to_article'] = 'Zeréck bei den Artikel';
 $lang['userpage']        = 'Benotzersäit';

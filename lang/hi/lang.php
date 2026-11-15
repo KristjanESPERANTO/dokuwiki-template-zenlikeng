@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'चर्चा';
 $lang['main_navigation'] = 'मुख्य मेनू';
+$lang['recently_visited'] = 'हाल ही में देखे गए';
 $lang['back_to_article'] = 'वापस लेख करने के लिए';
 $lang['userpage']        = 'सदस्य';

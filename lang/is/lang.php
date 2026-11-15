@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Spjall';
 $lang['main_navigation'] = 'Aðalvalmynd';
+$lang['recently_visited'] = 'Nýlega heimsótt';
 $lang['back_to_article'] = 'Til baka á greinar';
 $lang['userpage']        = 'Notandi';

@@ -8,5 +8,6 @@
 
 $lang['discussion']      = 'Обсуждение';
 $lang['main_navigation'] = 'Главное меню';
+$lang['recently_visited'] = 'Недавно посещённые';
 $lang['back_to_article'] = 'Назад к статье';
 $lang['userpage']        = 'Участник';

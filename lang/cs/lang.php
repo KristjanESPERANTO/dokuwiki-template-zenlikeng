@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Diskuse';
 $lang['main_navigation'] = 'Hlavní nabídka';
+$lang['recently_visited'] = 'Naposledy navštívené';
 $lang['back_to_article'] = 'Zpet na clánek';
 $lang['userpage']        = 'Uživatelova stránka';

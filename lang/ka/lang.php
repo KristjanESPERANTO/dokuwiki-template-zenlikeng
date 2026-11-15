@@ -6,5 +6,6 @@
 
 $lang['discussion']      = 'განხილვა';
 $lang['main_navigation'] = 'მთავარი მენიუ';
+$lang['recently_visited'] = 'ბოლოს მონახულებული';
 $lang['back_to_article'] = 'სტატიაზე დაბრუნება';
 $lang['userpage']        = 'მომხმარებლის გვერდი';

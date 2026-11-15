@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Dinika';
 $lang['main_navigation'] = 'Menu lehibe';
+$lang['recently_visited'] = 'Vao notsidihina';
 $lang['back_to_article'] = 'Hiverina amin’ny lahatsoratra';
 $lang['userpage']        = 'Pejy ny mpikambana';

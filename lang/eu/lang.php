@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Eztabaida';
 $lang['main_navigation'] = 'Menu nagusia';
+$lang['recently_visited'] = 'Azken bisitak';
 $lang['back_to_article'] = 'Bueltatu';
 $lang['userpage']        = 'Lankide orrialdea';//Erabiltzaile orrialdea

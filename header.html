@@ -161,8 +161,19 @@
 
 <!-- BREADCRUMBS -->
 <?php if ($conf['breadcrumbs']): ?>
-<nav class="breadcrumbs" aria-label="<?= hsc($lang['breadcrumb']) ?>">
-  <?php tpl_breadcrumbs() ?>
+<nav
+  class="breadcrumbs breadcrumb-trace"
+  aria-label="<?= hsc(tpl_getLang('recently_visited')) ?>"
+>
+  <?php
+    $breadcrumbLabel = $lang['breadcrumb'];
+    $lang['breadcrumb'] = hsc(tpl_getLang('recently_visited') . ':');
+    try {
+        tpl_breadcrumbs();
+    } finally {
+        $lang['breadcrumb'] = $breadcrumbLabel;
+    }
+  ?>
 </nav>
 <?php endif; ?>
 <?php if ($conf['youarehere']): ?>

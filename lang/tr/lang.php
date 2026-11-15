@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Tartışma';
 $lang['main_navigation'] = 'Ana menü';
+$lang['recently_visited'] = 'Son ziyaret edilenler';
 $lang['back_to_article'] = 'Geri makalenin';
 $lang['userpage']        = 'Kullanıcı sayfası';

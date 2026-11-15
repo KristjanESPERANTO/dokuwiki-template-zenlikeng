@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Disputatio';
 $lang['main_navigation'] = 'Menu principale';
+$lang['recently_visited'] = 'Nuper visitata';
 $lang['back_to_article'] = 'Redi ad articulum';
 $lang['userpage']        = 'Pagina usoris';

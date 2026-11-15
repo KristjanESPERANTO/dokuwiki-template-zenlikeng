@@ -6,6 +6,7 @@
 
 $lang['discussion']        = 'Diskuto';
 $lang['main_navigation']   = 'Ĉefa menuo';
+$lang['recently_visited']  = 'Lastatempe vizititaj';
 $lang['back_to_article']   = 'Reen al artikolo';
 $lang['userpage']          = 'Paĝo de uzanto';
 $lang['appearance']        = 'Aspekto';

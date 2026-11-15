@@ -451,6 +451,12 @@ ul.linklist li {
   margin-bottom: 1.5em;
 }
 
+@media (min-width: 42.01em) {
+  #menubottom:has(+ .breadcrumb-trace) {
+    margin-bottom: 0;
+  }
+}
+
 #content {
   padding: 0em 2em 0em 2em;
 }
@@ -984,6 +990,48 @@ input.button {
 nav.breadcrumbs {
   padding-left: 2em;
   padding-right: 2em;
+}
+
+nav.breadcrumb-trace {
+  padding-block: 0.35rem;
+  color: __text_neu__;
+  font:
+    0.875rem/1.6 system-ui,
+    sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.breadcrumb-trace .bchead {
+  margin-inline-end: 0.5em;
+  font-weight: 600;
+}
+
+.breadcrumb-trace .bchead + .bcsep {
+  display: none;
+}
+
+.breadcrumb-trace .bcsep {
+  margin-inline: 0.2em;
+  color: __text_alt__;
+}
+
+.breadcrumb-trace a.breadcrumbs {
+  text-decoration: none;
+}
+
+.breadcrumb-trace a.breadcrumbs:hover,
+.breadcrumb-trace a.breadcrumbs:focus-visible {
+  text-decoration: underline;
+}
+
+.breadcrumb-trace a.breadcrumbs:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.breadcrumb-trace .curid a.breadcrumbs {
+  color: __text__;
+  font-weight: 600;
 }
 
 #zenlikeheader ul.a11y.skip:focus-within {

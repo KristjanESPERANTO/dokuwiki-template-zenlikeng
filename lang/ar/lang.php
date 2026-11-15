@@ -7,6 +7,7 @@
 
 $lang['discussion']      = 'نقاش';
 $lang['main_navigation'] = 'القائمة الرئيسية';
+$lang['recently_visited'] = 'تمت زيارتها مؤخراً';
 $lang['back_to_article'] = 'عودة إلى المقالة';
 //العودة إلى المقال
 $lang['userpage']        = 'صفحة مستخدم';

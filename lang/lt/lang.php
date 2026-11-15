@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Aptarimas';
 $lang['main_navigation'] = 'Pagrindinis meniu';
+$lang['recently_visited'] = 'Neseniai lankyta';
 $lang['back_to_article'] = 'Atgal i straipsni';
 $lang['userpage']        = 'Naudotojo puslapis';

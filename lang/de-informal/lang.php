@@ -5,6 +5,7 @@
  */
 
 $lang['discussion']      = 'Diskussion';
+$lang['recently_visited'] = 'Zuletzt besucht';
 $lang['main_navigation'] = 'Hauptmenü';
 $lang['back_to_article'] = 'Zurück zum Artikel';
 $lang['userpage']        = 'Benutzerseite';

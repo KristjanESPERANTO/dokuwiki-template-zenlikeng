@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Overleg';
 $lang['main_navigation'] = 'Hoofdmenu';
+$lang['recently_visited'] = 'Recent bezocht';
 $lang['back_to_article'] = 'Terug naar artikel';
 $lang['userpage']        = 'Gebruikerspagina';

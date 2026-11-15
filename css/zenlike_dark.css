@@ -68,6 +68,18 @@
     color: var(--zenlike-missing);
   }
 
+  :root[data-theme='dark'] nav.breadcrumb-trace {
+    color: var(--zenlike-muted);
+  }
+
+  :root[data-theme='dark'] .breadcrumb-trace .bcsep {
+    color: var(--zenlike-muted);
+  }
+
+  :root[data-theme='dark'] .breadcrumb-trace .curid a.breadcrumbs {
+    color: var(--zenlike-text);
+  }
+
   :root[data-theme='dark']
     .dokuwiki
     .ui-admin

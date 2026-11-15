@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Συζήτηση';
 $lang['main_navigation'] = 'Κύριο μενού';
+$lang['recently_visited'] = 'Πρόσφατες επισκέψεις';
 $lang['back_to_article'] = 'Πίσω στα άρθρα';
 $lang['userpage']        = 'Σελίδα χρήστη';

@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'بحث';
 $lang['main_navigation'] = 'منوی اصلی';
+$lang['recently_visited'] = 'بازدیدهای اخیر';
 $lang['back_to_article'] = 'برگشت به مقاله';
 $lang['userpage']        = 'صفحهٔ کاربر';

@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'ការពិភាក្សា';
 $lang['main_navigation'] = 'ម៉ឺនុយមេ';
+$lang['recently_visited'] = 'បានមើលថ្មីៗ';
 $lang['back_to_article'] = 'ត្រឡប់ទៅអត្ថបទ';
 $lang['userpage']        = 'ទំព័រអ្នកប្រើប្រាស់';

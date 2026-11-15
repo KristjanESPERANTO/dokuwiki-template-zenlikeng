@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Diskussion';
 $lang['main_navigation'] = 'Huvudmeny';
+$lang['recently_visited'] = 'Senast besökta';
 $lang['back_to_article'] = 'Tillbaka till artikeln';
 $lang['userpage']        = 'Användarsida';

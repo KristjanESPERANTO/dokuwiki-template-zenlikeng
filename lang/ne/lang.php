@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'वार्तालाप';
 $lang['main_navigation'] = 'मुख्य मेनु';
+$lang['recently_visited'] = 'हालै हेरिएका पृष्ठहरू';
 $lang['back_to_article'] = 'लेखमा फर्कनुहोस्';
 $lang['userpage']        = 'प्रयोगकर्ता पृष्ठ';

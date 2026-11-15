@@ -7,5 +7,6 @@
 
 $lang['discussion']      = '議論';
 $lang['main_navigation'] = 'メインメニュー';
+$lang['recently_visited'] = '最近閲覧したページ';
 $lang['back_to_article'] = '戻る記事へ';
 $lang['userpage']        = '利用者ページ';

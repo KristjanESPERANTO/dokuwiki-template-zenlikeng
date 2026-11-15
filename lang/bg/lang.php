@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Беседа';
 $lang['main_navigation'] = 'Главно меню';
+$lang['recently_visited'] = 'Наскоро посетени';
 $lang['back_to_article'] = 'Обратно към статията';
 $lang['userpage']        = 'Потребител';

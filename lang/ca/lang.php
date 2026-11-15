@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Discussió';
 $lang['main_navigation'] = 'Menú principal';
+$lang['recently_visited'] = 'Visitades recentment';
 $lang['back_to_article'] = 'Tornar al article';
 $lang['userpage']        = "Pàgina d'usuari";

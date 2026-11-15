@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Razgovor';
 $lang['main_navigation'] = 'Glavni izbornik';
+$lang['recently_visited'] = 'Nedavno posjećeno';
 $lang['back_to_article'] = 'Natrag na clanak';
 $lang['userpage']        = 'Stranica suradnika';

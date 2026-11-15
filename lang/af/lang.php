@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Bespreking';
 $lang['main_navigation'] = 'Hoofkieslys';
+$lang['recently_visited'] = 'Onlangs besoek';
 $lang['back_to_article'] = 'Terug na die artikel';
 $lang['userpage']        = 'Gebruikersbladsy';

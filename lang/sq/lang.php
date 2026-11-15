@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Diskutimet';
 $lang['main_navigation'] = 'Menuja kryesore';
+$lang['recently_visited'] = 'Vizituar së fundi';
 $lang['back_to_article'] = 'Kthehu tek artikulli';
 $lang['userpage']        = 'Përdoruesi';

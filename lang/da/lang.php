@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Diskussion';
 $lang['main_navigation'] = 'Hovedmenu';
+$lang['recently_visited'] = 'Senest besøgt';
 $lang['back_to_article'] = 'Tilbage til artiklen';
 $lang['userpage']        = 'Brugerside';

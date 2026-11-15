@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Diskusija';
 $lang['main_navigation'] = 'Galvenā izvēlne';
+$lang['recently_visited'] = 'Nesen apmeklēts';
 $lang['back_to_article'] = 'Atpakaļ uz rakstu';
 $lang['userpage']        = 'Lietotāja lapa';

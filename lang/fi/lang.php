@@ -7,5 +7,6 @@
 
 $lang['discussion']      = 'Keskustelu';
 $lang['main_navigation'] = 'Päävalikko';
+$lang['recently_visited'] = 'Viimeksi vieraillut';
 $lang['back_to_article'] = 'Takaisin artikkeliin';
 $lang['userpage']        = 'Käyttäjäsivu';
