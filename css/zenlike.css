@@ -721,6 +721,171 @@ input.button {
   fill: currentColor;
 }
 
+#dokuwiki__pagetools li.discussion a::after,
+#menu .mobile-tools-list li.discussion a::after {
+  content: '';
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  background: currentColor;
+  -webkit-mask: url('images/discussion.svg') center / contain no-repeat;
+  mask: url('images/discussion.svg') center / contain no-repeat;
+}
+
+.zenlike-menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 18px;
+}
+
+.zenlike-menu-icon span {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+#toggle_sitemenu:not([hidden]) {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.375rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+#toggle_sitemenu:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+#toggle_sitemenu:hover,
+#toggle_sitemenu[aria-expanded='true'] {
+  background: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+}
+
+#desktop-tools-content {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+  z-index: 20;
+  margin-top: 44px;
+  width: 18rem;
+  max-width: 90vw;
+  max-height: 70vh;
+  overflow: auto;
+  border: 1px solid __border__;
+  background: __background__;
+  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+#desktop-tools-content #dokuwiki__pagetools {
+  position: static;
+  width: auto;
+  margin: 0;
+  padding: 0.25rem;
+  border: 0;
+}
+
+#desktop-tools-content #dokuwiki__pagetools ul {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#desktop-tools-content #dokuwiki__pagetools ul li a {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 2.5rem;
+  color: __text__;
+  text-align: start;
+}
+
+#desktop-sitetools {
+  padding: 0.25rem;
+  border-top: 1px solid __border__;
+}
+
+#desktop-sitetools ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#desktop-sitetools li {
+  margin: 0;
+}
+
+#desktop-sitetools a {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 2.5rem;
+  box-sizing: border-box;
+  padding: 0.4em 0.7em;
+  border-radius: 0.25rem;
+  color: __text__;
+  font-family: system-ui, sans-serif;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+#desktop-sitetools a:hover,
+#desktop-sitetools a:focus-visible {
+  background: __background_neu__;
+}
+
+#desktop-sitetools a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+#desktop-sitetools svg {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  fill: currentColor;
+}
+
+.desktop-appearance {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.75rem;
+  border-top: 1px solid __border__;
+  color: __text__;
+  font-family: system-ui, sans-serif;
+  font-size: 0.875rem;
+  text-align: start;
+}
+
+.desktop-appearance select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.4rem;
+}
+
 #menu #rightmenu {
   float: none;
   width: auto;
@@ -894,6 +1059,44 @@ nav.breadcrumbs {
   vertical-align: middle;
 }
 
+#zenlike__footer-pagetools:not([hidden]) {
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  width: 100%;
+  padding-top: 0.5em;
+  border-top: 1px solid __border__;
+}
+
+#zenlike__footer-pagetools ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#zenlike__footer-pagetools li.top {
+  margin: 0;
+}
+
+#zenlike__footer-pagetools li.top a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 2.5rem;
+  padding: 0 0.5em;
+  text-decoration: none;
+}
+
+#zenlike__footer-pagetools li.top a:hover {
+  text-decoration: underline;
+}
+
+#zenlike__footer-pagetools li.top a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 .theme-toggle {
   position: absolute;
   top: 0.75em;
@@ -937,7 +1140,7 @@ nav.breadcrumbs {
   #dokuwiki__footer .pad {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: 'license doc';
+    grid-template-areas: 'license doc' 'top top';
     align-items: center;
     column-gap: 2em;
   }
@@ -950,6 +1153,10 @@ nav.breadcrumbs {
 
   #dokuwiki__footer .pad .license {
     grid-area: license;
+  }
+
+  #zenlike__footer-pagetools {
+    grid-area: top;
   }
 }
 

@@ -55,7 +55,7 @@ async function createPage(
     <html><body>
       <div class="headings">
         <div id="headercontent"></div>
-        <button id="toggle_sitemenu" aria-expanded="false" hidden></button>
+        <button id="toggle_sitemenu" aria-expanded="false" data-mobile-label="Menu" data-desktop-label="Tools" hidden></button>
         <div id="header-tools">
           <div id="search">
             <form>
@@ -64,12 +64,14 @@ async function createPage(
             </form>
           </div>
         </div>
+        <div id="desktop-tools-content" hidden><div id="desktop-pagetools-content"></div><nav id="desktop-sitetools"><ul></ul></nav><label for="desktop-theme">Appearance</label><select id="desktop-theme"></select></div>
         <button id="toggle_theme" data-appearance-label="Appearance" data-theme-system-label="System" data-theme-light-label="Light" data-theme-dark-label="Dark" data-next-label="Next mode" aria-label="Appearance: System. Next mode: Light" title="Appearance: System. Next mode: Light"><span class="appearance-icon" aria-hidden="true">◐</span></button>
       </div>
       <button id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="true" hidden>Sidebar</button>
       <nav id="dokuwiki__aside"><a href="#sidebar">Sidebar link</a></nav>
       <div id="zenlike__menucontent" hidden>
         <nav><a href="#page">Page</a></nav>
+        <div class="desktop-tools"><ul class="desktop-menu"><li class="action recent"><a href="#recent">Recent Changes</a></li><li class="action media"><a href="#media">Media Manager</a></li><li class="action index"><a href="#index">Sitemap</a></li><li class="action plugin"><a href="#plugin">Plugin</a></li></ul></div>
         <div class="mobile-tools">
           <form>
             <select name="do">
@@ -82,6 +84,12 @@ async function createPage(
               </optgroup>
             </select>
           </form>
+          <div class="mobile-tools-list" hidden>
+            <section class="mobile-tools-group" data-mobile-group="page"><ul><li><button type="button" data-mobile-action="edit"><svg></svg><span>Edit this page</span></button></li></ul></section>
+            <section class="mobile-tools-group" data-mobile-group="site"><ul><li><button type="button" data-mobile-action="recent"><svg></svg><span>Recent Changes</span></button></li><li><button type="button" data-mobile-action="missing"><svg></svg><span>Unavailable</span></button></li></ul></section>
+            <section class="mobile-tools-group" data-mobile-group="user"><ul></ul></section>
+            <label for="mobile-theme">Appearance</label><select id="mobile-theme"></select>
+          </div>
         </div>
       </div>
       <footer id="dokuwiki__footer">
@@ -89,7 +97,7 @@ async function createPage(
           <h3>Page Tools</h3>
           <ul>
             <li class="action top"><a href="#dokuwiki__top">Back to top</a></li>
-            <li><a href="/doku.php?id=discussion:welcome" data-wiki-id="discussion:welcome">Discussion</a></li>
+            <li class="action discussion"><a href="/doku.php?id=talk:welcome" data-wiki-id="talk:welcome">Discussion</a></li>
           </ul>
         </nav>
         <nav id="zenlike__footer-pagetools" hidden><ul></ul></nav>
@@ -320,102 +328,52 @@ test('follows system appearance and stores explicit theme choices', async () => 
   dom.window.close();
 });
 
-test('adds theme modes to mobile tools without submitting navigation', async () => {
+test('uses icon actions and synchronized appearance in mobile tools', async () => {
   const { document, dom } = await createPage();
-  const select = document.querySelector('.mobile-tools select');
-  const toggle = document.getElementById('toggle_theme');
+  const select = document.querySelector('.mobile-tools form select');
+  const theme = document.getElementById('mobile-theme');
+  const desktopTheme = document.getElementById('desktop-theme');
+  const tools = document.querySelector('.mobile-tools-list');
   const menuToggle = document.getElementById('toggle_sitemenu');
   const menu = document.getElementById('zenlike__menucontent');
-  const pageToolsGroup = select.querySelector('optgroup[label="Page Tools"]');
-  const appearanceGroup = select.querySelector('optgroup[label="Appearance"]');
-  const appearanceOptions = [...appearanceGroup.querySelectorAll('option')];
-  const discussionOption = pageToolsGroup.querySelector(
-    'option[value="zenlike-action-discussion"]',
-  );
-  const discussionLink = document.querySelector(
-    '#dokuwiki__pagetools a[data-wiki-id="discussion:welcome"]',
-  );
-  const backToTopLink = document.querySelector(
-    '#zenlike__footer-pagetools li.action.top > a',
-  );
-  let submissions = 0;
-  let discussionSelected = false;
+  const discussionLink = tools.querySelector('li.discussion a');
+  let action = null;
 
   discussionLink.addEventListener('click', (event) => {
     event.preventDefault();
-    discussionSelected = true;
   });
-
   select.addEventListener('change', () => {
-    submissions += 1;
+    action = select.value;
   });
 
-  assert.equal(select.options[0].hidden, true);
-  assert.equal(appearanceGroup.label, 'Appearance');
+  assert.equal(tools.hidden, false);
+  assert.equal(select.closest('form').hidden, true);
+  assert.equal(tools.querySelectorAll('[data-mobile-action] svg').length, 2);
+  assert.equal(tools.querySelector('[data-mobile-action="missing"]'), null);
+  assert.equal(tools.querySelector('[data-mobile-group="user"]').hidden, true);
+  assert.equal(discussionLink.getAttribute('data-wiki-id'), 'talk:welcome');
   assert.deepEqual(
-    appearanceOptions.map((option) => option.value),
-    ['zenlike-theme-system', 'zenlike-theme-light', 'zenlike-theme-dark'],
+    [...theme.options].map((option) => option.value),
+    ['system', 'light', 'dark'],
   );
-  assert.equal(discussionOption.textContent, 'Discussion');
-  assert.equal(
-    select.querySelector('option[value="zenlike-action-top"]'),
-    null,
-  );
-  assert.equal(backToTopLink.textContent.trim(), 'Back to top');
-  assert.deepEqual(
-    appearanceOptions.map((option) => option.textContent),
-    ['✓ System', 'Light', 'Dark'],
-  );
-  assert.equal(toggle.hidden, true);
 
   menuToggle.click();
-  select.value = 'zenlike-theme-light';
-  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
-
-  assert.equal(menu.hidden, true);
-  assert.equal(menuToggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(document.activeElement, menuToggle);
-  assert.equal(document.documentElement.getAttribute('data-theme'), 'light');
-  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'light');
-  assert.deepEqual(
-    appearanceOptions.map((option) => option.textContent),
-    ['System', '✓ Light', 'Dark'],
-  );
-  assert.equal(select.value, '');
-  assert.equal(submissions, 0);
-
-  menuToggle.click();
-  select.value = 'zenlike-theme-dark';
-  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  theme.value = 'dark';
+  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
   assert.equal(document.documentElement.getAttribute('data-theme'), 'dark');
   assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'dark');
-  assert.deepEqual(
-    appearanceOptions.map((option) => option.textContent),
-    ['System', 'Light', '✓ Dark'],
-  );
+  assert.equal(desktopTheme.value, 'dark');
+  assert.equal(action, null);
 
-  menuToggle.click();
-  select.value = 'zenlike-theme-system';
-  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
-  assert.equal(document.documentElement.getAttribute('data-theme'), 'light');
-  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'system');
-  assert.deepEqual(
-    appearanceOptions.map((option) => option.textContent),
-    ['✓ System', 'Light', 'Dark'],
-  );
-
-  menuToggle.click();
-  select.value = discussionOption.value;
-  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
-  assert.equal(discussionSelected, true);
+  tools.querySelector('[data-mobile-action="recent"]').click();
+  assert.equal(action, 'recent');
   assert.equal(menu.hidden, true);
   assert.equal(menuToggle.getAttribute('aria-expanded'), 'false');
   assert.equal(document.activeElement, menuToggle);
-  assert.equal(submissions, 0);
 
-  select.value = 'recent';
-  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
-  assert.equal(submissions, 1);
+  menuToggle.click();
+  discussionLink.click();
+  assert.equal(menu.hidden, true);
 
   dom.window.close();
 });
@@ -498,18 +456,29 @@ test('restores the search on desktop and updates menu visibility on resize', asy
 
   assert.equal(pageTools.parentElement.id, 'dokuwiki__footer');
   setMobile(false);
-  assert.equal(toggle.hidden, true);
+  assert.equal(toggle.hidden, false);
   assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(toggle.getAttribute('aria-controls'), 'desktop-tools-content');
+  assert.equal(toggle.getAttribute('aria-label'), 'Tools');
   assert.equal(menu.hidden, false);
   assert.equal(search.parentElement, searchHome);
   assert.equal(themeToggle.parentElement, themeHome);
-  assert.equal(themeToggle.hidden, false);
+  assert.equal(themeToggle.hidden, true);
   assert.equal(sidebarToggle.hidden, true);
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'true');
   assert.equal(sidebar.hidden, false);
-  assert.equal(backToTop.parentElement, pageTools.querySelector('ul'));
+  assert.equal(pageTools.parentElement.id, 'desktop-pagetools-content');
+  assert.equal(backToTop.parentElement, footerPageTools.querySelector('ul'));
   assert.equal(pageTools.hidden, false);
-  assert.equal(footerPageTools.hidden, true);
+  assert.equal(footerPageTools.hidden, false);
+  assert.equal(document.getElementById('desktop-tools-content').hidden, true);
+  assert.deepEqual(
+    [...document.querySelectorAll('#desktop-sitetools li')].map(
+      (item) => item.className,
+    ),
+    ['action recent', 'action media', 'action index'],
+  );
+  assert.ok(document.querySelector('.desktop-menu > li.action.plugin'));
 
   setMobile(true);
   assert.equal(toggle.hidden, false);
@@ -521,16 +490,65 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'false');
   assert.equal(sidebar.hidden, true);
   assert.equal(backToTop.parentElement, footerPageTools.querySelector('ul'));
+  assert.equal(pageTools.parentElement.id, 'dokuwiki__footer');
   assert.equal(pageTools.hidden, true);
   assert.equal(footerPageTools.hidden, false);
+  assert.equal(document.getElementById('desktop-tools-content').hidden, true);
+  assert.equal(toggle.getAttribute('aria-controls'), 'zenlike__menucontent');
+  assert.equal(toggle.getAttribute('aria-label'), 'Menu');
 
+  dom.window.close();
+});
+
+test('closes desktop page tools on Escape and outside click', async () => {
+  const { document, dom } = await createPage(false);
+  const menu = document.getElementById('desktop-tools-content');
+  const toggle = document.getElementById('toggle_sitemenu');
+
+  toggle.click();
+  assert.equal(menu.hidden, false);
+  document.dispatchEvent(
+    new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+  );
+  assert.equal(menu.hidden, true);
+  assert.equal(document.activeElement, toggle);
+
+  toggle.click();
+  document.body.click();
+  assert.equal(menu.hidden, true);
+
+  toggle.click();
+  document.querySelector('#dokuwiki__pagetools a').click();
+  assert.equal(menu.hidden, true);
+
+  dom.window.close();
+});
+
+test('changes appearance from the desktop tools menu', async () => {
+  const { document, dom, setMobile } = await createPage(false);
+  const select = document.getElementById('desktop-theme');
+  assert.deepEqual(
+    [...select.options].map((option) => option.value),
+    ['system', 'light', 'dark'],
+  );
+  select.value = 'dark';
+  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  assert.equal(document.documentElement.dataset.theme, 'dark');
+  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'dark');
+  const menu = document.getElementById('desktop-tools-content');
+  document.getElementById('toggle_sitemenu').click();
+  assert.equal(menu.hidden, false);
+  setMobile(true);
+  assert.equal(menu.hidden, true);
+  setMobile(false);
+  assert.equal(select.value, 'dark');
   dom.window.close();
 });
 
 test('uses native details disclosure for user tools', async () => {
   const { document, dom } = await createPage();
-  const disclosure = document.querySelector('details');
   const toggle = document.getElementById('toggle_usertools');
+  const disclosure = toggle.closest('details');
 
   assert.equal(disclosure.open, false);
   toggle.click();

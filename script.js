@@ -6,7 +6,18 @@ function setupSiteMenuToggle() {
   const search = document.getElementById('search');
   const pageTools = document.getElementById('dokuwiki__pagetools');
   const footerPageTools = document.getElementById('zenlike__footer-pagetools');
-  if (!toggle || !menuContent || !search) return;
+  const desktopMenu = document.getElementById('desktop-tools-content');
+  const desktopPageToolsContent = document.getElementById(
+    'desktop-pagetools-content',
+  );
+  const desktopSiteTools = document.querySelector('#desktop-sitetools ul');
+  if (!toggle || !menuContent || !search || !desktopMenu) return;
+
+  document
+    .querySelectorAll(
+      '.desktop-menu > li.action.recent, .desktop-menu > li.action.media, .desktop-menu > li.action.index',
+    )
+    .forEach((item) => desktopSiteTools?.append(item));
 
   const searchInput = search.querySelector('input.edit');
   const searchButton = search.querySelector(
@@ -23,29 +34,27 @@ function setupSiteMenuToggle() {
   const searchHome = search.parentElement;
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
   const backToTop = pageTools?.querySelector('li.top');
-  const originalTopList = backToTop?.parentElement;
-  const originalTopNext = backToTop?.nextSibling;
+  const pageToolsHome = pageTools?.parentElement;
+  const pageToolsNext = pageTools?.nextSibling;
+  function updatePageToolsLocation() {
+    if (!pageTools || !pageToolsHome || !desktopPageToolsContent) return;
 
-  function updateBackToTopLocation() {
-    if (!backToTop || !originalTopList || !footerPageTools) return;
-
-    if (mobileViewport.matches) {
-      const footerList = footerPageTools.querySelector('ul');
-      if (!footerList) return;
-
+    const footerList = footerPageTools?.querySelector('ul');
+    if (backToTop && footerList) {
       footerList.append(backToTop);
       footerPageTools.hidden = false;
+    }
+
+    if (mobileViewport.matches) {
+      pageToolsHome.insertBefore(
+        pageTools,
+        pageToolsNext?.parentElement === pageToolsHome ? pageToolsNext : null,
+      );
       pageTools.hidden = true;
       return;
     }
 
-    originalTopList.insertBefore(
-      backToTop,
-      originalTopNext?.parentElement === originalTopList
-        ? originalTopNext
-        : null,
-    );
-    footerPageTools.hidden = true;
+    desktopPageToolsContent.append(pageTools);
     pageTools.hidden = false;
   }
 
@@ -56,21 +65,35 @@ function setupSiteMenuToggle() {
       searchHome.appendChild(search);
     }
 
-    toggle.hidden = !mobileViewport.matches;
+    toggle.hidden = false;
     menuContent.hidden = mobileViewport.matches;
+    desktopMenu.hidden = true;
     toggle.setAttribute('aria-expanded', 'false');
-    updateBackToTopLocation();
+    toggle.setAttribute(
+      'aria-controls',
+      mobileViewport.matches ? menuContent.id : desktopMenu.id,
+    );
+    toggle.setAttribute(
+      'aria-label',
+      mobileViewport.matches
+        ? toggle.dataset.mobileLabel
+        : toggle.dataset.desktopLabel,
+    );
+    updatePageToolsLocation();
   }
 
-  function closeMenu() {
+  function closeMenu(restoreFocus = false) {
     toggle.setAttribute('aria-expanded', 'false');
-    menuContent.hidden = true;
+    if (mobileViewport.matches) menuContent.hidden = true;
+    else desktopMenu.hidden = true;
+    if (restoreFocus) toggle.focus();
   }
 
   toggle.addEventListener('click', function () {
     const expanded = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!expanded));
-    menuContent.hidden = expanded;
+    if (mobileViewport.matches) menuContent.hidden = expanded;
+    else desktopMenu.hidden = expanded;
   });
 
   menuContent.addEventListener('click', function (event) {
@@ -78,15 +101,30 @@ function setupSiteMenuToggle() {
   });
 
   document.addEventListener('keydown', function (event) {
-    if (event.key !== 'Escape' || !mobileViewport.matches || menuContent.hidden)
+    if (
+      event.key !== 'Escape' ||
+      toggle.getAttribute('aria-expanded') !== 'true'
+    )
       return;
-    closeMenu();
-    toggle.focus();
+    closeMenu(true);
+  });
+
+  document.addEventListener('click', function (event) {
+    if (
+      mobileViewport.matches ||
+      desktopMenu.hidden ||
+      toggle.contains(event.target)
+    )
+      return;
+    if (!desktopMenu.contains(event.target) || event.target.closest('a')) {
+      closeMenu();
+    }
   });
 
   mobileViewport.addEventListener('change', updateMenuVisibility);
 
   updateMenuVisibility();
+  return closeMenu;
 }
 
 function setupSidebarToggle() {
@@ -217,7 +255,7 @@ function setupResponsiveDiff() {
   updateDiffType();
 }
 
-function setupThemePreference() {
+function setupThemePreference(closeSiteMenu) {
   const toggle = document.getElementById('toggle_theme');
   if (!toggle) return;
 
@@ -225,12 +263,14 @@ function setupThemePreference() {
   const modes = ['system', 'light', 'dark'];
   const themeHome = toggle.parentElement;
   const toolsSelect = document.querySelector('.mobile-tools select');
+  const mobileTools = document.querySelector('.mobile-tools-list');
+  const mobileTheme = document.getElementById('mobile-theme');
+  const desktopTheme = document.getElementById('desktop-theme');
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
   const systemPreference = document.defaultView.matchMedia(
     '(prefers-color-scheme: dark)',
   );
   const root = document.documentElement;
-  const appearanceOptions = new Map();
   let preference = 'system';
 
   function readStoredPreference() {
@@ -274,99 +314,67 @@ function setupThemePreference() {
       dark: '☾',
     }[preference];
 
-    appearanceOptions.forEach((option, mode) => {
-      const label = toggle.dataset[`theme${capitalize(mode)}Label`];
-      option.textContent = `${preference === mode ? '✓ ' : ''}${label}`;
-    });
+    if (mobileTheme) mobileTheme.value = preference;
+    if (desktopTheme) desktopTheme.value = preference;
   }
 
   function capitalize(value) {
     return value[0].toUpperCase() + value.slice(1);
   }
 
-  function closeMobileMenu() {
-    if (!mobileViewport.matches) return;
-
-    const menuToggle = document.getElementById('toggle_sitemenu');
-    const menuContent = document.getElementById('zenlike__menucontent');
-    if (!menuToggle || !menuContent) return;
-
-    menuToggle.setAttribute('aria-expanded', 'false');
-    menuContent.hidden = true;
-    menuToggle.focus();
-  }
-
-  if (toolsSelect) {
-    const placeholder = toolsSelect.querySelector('option[value=""]');
-    if (placeholder) placeholder.hidden = true;
+  if (toolsSelect && mobileTools && mobileTheme) {
     const pageTools = document.getElementById('dokuwiki__pagetools');
-    const menuActions = new Map();
-
-    const appearanceGroup = document.createElement('optgroup');
-    appearanceGroup.label = toggle.dataset.appearanceLabel;
-    modes.forEach((mode) => {
-      const option = document.createElement('option');
-      option.value = `zenlike-theme-${mode}`;
-      option.textContent = toggle.dataset[`theme${capitalize(mode)}Label`];
-      appearanceGroup.append(option);
-      appearanceOptions.set(mode, option);
-    });
-    toolsSelect.append(appearanceGroup);
-
-    const discussionLink = pageTools?.querySelector(
-      'a[data-wiki-id^="discussion:"]',
+    const availableActions = new Set(
+      [...toolsSelect.options].map((option) => option.value),
     );
-    if (discussionLink) {
-      const pageToolsHeading = pageTools
-        .querySelector('h3')
-        ?.textContent.trim();
-      let pageToolsGroup = [...toolsSelect.querySelectorAll('optgroup')].find(
-        (group) => group.label === pageToolsHeading,
-      );
-      if (!pageToolsGroup && pageToolsHeading) {
-        pageToolsGroup = document.createElement('optgroup');
-        pageToolsGroup.label = pageToolsHeading;
-        toolsSelect.prepend(pageToolsGroup);
+    mobileTools.querySelectorAll('[data-mobile-action]').forEach((button) => {
+      if (!availableActions.has(button.dataset.mobileAction)) {
+        button.parentElement.remove();
+        return;
       }
+      button.addEventListener('click', function () {
+        toolsSelect.value = button.dataset.mobileAction;
+        if (mobileViewport.matches) closeSiteMenu?.(true);
+        toolsSelect.dispatchEvent(
+          new document.defaultView.Event('change', { bubbles: true }),
+        );
+      });
+    });
 
-      if (pageToolsGroup) {
-        const option = document.createElement('option');
-        option.value = 'zenlike-action-discussion';
-        option.textContent = discussionLink.textContent.trim();
-        pageToolsGroup.append(option);
-        menuActions.set(option.value, discussionLink);
-      }
+    const discussionLink = pageTools?.querySelector('li.discussion a');
+    const pageToolsList = mobileTools.querySelector(
+      '[data-mobile-group="page"] ul',
+    );
+    if (discussionLink && pageToolsList) {
+      const item = document.createElement('li');
+      item.className = 'discussion';
+      item.append(discussionLink.cloneNode(true));
+      pageToolsList.append(item);
     }
 
-    toolsSelect.addEventListener(
-      'change',
-      function (event) {
-        const selectedMode = modes.find(
-          (mode) => toolsSelect.value === `zenlike-theme-${mode}`,
-        );
-        const selectedAction = menuActions.get(toolsSelect.value);
-        if (!selectedMode && !selectedAction) return;
-
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        toolsSelect.value = '';
-        closeMobileMenu();
-
-        if (selectedMode) {
-          preference = selectedMode;
-          storePreference(preference);
-          updateTheme();
-          return;
-        }
-
-        selectedAction.click();
-      },
-      true,
-    );
+    mobileTools.querySelectorAll('.mobile-tools-group').forEach((group) => {
+      group.hidden = !group.querySelector('li');
+    });
+    toolsSelect.closest('form').hidden = true;
+    mobileTools.hidden = false;
   }
 
+  [mobileTheme, desktopTheme].filter(Boolean).forEach((themeSelect) => {
+    modes.forEach((mode) => {
+      const option = document.createElement('option');
+      option.value = mode;
+      option.textContent = toggle.dataset[`theme${capitalize(mode)}Label`];
+      themeSelect.append(option);
+    });
+    themeSelect.addEventListener('change', function () {
+      preference = themeSelect.value;
+      storePreference(preference);
+      updateTheme();
+    });
+  });
+
   function updateToggleLocation() {
-    toggle.hidden = mobileViewport.matches;
+    toggle.hidden = mobileViewport.matches || !!desktopTheme;
     if (!mobileViewport.matches) {
       themeHome.appendChild(toggle);
     }
@@ -390,14 +398,14 @@ function setupThemePreference() {
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
-    setupSiteMenuToggle();
+    const closeSiteMenu = setupSiteMenuToggle();
     setupSidebarToggle();
     setupResponsiveDiff();
-    setupThemePreference();
+    setupThemePreference(closeSiteMenu);
   });
 } else {
-  setupSiteMenuToggle();
+  const closeSiteMenu = setupSiteMenuToggle();
   setupSidebarToggle();
   setupResponsiveDiff();
-  setupThemePreference();
+  setupThemePreference(closeSiteMenu);
 }

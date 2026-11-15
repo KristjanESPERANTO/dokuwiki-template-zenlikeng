@@ -102,6 +102,87 @@
     background: var(--zenlike-surface-raised);
   }
 
+  :root[data-theme='dark'] #desktop-tools-content {
+    border-color: var(--zenlike-border);
+    background: var(--zenlike-surface);
+  }
+
+  :root[data-theme='dark'] #desktop-tools-content #dokuwiki__pagetools ul li a {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark']
+    #desktop-tools-content
+    #dokuwiki__pagetools
+    ul
+    li
+    a:hover,
+  :root[data-theme='dark']
+    #desktop-tools-content
+    #dokuwiki__pagetools
+    ul
+    li
+    a:focus-visible {
+    background: var(--zenlike-surface-raised);
+  }
+
+  :root[data-theme='dark'] .desktop-appearance {
+    border-color: var(--zenlike-border);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #desktop-sitetools {
+    border-color: var(--zenlike-border);
+  }
+
+  :root[data-theme='dark'] #desktop-sitetools a {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #desktop-sitetools a:hover,
+  :root[data-theme='dark'] #desktop-sitetools a:focus-visible {
+    background: var(--zenlike-surface-raised);
+  }
+
+  :root[data-theme='dark'] .desktop-appearance select {
+    border-color: var(--zenlike-control-border);
+    background: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #menu .mobile-tools-list:not([hidden]) {
+    border-color: var(--zenlike-border);
+    background: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #menu .mobile-tools-group:not([hidden]),
+  :root[data-theme='dark'] #menu .mobile-appearance {
+    border-color: var(--zenlike-border);
+  }
+
+  :root[data-theme='dark'] #menu .mobile-tools-group button[data-mobile-action],
+  :root[data-theme='dark'] #menu .mobile-tools-group li.discussion a {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #menu .mobile-tools-group button:hover,
+  :root[data-theme='dark'] #menu .mobile-tools-group button:focus-visible,
+  :root[data-theme='dark'] #menu .mobile-tools-group li.discussion a:hover,
+  :root[data-theme='dark']
+    #menu
+    .mobile-tools-group
+    li.discussion
+    a:focus-visible {
+    background: var(--zenlike-surface-raised);
+  }
+
+  :root[data-theme='dark'] #menu .mobile-tools #mobile-theme {
+    border-color: var(--zenlike-control-border);
+    background: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
   :root[data-theme='dark'] #menu,
   :root[data-theme='dark'] #usertools {
     background: #303323;

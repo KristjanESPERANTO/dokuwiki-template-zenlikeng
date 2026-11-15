@@ -80,7 +80,11 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
                     <ul>
                         <?php
                             echo (new \dokuwiki\Menu\PageMenu())->getListItems('action ');
-                            _tpl_action('discussion', 1, 'li');
+                            if (tpl_getConf('discussionPage')) {
+                                echo '<li class="action discussion">';
+                                _tpl_action('discussion', 1);
+                                echo '</li>';
+                            }
                         ?>
                     </ul>
                 </nav>

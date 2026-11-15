@@ -23,6 +23,8 @@
       aria-controls="zenlike__menucontent"
       aria-expanded="false"
       aria-label="<?= hsc($menuLabel) ?>"
+      data-mobile-label="<?= hsc($menuLabel) ?>"
+      data-desktop-label="<?= hsc($lang['tools']) ?>"
       hidden
     >
       <span class="zenlike-menu-icon" aria-hidden="true"
@@ -36,6 +38,17 @@
           ><?= hsc($lang['btn_search']) ?></label
         >
         <?php tpl_searchform() ?>
+      </div>
+    </div>
+
+    <div id="desktop-tools-content" hidden>
+      <div id="desktop-pagetools-content"></div>
+      <nav id="desktop-sitetools" aria-label="<?= hsc($lang['site_tools']) ?>">
+        <ul></ul>
+      </nav>
+      <div class="desktop-appearance">
+        <label for="desktop-theme"><?= hsc(tpl_getLang('appearance')) ?></label>
+        <select id="desktop-theme"></select>
       </div>
     </div>
 
@@ -77,11 +90,40 @@
           <?= (new \dokuwiki\Menu\MobileMenu())->getDropdown( $lang['tools'],
           '<span class="a11y">' . hsc($lang['tools']) . '</span
           ><span aria-hidden="true">&gt;</span>' ) ?>
+          <div class="mobile-tools-list" hidden>
+            <?php foreach ((new \dokuwiki\Menu\MobileMenu())->getGroupedItems()
+            as $group => $items): ?>
+            <section
+              class="mobile-tools-group"
+              data-mobile-group="<?= hsc($group) ?>"
+              aria-label="<?= hsc($lang[$group . '_tools']) ?>"
+            >
+              <ul>
+                <?php foreach ($items as $item): ?>
+                <li>
+                  <button
+                    type="button"
+                    data-mobile-action="<?= hsc($item->getParams()['do']) ?>"
+                  >
+                    <?= inlineSVG($item->getSvg()) ?>
+                    <span><?= hsc($item->getLabel()) ?></span>
+                  </button>
+                </li>
+                <?php endforeach; ?>
+              </ul>
+            </section>
+            <?php endforeach; ?>
+            <div class="mobile-appearance">
+              <label for="mobile-theme"
+                ><?= hsc(tpl_getLang('appearance')) ?></label
+              >
+              <select id="mobile-theme"></select>
+            </div>
+          </div>
         </div>
         <div class="desktop-tools">
           <ul class="desktop-menu">
-            <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ', false)
-            ?>
+            <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ') ?>
             <?php if ($conf['useacl'] && $showTools): ?>
             <li class="menusplit">
               <details>
