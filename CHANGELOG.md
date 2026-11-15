@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.3.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.2.1...v7.3.0) (2026-11-15)
+
+### Features
+
+* hide trace with fewer than two entries ([8bba44e](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/8bba44e21b37779bd5e6987238469cd40a5d76ac))
+* integrate user actions into tools menu ([f763d65](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/f763d656390083f2f2326685c3041b059afcb801))
+* move login and registration to tools menu ([832deb2](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/832deb291008062be656f4e412c0e63554f38674))
+* show back-to-top arrow only on long pages ([b0c091f](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/b0c091f779e73250d76d5662604d5308d3ec319c))
+* unify tools in responsive menu ([c98dfee](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/c98dfeea23765908a9f6121e1f0192b40903ce71))
+
+### Bug Fixes
+
+* improve dark mode diff contrast ([d59663c](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/d59663c6b5a6cd4d25a2c33836d9a76aab495350))
+* improve dark mode highlight contrast ([ea17c3d](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/ea17c3d1d8f20dfe821b8aa84a24f5ef61a4f14c))
+
 ## [7.2.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.2.0...v7.2.1) (2026-11-13)
 
 ### Bug Fixes
