@@ -188,13 +188,20 @@
   }
 
   :root[data-theme='dark'] #menu .mobile-tools-group button[data-mobile-action],
-  :root[data-theme='dark'] #menu .mobile-tools-group li.discussion a {
+  :root[data-theme='dark'] #menu .mobile-tools-group li.discussion a,
+  :root[data-theme='dark'] #menu .mobile-tools-group li.userpage a {
     color: var(--zenlike-text);
   }
 
   :root[data-theme='dark'] #menu .mobile-tools-group button:hover,
   :root[data-theme='dark'] #menu .mobile-tools-group button:focus-visible,
   :root[data-theme='dark'] #menu .mobile-tools-group li.discussion a:hover,
+  :root[data-theme='dark'] #menu .mobile-tools-group li.userpage a:hover,
+  :root[data-theme='dark']
+    #menu
+    .mobile-tools-group
+    li.userpage
+    a:focus-visible,
   :root[data-theme='dark']
     #menu
     .mobile-tools-group

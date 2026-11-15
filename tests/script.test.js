@@ -511,7 +511,12 @@ test('restores the search on desktop and updates menu visibility on resize', asy
     [...document.querySelectorAll('#desktop-sitetools li')].map(
       (item) => item.className,
     ),
-    ['action recent', 'action media', 'action index'],
+    [
+      'action recent',
+      'action media',
+      'action index',
+      'action profile user-tools-start',
+    ],
   );
   assert.ok(document.querySelector('.desktop-menu > li.action.plugin'));
 
@@ -625,33 +630,25 @@ test('separates login when registration is unavailable', async () => {
   dom.window.close();
 });
 
-test('keeps logged-in user actions in the user menu', async () => {
+test('moves logged-in user actions into desktop tools', async () => {
   const { document, dom } = await createPage(
     false,
     false,
     null,
     'sidebyside',
     'https://example.test/',
-    '<li class="action admin"><a href="#admin">Admin</a></li><li class="action logout"><a href="#logout">Log Out</a></li>',
+    '<li class="action profile"><a href="#profile">Update Profile</a></li><li class="action admin"><a href="#admin">Admin</a></li><li class="action logout"><a href="#logout">Log Out</a></li><li class="userpage"><a href="#userpage">User page</a></li>',
   );
 
-  assert.ok(document.querySelector('#usertools .action.admin'));
-  assert.ok(document.querySelector('#usertools .action.logout'));
-  assert.ok(document.getElementById('toggle_usertools'));
-  dom.window.close();
-});
-
-test('uses native details disclosure for user tools', async () => {
-  const { document, dom } = await createPage();
-  const toggle = document.getElementById('toggle_usertools');
-  const disclosure = toggle.closest('details');
-
-  assert.equal(disclosure.open, false);
-  toggle.click();
-  assert.equal(disclosure.open, true);
-
-  toggle.click();
-  assert.equal(disclosure.open, false);
-
+  assert.ok(
+    document.querySelector('#desktop-sitetools .profile.user-tools-start'),
+  );
+  assert.ok(document.querySelector('#desktop-sitetools .action.admin'));
+  assert.ok(document.querySelector('#desktop-sitetools .action.logout'));
+  assert.ok(document.querySelector('#desktop-sitetools a[href="#userpage"]'));
+  assert.ok(
+    document.querySelector('[data-mobile-group="user"] a[href="#userpage"]'),
+  );
+  assert.equal(document.getElementById('toggle_usertools'), null);
   dom.window.close();
 });

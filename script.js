@@ -19,9 +19,7 @@ function setupSiteMenuToggle() {
     .forEach((item) => desktopSiteTools?.append(item));
 
   if (desktopSiteTools) {
-    const userActions = document.querySelectorAll(
-      '#usertools li.action.login, #usertools li.action.register',
-    );
+    const userActions = document.querySelectorAll('#usertools > ul > li');
     if (desktopSiteTools.children.length) {
       userActions[0]?.classList.add('user-tools-start');
     }
@@ -377,6 +375,14 @@ function setupThemePreference(closeSiteMenu) {
       item.className = 'discussion';
       item.append(discussionLink.cloneNode(true));
       pageToolsList.append(item);
+    }
+
+    const userPage = document.querySelector('#desktop-sitetools li.userpage');
+    const userToolsList = mobileTools.querySelector(
+      '[data-mobile-group="user"] ul',
+    );
+    if (userPage && userToolsList) {
+      userToolsList.append(userPage.cloneNode(true));
     }
 
     mobileTools.querySelectorAll('.mobile-tools-group').forEach((group) => {

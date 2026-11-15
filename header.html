@@ -144,7 +144,11 @@
                   <ul>
                     <?= (new \dokuwiki\Menu\UserMenu())->getListItems('action ')
                     ?>
-                    <?php _tpl_action('userpage', 1, 'li'); ?>
+                    <?php if (tpl_getConf('userPage') && !empty($_SERVER['REMOTE_USER'])): ?>
+                    <li class="userpage">
+                      <?php _tpl_action('userpage', 1); ?>
+                    </li>
+                    <?php endif; ?>
                   </ul>
                 </div>
               </details>

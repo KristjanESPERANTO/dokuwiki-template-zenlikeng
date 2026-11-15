@@ -921,6 +921,16 @@ input.button {
   fill: currentColor;
 }
 
+#desktop-sitetools li.userpage a::after,
+#menu .mobile-tools-group li.userpage a::after {
+  content: '';
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  background-color: currentColor;
+  mask: url(../../images/interwiki/user.svg) no-repeat center / contain;
+}
+
 .desktop-appearance {
   display: flex;
   flex-direction: column;

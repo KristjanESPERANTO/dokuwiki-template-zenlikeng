@@ -218,7 +218,8 @@
   }
 
   #menu .mobile-tools-group button[data-mobile-action],
-  #menu .mobile-tools-group li.discussion a {
+  #menu .mobile-tools-group li.discussion a,
+  #menu .mobile-tools-group li.userpage a {
     display: flex;
     align-items: center;
     gap: 0.4em;
@@ -239,7 +240,8 @@
     cursor: pointer;
   }
 
-  #menu .mobile-tools-group li.discussion a {
+  #menu .mobile-tools-group li.discussion a,
+  #menu .mobile-tools-group li.userpage a {
     flex-direction: row-reverse;
     justify-content: flex-end;
   }
@@ -247,12 +249,15 @@
   #menu .mobile-tools-group button:hover,
   #menu .mobile-tools-group button:focus-visible,
   #menu .mobile-tools-group li.discussion a:hover,
-  #menu .mobile-tools-group li.discussion a:focus-visible {
+  #menu .mobile-tools-group li.discussion a:focus-visible,
+  #menu .mobile-tools-group li.userpage a:hover,
+  #menu .mobile-tools-group li.userpage a:focus-visible {
     background: __background_neu__;
   }
 
   #menu .mobile-tools-group button:focus-visible,
-  #menu .mobile-tools-group li.discussion a:focus-visible {
+  #menu .mobile-tools-group li.discussion a:focus-visible,
+  #menu .mobile-tools-group li.userpage a:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: -2px;
   }
