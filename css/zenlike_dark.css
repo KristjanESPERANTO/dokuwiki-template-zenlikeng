@@ -80,6 +80,41 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] #acl__tree a.cur {
+    background-color: var(--zenlike-menu-active);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki mark {
+    background-color: var(--zenlike-menu-active);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki mark a {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #link__wiz_result {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-page);
+  }
+
+  :root[data-theme='dark'] #link__wiz_result div.even {
+    background-color: var(--zenlike-surface);
+  }
+
+  :root[data-theme='dark'] #link__wiz_result div.selected {
+    background-color: var(--zenlike-menu-active);
+  }
+
+  :root[data-theme='dark'] #link__wiz_result span {
+    color: var(--zenlike-muted);
+  }
+
+  :root[data-theme='dark'] #link__wiz_result div.selected :is(a, span) {
+    color: var(--zenlike-text);
+  }
+
   :root[data-theme='dark'] .mode_index .page > .level1:has(+ #index__tree) > p {
     color: var(--zenlike-muted);
   }
