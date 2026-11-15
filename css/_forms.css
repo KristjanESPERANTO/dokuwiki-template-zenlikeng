@@ -48,10 +48,6 @@
   max-inline-size: 100%;
   vertical-align: middle;
 }
-.dokuwiki select.edit {
-  padding: 0.1em 0;
-}
-
 .dokuwiki label.block input.edit,
 .dokuwiki label.block select.edit {
   box-sizing: border-box;
@@ -60,11 +56,65 @@
 }
 
 .dokuwiki input.button,
-.dokuwiki button.button {
+.dokuwiki button.button,
+.dokuwiki .editButtons button {
   box-sizing: border-box;
   min-block-size: 2.5rem;
   padding-inline: 1rem;
   vertical-align: middle;
+}
+
+.dokuwiki
+  input.edit:not(
+    [type='checkbox'],
+    [type='radio'],
+    [type='file'],
+    [type='color']
+  ) {
+  min-block-size: 2.5rem;
+  padding-inline: 0.5rem;
+}
+
+.dokuwiki select.edit {
+  min-block-size: 2.5rem;
+  padding-inline: 0.5rem;
+}
+
+.dokuwiki textarea.edit {
+  padding: 0.5rem;
+}
+
+.dokuwiki
+  :where(
+    input.edit:not([type='checkbox'], [type='radio'], [type='file']),
+    select.edit,
+    textarea.edit,
+    input.button,
+    button.button,
+    .editButtons button
+  ) {
+  border: 1px solid __text_neu__;
+  border-radius: 0.25rem;
+}
+
+.dokuwiki :where(input.button, button.button, .editButtons button) {
+  background-color: __background_neu__;
+  color: __text__;
+  font-weight: 600;
+}
+
+.dokuwiki
+  :where(input.button, button.button, .editButtons button):hover:not(
+    :disabled
+  ) {
+  background-color: __border__;
+}
+
+.dokuwiki :is(input, textarea, select, button):disabled {
+  border-color: __border__;
+  background-color: __background_alt__;
+  color: __text_neu__;
+  cursor: not-allowed;
 }
 
 .dokuwiki form :is(input, select, textarea, button):focus-visible {

@@ -76,7 +76,9 @@ div.picker button.toolbutton {
 
 /* edit buttons */
 .dokuwiki div.editBar .editButtons {
-  display: inline;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
   margin-right: 1em;
 }
 [dir='rtl'] .dokuwiki .editBar .editButtons {

@@ -605,8 +605,17 @@ img {
 /* Fixes to better fit Dokuwiki style to zenlike */
 
 .dokuwiki div.toolbar button.toolbutton {
-  width: 32px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
+  margin-inline-end: 0.125rem;
+  padding: 0;
+  border: 1px solid __text_alt__;
+  border-radius: 0.25rem;
+  background-color: __background_neu__;
+}
+
+.dokuwiki div.toolbar button.toolbutton:hover {
+  background-color: __border__;
 }
 
 input.button {

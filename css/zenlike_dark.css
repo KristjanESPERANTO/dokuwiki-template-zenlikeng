@@ -5,7 +5,13 @@
     --zenlike-page: __dark_page__;
     --zenlike-surface: __dark_surface__;
     --zenlike-surface-raised: #34373c;
+    --zenlike-button: #474b52;
     --zenlike-border: __dark_border__;
+    --zenlike-control-border: color-mix(
+      in srgb,
+      var(--zenlike-text) 45%,
+      var(--zenlike-surface)
+    );
     --zenlike-text: __dark_text__;
     --zenlike-muted: #c0b8ad;
     --zenlike-link: __dark_link__;
@@ -198,22 +204,63 @@
   :root[data-theme='dark'] input,
   :root[data-theme='dark'] textarea,
   :root[data-theme='dark'] select {
-    border-color: var(--zenlike-border);
-    background-color: var(--zenlike-surface);
+    border-color: var(--zenlike-control-border);
+    background-color: var(--zenlike-canvas);
     color: var(--zenlike-text);
   }
 
-  :root[data-theme='dark'] #dokuwiki__content .page button,
-  :root[data-theme='dark'] #dokuwiki__content .page input.button {
-    border-color: var(--zenlike-border);
-    background-color: var(--zenlike-surface);
+  :root[data-theme='dark'] #dokuwiki__content .page button:not(:disabled),
+  :root[data-theme='dark'] #dokuwiki__content .page input.button:not(:disabled),
+  :root[data-theme='dark']
+    .dokuwiki
+    :is(button.button, input.button):not(:disabled) {
+    border-color: var(--zenlike-control-border);
+    background-color: var(--zenlike-button);
     color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark']
+    #dokuwiki__content
+    .page
+    :is(button, input.button):hover:not(:disabled),
+  :root[data-theme='dark']
+    .dokuwiki
+    :is(button.button, input.button):hover:not(:disabled) {
+    background-color: color-mix(
+      in srgb,
+      var(--zenlike-button) 85%,
+      var(--zenlike-text)
+    );
+  }
+
+  /* Toolbar icons are dark PNGs and need a light tile */
+  :root[data-theme='dark']
+    #dokuwiki__content
+    .page
+    div.toolbar
+    button.toolbutton:not(:disabled) {
+    border-color: var(--zenlike-control-border);
+    background-color: #c8c6c0;
+  }
+
+  :root[data-theme='dark']
+    #dokuwiki__content
+    .page
+    div.toolbar
+    button.toolbutton:hover:not(:disabled) {
+    background-color: #e6e1d8;
   }
 
   :root[data-theme='dark'] .qq-upload-button {
     border-color: var(--zenlike-border);
     background-color: var(--zenlike-surface);
     color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] :is(input, textarea, select, button):disabled {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-page);
+    color: var(--zenlike-muted);
   }
 
   :root[data-theme='dark'] .qq-uploader li {
@@ -300,6 +347,13 @@
   :root[data-theme='dark'] #config__manager tr.protected .selection {
     background-color: #4b2d2b !important;
     color: #ffe0dc !important;
+  }
+
+  :root[data-theme='dark']
+    #config__manager
+    :is(input, textarea, select):disabled {
+    border-style: dashed;
+    cursor: not-allowed;
   }
 
   :root[data-theme='dark'] #config__manager td.error {
