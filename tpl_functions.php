@@ -10,6 +10,20 @@
 // must be run from within DokuWiki
 if (!defined('DOKU_INC')) die();
 
+function _tpl_metaheaders() {
+    global $EVENT_HANDLER;
+
+    $scriptVersion = hash_file('sha256', __DIR__ . '/script.js');
+    $EVENT_HANDLER->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', null, static function ($event) use ($scriptVersion) {
+        foreach ($event->data['script'] as &$script) {
+            if (isset($script['src']) && str_starts_with($script['src'], DOKU_BASE . 'lib/exe/js.php?')) {
+                $script['src'] .= '&zenlike=' . $scriptVersion;
+            }
+        }
+    });
+    tpl_metaheaders();
+}
+
 /**
  * Print the inline script that sets the JS flag and the theme before first paint
  */

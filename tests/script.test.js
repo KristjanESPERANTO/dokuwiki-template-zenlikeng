@@ -1,10 +1,105 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { URL } from 'node:url';
 import { JSDOM } from 'jsdom';
 
 const script = readFileSync(new URL('../script.js', import.meta.url), 'utf8');
+
+test('renders site tools and translated theme options in their final locations', () => {
+  const php = String.raw`
+    namespace dokuwiki\Menu {
+      class SiteMenu {
+        public function getListItems($prefix = '', $svg = true) {
+          return '<li class="' . $prefix . 'recent"><a href="#recent">Recent</a></li>' .
+                 '<li class="' . $prefix . 'plugin"><a href="#plugin">Plugin</a></li>';
+        }
+      }
+      class MobileMenu {
+        public function getDropdown(...$args) { return ''; }
+        public function getGroupedItems() { return []; }
+      }
+    }
+    namespace {
+      $conf = ['title' => 'Wiki', 'tagline' => '', 'useacl' => false, 'breadcrumbs' => false, 'youarehere' => false];
+      $lang = ['tools' => 'Tools', 'btn_search' => 'Search', 'skip_to_content' => 'Skip'];
+      function tpl_getConf($key) { return $key === 'menuid' ? 'menu' : ''; }
+      function tpl_getLang($key) { return ['appearance' => 'Appearance', 'theme_system' => 'System', 'theme_light' => 'Light', 'theme_dark' => 'Dark'][$key] ?? ''; }
+      function hsc($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
+      function tpl_searchform() {}
+      function tpl_include_page($id) { echo '<ul><li><a href="#custom">Custom navigation</a></li></ul>'; }
+      include $argv[1];
+    }
+  `;
+  const html = execFileSync(
+    'php',
+    ['-r', php, new URL('../header.html', import.meta.url).pathname],
+    { encoding: 'utf8' },
+  );
+  const dom = new JSDOM(html);
+  const { document } = dom.window;
+
+  assert.ok(document.querySelector('#custommenu a[href="#custom"]'));
+  assert.ok(document.querySelector('#desktop-sitetools .action.recent'));
+  assert.ok(document.querySelector('#desktop-sitetools .action.plugin'));
+  assert.equal(document.querySelector('#menu .action.recent'), null);
+  assert.equal(document.querySelector('#menu .action.plugin'), null);
+  assert.equal(document.getElementById('toggle_theme'), null);
+  for (const id of ['desktop-theme', 'mobile-theme']) {
+    assert.deepEqual(
+      [...document.getElementById(id).options].map(({ value, textContent }) => [
+        value,
+        textContent.trim(),
+      ]),
+      [
+        ['system', 'System'],
+        ['light', 'Light'],
+        ['dark', 'Dark'],
+      ],
+    );
+  }
+  dom.window.close();
+});
+
+test('versions only the DokuWiki JavaScript bundle with the template script hash', () => {
+  const php = String.raw`
+    define('DOKU_INC', '/');
+    define('DOKU_BASE', '/wiki/');
+    class Handler {
+      public $callback;
+      public function register_hook($event, $phase, $object, $callback) { $this->callback = $callback; }
+    }
+    $EVENT_HANDLER = new Handler();
+    function tpl_metaheaders() {
+      global $EVENT_HANDLER;
+      $event = (object) ['data' => ['script' => [
+        ['src' => '/wiki/lib/exe/js.php?t=zenlikeng&tseed=123'],
+        ['src' => '/wiki/lib/exe/jquery.php?tseed=123'],
+        ['_data' => 'inline']
+      ]]];
+      ($EVENT_HANDLER->callback)($event);
+      echo json_encode($event->data['script']);
+    }
+    require $argv[1];
+    _tpl_metaheaders();
+  `;
+  const result = JSON.parse(
+    execFileSync(
+      'php',
+      ['-r', php, new URL('../tpl_functions.php', import.meta.url).pathname],
+      { encoding: 'utf8' },
+    ),
+  );
+  const version = createHash('sha256').update(script).digest('hex');
+  assert.equal(
+    result[0].src,
+    `/wiki/lib/exe/js.php?t=zenlikeng&tseed=123&zenlike=${version}`,
+  );
+  assert.equal(result[1].src, '/wiki/lib/exe/jquery.php?tseed=123');
+  assert.equal(result[2]._data, 'inline');
+});
 
 test('sets the theme before first paint on every page type', () => {
   const functions = readFileSync(
@@ -65,14 +160,13 @@ async function createPage(
             </form>
           </div>
         </div>
-        <div id="desktop-tools-content" hidden><div id="desktop-pagetools-content"></div><nav id="desktop-sitetools"><ul></ul></nav><label for="desktop-theme">Appearance</label><select id="desktop-theme"></select></div>
-        <button id="toggle_theme" data-appearance-label="Appearance" data-theme-system-label="System" data-theme-light-label="Light" data-theme-dark-label="Dark" data-next-label="Next mode" aria-label="Appearance: System. Next mode: Light" title="Appearance: System. Next mode: Light"><span class="appearance-icon" aria-hidden="true">◐</span></button>
+        <div id="desktop-tools-content" hidden><div id="desktop-pagetools-content"></div><nav id="desktop-sitetools"><ul><li class="action recent"><a href="#recent">Recent Changes</a></li><li class="action media"><a href="#media">Media Manager</a></li><li class="action index"><a href="#index">Sitemap</a></li><li class="action plugin"><a href="#plugin">Plugin</a></li></ul></nav><label for="desktop-theme">Appearance</label><select id="desktop-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
       </div>
       <button id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="true" hidden>Sidebar</button>
       <nav id="dokuwiki__aside"><a href="#sidebar">Sidebar link</a></nav>
       <div id="zenlike__menucontent" hidden>
         <nav><a href="#page">Page</a></nav>
-        <div class="desktop-tools"><ul class="desktop-menu"><li class="action recent"><a href="#recent">Recent Changes</a></li><li class="action media"><a href="#media">Media Manager</a></li><li class="action index"><a href="#index">Sitemap</a></li><li class="action plugin"><a href="#plugin">Plugin</a></li></ul></div>
+        <div class="desktop-tools"><ul class="desktop-menu"></ul></div>
         <div class="mobile-tools">
           <form>
             <select name="do">
@@ -89,7 +183,7 @@ async function createPage(
             <section class="mobile-tools-group" data-mobile-group="page"><ul><li><button type="button" data-mobile-action="edit"><svg></svg><span>Edit this page</span></button></li></ul></section>
             <section class="mobile-tools-group" data-mobile-group="site"><ul><li><button type="button" data-mobile-action="recent"><svg></svg><span>Recent Changes</span></button></li><li><button type="button" data-mobile-action="missing"><svg></svg><span>Unavailable</span></button></li></ul></section>
             <section class="mobile-tools-group" data-mobile-group="user"><ul></ul></section>
-            <label for="mobile-theme">Appearance</label><select id="mobile-theme"></select>
+            <label for="mobile-theme">Appearance</label><select id="mobile-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
           </div>
         </div>
       </div>
@@ -228,15 +322,13 @@ test('initializes the mobile menu and moves search into its panel', async () => 
   const toggle = document.getElementById('toggle_sitemenu');
   const menu = document.getElementById('zenlike__menucontent');
   const search = document.getElementById('search');
-  const themeToggle = document.getElementById('toggle_theme');
   const input = search.querySelector('input');
 
   assert.equal(toggle.hidden, false);
   assert.equal(toggle.getAttribute('aria-expanded'), 'false');
   assert.equal(menu.hidden, true);
   assert.equal(search.parentElement, menu);
-  assert.equal(themeToggle.parentElement, document.querySelector('.headings'));
-  assert.equal(themeToggle.hidden, true);
+  assert.equal(document.getElementById('toggle_theme'), null);
   assert.equal(input.placeholder, 'Search ...');
 
   dom.window.close();
@@ -340,29 +432,26 @@ test('closes the mobile sidebar on Escape and restores focus', async () => {
 test('follows system appearance and stores explicit theme choices', async () => {
   const { document, dom, setSystemDark } = await createPage(false, true);
   const root = document.documentElement;
-  const toggle = document.getElementById('toggle_theme');
+  const theme = document.getElementById('desktop-theme');
 
   assert.equal(root.getAttribute('data-theme'), 'dark');
-  assert.match(toggle.getAttribute('aria-label'), /System/);
-  assert.equal(toggle.querySelector('.appearance-icon').textContent, '◐');
+  assert.equal(theme.value, 'system');
 
-  toggle.click();
+  theme.value = 'light';
+  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
   assert.equal(root.getAttribute('data-theme'), 'light');
   assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'light');
-  assert.match(toggle.getAttribute('aria-label'), /Light/);
-  assert.equal(toggle.querySelector('.appearance-icon').textContent, '☀');
 
-  toggle.click();
+  theme.value = 'dark';
+  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
   assert.equal(root.getAttribute('data-theme'), 'dark');
   assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'dark');
-  assert.match(toggle.getAttribute('aria-label'), /Dark/);
-  assert.equal(toggle.querySelector('.appearance-icon').textContent, '☾');
 
-  toggle.click();
+  theme.value = 'system';
+  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
   setSystemDark(false);
   assert.equal(root.getAttribute('data-theme'), 'light');
   assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'system');
-  assert.match(toggle.getAttribute('aria-label'), /System/);
 
   dom.window.close();
 });
@@ -421,11 +510,8 @@ test('restores a saved theme preference on initialization', async () => {
   const { document, dom } = await createPage(false, false, 'dark');
 
   assert.equal(document.documentElement.getAttribute('data-theme'), 'dark');
-  assert.equal(document.querySelector('.appearance-icon').textContent, '☾');
-  assert.match(
-    document.getElementById('toggle_theme').getAttribute('aria-label'),
-    /Dark/,
-  );
+  assert.equal(document.getElementById('desktop-theme').value, 'dark');
+  assert.equal(document.getElementById('mobile-theme').value, 'dark');
 
   dom.window.close();
 });
@@ -483,8 +569,6 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   const menu = document.getElementById('zenlike__menucontent');
   const search = document.getElementById('search');
   const searchHome = document.getElementById('header-tools');
-  const themeToggle = document.getElementById('toggle_theme');
-  const themeHome = document.querySelector('.headings');
   const sidebarToggle = document.getElementById('toggle_sidebar');
   const sidebar = document.getElementById('dokuwiki__aside');
   const pageTools = document.getElementById('dokuwiki__pagetools');
@@ -498,8 +582,6 @@ test('restores the search on desktop and updates menu visibility on resize', asy
   assert.equal(toggle.getAttribute('aria-label'), 'Tools');
   assert.equal(menu.hidden, false);
   assert.equal(search.parentElement, searchHome);
-  assert.equal(themeToggle.parentElement, themeHome);
-  assert.equal(themeToggle.hidden, true);
   assert.equal(sidebarToggle.hidden, true);
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'true');
   assert.equal(sidebar.hidden, false);
@@ -515,17 +597,16 @@ test('restores the search on desktop and updates menu visibility on resize', asy
       'action recent',
       'action media',
       'action index',
+      'action plugin',
       'action profile user-tools-start',
     ],
   );
-  assert.ok(document.querySelector('.desktop-menu > li.action.plugin'));
+  assert.ok(document.querySelector('#desktop-sitetools li.action.plugin'));
 
   setMobile(true);
   assert.equal(toggle.hidden, false);
   assert.equal(menu.hidden, true);
   assert.equal(search.parentElement, menu);
-  assert.equal(themeToggle.parentElement, themeHome);
-  assert.equal(themeToggle.hidden, true);
   assert.equal(sidebarToggle.hidden, false);
   assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'false');
   assert.equal(sidebar.hidden, true);

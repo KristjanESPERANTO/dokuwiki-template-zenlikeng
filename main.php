@@ -20,7 +20,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
     <meta charset="UTF-8" />
     <title><?php tpl_pagetitle() ?> [<?php echo strip_tags($conf['title']) ?>]</title>
     <?php _tpl_init_theme() ?>
-    <?php tpl_metaheaders() ?>
+    <?php _tpl_metaheaders() ?>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <?php echo tpl_favicon(array('favicon', 'mobile')) ?>
     <?php tpl_includeFile('meta.html') ?>

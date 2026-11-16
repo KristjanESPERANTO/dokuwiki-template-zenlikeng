@@ -654,16 +654,6 @@
     background-color: var(--zenlike-menu-active);
     color: var(--zenlike-text);
   }
-
-  :root[data-theme='dark'] .theme-toggle {
-    border-color: var(--zenlike-border);
-    background: var(--zenlike-surface);
-    color: var(--zenlike-text);
-  }
-
-  :root[data-theme='dark'] .theme-toggle:hover {
-    background: var(--zenlike-surface-raised);
-  }
 }
 
 @media screen and (max-width: 42em) {

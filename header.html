@@ -2,7 +2,6 @@
     global $conf, $lang;
     $showTools = !tpl_getConf('hideTools') || (tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']));
     $menuLabel = tpl_getLang('main_navigation') ?: 'Menu';
-    $themeLabel = tpl_getLang('appearance') . ': ' . tpl_getLang('theme_system') . '. ' . tpl_getLang('theme_next') . ': ' . tpl_getLang('theme_light');
 ?>
 <header id="zenlikeheader">
   <div class="headings">
@@ -44,28 +43,21 @@
     <div id="desktop-tools-content" hidden>
       <div id="desktop-pagetools-content"></div>
       <nav id="desktop-sitetools" aria-label="<?= hsc($lang['tools']) ?>">
-        <ul></ul>
+        <ul>
+          <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ') ?>
+        </ul>
       </nav>
       <div class="desktop-appearance">
         <label for="desktop-theme"><?= hsc(tpl_getLang('appearance')) ?></label>
-        <select id="desktop-theme"></select>
+        <select id="desktop-theme">
+          <option value="system">
+            <?= hsc(tpl_getLang('theme_system')) ?>
+          </option>
+          <option value="light"><?= hsc(tpl_getLang('theme_light')) ?></option>
+          <option value="dark"><?= hsc(tpl_getLang('theme_dark')) ?></option>
+        </select>
       </div>
     </div>
-
-    <button
-      type="button"
-      id="toggle_theme"
-      class="theme-toggle"
-      data-appearance-label="<?= hsc(tpl_getLang('appearance')) ?>"
-      data-theme-system-label="<?= hsc(tpl_getLang('theme_system')) ?>"
-      data-theme-light-label="<?= hsc(tpl_getLang('theme_light')) ?>"
-      data-theme-dark-label="<?= hsc(tpl_getLang('theme_dark')) ?>"
-      data-next-label="<?= hsc(tpl_getLang('theme_next')) ?>"
-      aria-label="<?= hsc($themeLabel) ?>"
-      title="<?= hsc($themeLabel) ?>"
-    >
-      <span class="appearance-icon" aria-hidden="true">◐</span>
-    </button>
   </div>
 
   <div id="headerpic"></div>
@@ -117,13 +109,22 @@
               <label for="mobile-theme"
                 ><?= hsc(tpl_getLang('appearance')) ?></label
               >
-              <select id="mobile-theme"></select>
+              <select id="mobile-theme">
+                <option value="system">
+                  <?= hsc(tpl_getLang('theme_system')) ?>
+                </option>
+                <option value="light">
+                  <?= hsc(tpl_getLang('theme_light')) ?>
+                </option>
+                <option value="dark">
+                  <?= hsc(tpl_getLang('theme_dark')) ?>
+                </option>
+              </select>
             </div>
           </div>
         </div>
         <div class="desktop-tools">
           <ul class="desktop-menu">
-            <?= (new \dokuwiki\Menu\SiteMenu())->getListItems('action ') ?>
             <?php if ($conf['useacl'] && $showTools): ?>
             <li class="menusplit">
               <details>

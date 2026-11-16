@@ -12,12 +12,6 @@ function setupSiteMenuToggle() {
   const desktopSiteTools = document.querySelector('#desktop-sitetools ul');
   if (!toggle || !menuContent || !search || !desktopMenu) return;
 
-  document
-    .querySelectorAll(
-      '.desktop-menu > li.action.recent, .desktop-menu > li.action.media, .desktop-menu > li.action.index',
-    )
-    .forEach((item) => desktopSiteTools?.append(item));
-
   if (desktopSiteTools) {
     const userActions = document.querySelectorAll('#usertools > ul > li');
     if (desktopSiteTools.children.length) {
@@ -281,16 +275,14 @@ function setupResponsiveDiff() {
 }
 
 function setupThemePreference(closeSiteMenu) {
-  const toggle = document.getElementById('toggle_theme');
-  if (!toggle) return;
-
   const storageKey = 'zenlike-theme';
   const modes = ['system', 'light', 'dark'];
-  const themeHome = toggle.parentElement;
   const toolsSelect = document.querySelector('.mobile-tools select');
   const mobileTools = document.querySelector('.mobile-tools-list');
   const mobileTheme = document.getElementById('mobile-theme');
   const desktopTheme = document.getElementById('desktop-theme');
+  if (!desktopTheme && !mobileTheme) return;
+
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
   const systemPreference = document.defaultView.matchMedia(
     '(prefers-color-scheme: dark)',
@@ -316,7 +308,7 @@ function setupThemePreference(closeSiteMenu) {
   }
 
   const savedPreference = readStoredPreference();
-  if (['system', 'light', 'dark'].includes(savedPreference)) {
+  if (modes.includes(savedPreference)) {
     preference = savedPreference;
   }
 
@@ -325,26 +317,8 @@ function setupThemePreference(closeSiteMenu) {
       preference === 'dark' ||
       (preference === 'system' && systemPreference.matches);
     root.setAttribute('data-theme', isDark ? 'dark' : 'light');
-
-    const currentIndex = modes.indexOf(preference);
-    const nextPreference = modes[(currentIndex + 1) % modes.length];
-    const currentLabel = toggle.dataset[`theme${capitalize(preference)}Label`];
-    const nextLabel = toggle.dataset[`theme${capitalize(nextPreference)}Label`];
-    const accessibleLabel = `${toggle.dataset.appearanceLabel}: ${currentLabel}. ${toggle.dataset.nextLabel}: ${nextLabel}`;
-    toggle.setAttribute('aria-label', accessibleLabel);
-    toggle.title = accessibleLabel;
-    toggle.querySelector('.appearance-icon').textContent = {
-      system: '◐',
-      light: '☀',
-      dark: '☾',
-    }[preference];
-
     if (mobileTheme) mobileTheme.value = preference;
     if (desktopTheme) desktopTheme.value = preference;
-  }
-
-  function capitalize(value) {
-    return value[0].toUpperCase() + value.slice(1);
   }
 
   if (toolsSelect && mobileTools && mobileTheme) {
@@ -393,30 +367,11 @@ function setupThemePreference(closeSiteMenu) {
   }
 
   [mobileTheme, desktopTheme].filter(Boolean).forEach((themeSelect) => {
-    modes.forEach((mode) => {
-      const option = document.createElement('option');
-      option.value = mode;
-      option.textContent = toggle.dataset[`theme${capitalize(mode)}Label`];
-      themeSelect.append(option);
-    });
     themeSelect.addEventListener('change', function () {
       preference = themeSelect.value;
       storePreference(preference);
       updateTheme();
     });
-  });
-
-  function updateToggleLocation() {
-    toggle.hidden = mobileViewport.matches || !!desktopTheme;
-    if (!mobileViewport.matches) {
-      themeHome.appendChild(toggle);
-    }
-  }
-
-  toggle.addEventListener('click', function () {
-    preference = modes[(modes.indexOf(preference) + 1) % modes.length];
-    storePreference(preference);
-    updateTheme();
   });
 
   const updateSystemTheme = function () {
@@ -425,8 +380,6 @@ function setupThemePreference(closeSiteMenu) {
   systemPreference.addEventListener('change', updateSystemTheme);
 
   updateTheme();
-  updateToggleLocation();
-  mobileViewport.addEventListener('change', updateToggleLocation);
 }
 
 if (document.readyState === 'loading') {
