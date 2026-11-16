@@ -9,8 +9,9 @@
 /*____________ toolbar ____________*/
 
 .dokuwiki div.toolbar {
+  display: flow-root;
   margin-bottom: 0.5em;
-  overflow: hidden;
+  overflow: visible;
 }
 #draft__status {
   float: right;
@@ -26,6 +27,26 @@
 }
 [dir='rtl'] #tool__bar {
   float: right;
+}
+
+@media (min-width: 768px) {
+  .dokuwiki .editBox {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .dokuwiki .editBox > #draft__status {
+    align-self: center;
+    max-width: 16rem;
+    margin-inline-start: 0.5rem;
+    text-align: end;
+    overflow-wrap: anywhere;
+  }
+
+  .dokuwiki .editBox > form {
+    grid-column-start: 1;
+    grid-column-end: -1;
+  }
 }
 
 /* buttons inside of toolbar */

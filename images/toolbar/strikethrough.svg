@@ -1,0 +1,16 @@
+<!-- @license lucide-static v1.73.0 - ISC -->
+<svg
+  class="lucide lucide-strikethrough"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M17 5.5C15.8 4.5 14.2 4 12 4c-3.3 0-5.5 1.5-5.5 4 0 2.2 1.7 3.2 5.5 4s5.5 1.8 5.5 4c0 2.5-2.2 4-5.5 4-2.2 0-4-.5-5.5-1.5" />
+  <line x1="4" x2="20" y1="12" y2="12" />
+</svg>

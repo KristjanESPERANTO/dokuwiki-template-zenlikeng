@@ -690,17 +690,209 @@ img {
 }
 
 .dokuwiki div.toolbar button.toolbutton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   width: 2rem;
   height: 2rem;
-  margin-inline-end: 0.125rem;
+  flex: 0 0 2rem;
+  margin: 0;
   padding: 0;
-  border: 1px solid __text_alt__;
-  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  background-color: transparent;
+}
+
+.dokuwiki div.toolbar button.toolbutton:hover:not(:disabled),
+.dokuwiki div.toolbar button.toolbutton[aria-expanded='true'] {
   background-color: __background_neu__;
 }
 
-.dokuwiki div.toolbar button.toolbutton:hover {
-  background-color: __border__;
+.dokuwiki div.toolbar button.toolbutton:focus-visible {
+  outline: 2px solid __link__;
+  outline-offset: -2px;
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src*='/lib/images/toolbar/'] {
+  filter: grayscale(1);
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton[aria-expanded]:has(> img[src*='/lib/images/toolbar/']):not(
+    :has(> img[src$='/lib/images/toolbar/sig.png'])
+  )::after {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 0;
+  height: 0;
+  border: 3px solid transparent;
+  border-top-color: currentColor;
+  content: '';
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/bold.png'] {
+  content: url('images/toolbar/bold.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/italic.png'] {
+  content: url('images/toolbar/italic.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/underline.png'] {
+  content: url('images/toolbar/underline.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/mono.png'] {
+  content: url('images/toolbar/code-xml.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/strike.png'] {
+  content: url('images/toolbar/strikethrough.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/hequal.png'],
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/hminus.png'],
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/hplus.png'],
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/h.png'] {
+  content: url('images/toolbar/heading.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton:has(> img[src$='/lib/images/toolbar/hequal.png'])::after {
+  mask-image: url('images/toolbar/equal.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton:has(> img[src$='/lib/images/toolbar/hminus.png'])::after {
+  mask-image: url('images/toolbar/minus.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton:has(> img[src$='/lib/images/toolbar/hplus.png'])::after {
+  mask-image: url('images/toolbar/plus.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton:has(> img[src$='/lib/images/toolbar/hequal.png'])::after,
+.dokuwiki
+  div.toolbar
+  button.toolbutton:has(> img[src$='/lib/images/toolbar/hminus.png'])::after,
+.dokuwiki
+  div.toolbar
+  button.toolbutton:has(> img[src$='/lib/images/toolbar/hplus.png'])::after {
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: currentColor;
+  content: '';
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/h1.png'] {
+  content: url('images/toolbar/heading-1.svg');
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/h2.png'] {
+  content: url('images/toolbar/heading-2.svg');
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/h3.png'] {
+  content: url('images/toolbar/heading-3.svg');
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/h4.png'] {
+  content: url('images/toolbar/heading-4.svg');
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/h5.png'] {
+  content: url('images/toolbar/heading-5.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/link.png'] {
+  content: url('images/toolbar/link.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/linkextern.png'] {
+  content: url('images/toolbar/external-link.svg');
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/ol.png'] {
+  content: url('images/toolbar/list-ordered.svg');
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/ul.png'] {
+  content: url('images/toolbar/list.svg');
+}
+
+.dokuwiki div.toolbar button.toolbutton img[src$='/lib/images/toolbar/hr.png'] {
+  content: url('images/toolbar/minus.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/image.png'] {
+  content: url('images/toolbar/image.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/smiley.png'] {
+  content: url('images/toolbar/smile.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/chars.png'] {
+  content: url('images/toolbar/omega.svg');
+}
+
+.dokuwiki
+  div.toolbar
+  button.toolbutton
+  img[src$='/lib/images/toolbar/sig.png'] {
+  content: url('images/toolbar/signature.svg');
 }
 
 input.button {
@@ -1409,7 +1601,11 @@ ul {
 /** Toolbar **/
 
 #tool__bar {
-  height: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem;
+  max-width: 100%;
+  height: auto;
 }
 
 /** Pickers **/

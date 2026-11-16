@@ -8,6 +8,63 @@ import { JSDOM } from 'jsdom';
 
 const script = readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 
+test('maps DokuWiki toolbar icons to locally bundled SVGs', () => {
+  const css = readFileSync(
+    new URL('../css/zenlike.css', import.meta.url),
+    'utf8',
+  );
+  const expected = {
+    'bold.png': 'bold.svg',
+    'italic.png': 'italic.svg',
+    'underline.png': 'underline.svg',
+    'mono.png': 'code-xml.svg',
+    'strike.png': 'strikethrough.svg',
+    'hequal.png': 'heading.svg',
+    'hminus.png': 'heading.svg',
+    'hplus.png': 'heading.svg',
+    'h.png': 'heading.svg',
+    'h1.png': 'heading-1.svg',
+    'h2.png': 'heading-2.svg',
+    'h3.png': 'heading-3.svg',
+    'h4.png': 'heading-4.svg',
+    'h5.png': 'heading-5.svg',
+    'link.png': 'link.svg',
+    'linkextern.png': 'external-link.svg',
+    'ol.png': 'list-ordered.svg',
+    'ul.png': 'list.svg',
+    'hr.png': 'minus.svg',
+    'image.png': 'image.svg',
+    'smiley.png': 'smile.svg',
+    'chars.png': 'omega.svg',
+    'sig.png': 'signature.svg',
+  };
+  const actual = {};
+  for (const rule of css.matchAll(
+    /([^{}]+)\{\s*content:\s*url\('images\/toolbar\/([^']+\.svg)'\);\s*\}/g,
+  )) {
+    for (const selector of rule[1].matchAll(
+      /img\[src\$='\/lib\/images\/toolbar\/([^']+)'\]/g,
+    )) {
+      actual[selector[1]] = rule[2];
+    }
+  }
+  assert.deepEqual(actual, expected);
+  for (const icon of new Set([
+    ...Object.values(expected),
+    'equal.svg',
+    'plus.svg',
+  ])) {
+    assert.match(
+      readFileSync(
+        new URL(`../images/toolbar/${icon}`, import.meta.url),
+        'utf8',
+      ),
+      /<svg\b/,
+      icon,
+    );
+  }
+});
+
 test('renders site tools and translated theme options in their final locations', () => {
   const php = String.raw`
     namespace dokuwiki\Menu {

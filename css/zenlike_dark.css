@@ -424,22 +424,39 @@
     );
   }
 
-  /* Toolbar icons are dark PNGs and need a light tile */
   :root[data-theme='dark']
     #dokuwiki__content
     .page
     div.toolbar
     button.toolbutton:not(:disabled) {
-    border-color: var(--zenlike-control-border);
-    background-color: #c8c6c0;
+    border-color: transparent;
+    background-color: transparent;
   }
 
   :root[data-theme='dark']
     #dokuwiki__content
     .page
     div.toolbar
-    button.toolbutton:hover:not(:disabled) {
-    background-color: #e6e1d8;
+    button.toolbutton:hover:not(:disabled),
+  :root[data-theme='dark']
+    #dokuwiki__content
+    .page
+    div.toolbar
+    button.toolbutton[aria-expanded='true'] {
+    background-color: var(--zenlike-surface-raised);
+  }
+
+  :root[data-theme='dark']
+    div.toolbar
+    button.toolbutton
+    img[src*='/lib/images/toolbar/'] {
+    filter: grayscale(1) invert(1);
+  }
+
+  :root[data-theme='dark'] div.toolbar div.picker {
+    border-color: var(--zenlike-border);
+    background-color: var(--zenlike-surface);
+    color: var(--zenlike-text);
   }
 
   :root[data-theme='dark'] .qq-upload-button {

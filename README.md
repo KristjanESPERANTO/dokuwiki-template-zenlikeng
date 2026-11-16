@@ -10,6 +10,9 @@ The original Zenlike design was created by NodeThirtyThree and adapted for
 DokuWiki by Dennis Ploeger. See the [original project](https://github.com/DRINGOT/dokuwiki-template-zenlike)
 and the [DokuWiki template page](https://www.dokuwiki.org/template:zenlike).
 
+Editor toolbar icons are from [Lucide](https://github.com/lucide-icons/lucide).
+Their licenses are included in [images/toolbar/LICENSE](images/toolbar/LICENSE).
+
 ## Screenshots
 
 ### Desktop
