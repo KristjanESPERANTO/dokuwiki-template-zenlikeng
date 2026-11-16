@@ -8,6 +8,56 @@ import { JSDOM } from 'jsdom';
 
 const script = readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 
+test('keeps copy feedback visible and updates its accessible tooltip', async () => {
+  const dom = new JSDOM(
+    '<div class="dokuwiki"><pre class="code"><span class="keyword">example</span>\nsecond line</pre></div>',
+    {
+      runScripts: 'outside-only',
+    },
+  );
+  dom.window.eval(script);
+  await new Promise((resolve) =>
+    dom.window.document.addEventListener('DOMContentLoaded', resolve),
+  );
+  const code = dom.window.document.querySelector('pre');
+  const button = dom.window.document.createElement('button');
+  button.className = 'code-copy-btn';
+  button.textContent = 'Copy';
+  code.append(button);
+  await Promise.resolve();
+  const content = code.querySelector(':scope > .code-copy-content');
+  assert.equal(content.textContent, 'example\nsecond line');
+  assert.equal(content.querySelector('.keyword').textContent, 'example');
+  assert.equal(button.parentElement, code);
+  assert.equal(button.dataset.iconAction, 'copy');
+  assert.equal(button.title, 'Copy');
+  assert.equal(button.getAttribute('aria-live'), 'polite');
+  button.textContent = 'Copied!';
+  await Promise.resolve();
+  assert.equal(button.dataset.iconAction, 'feedback');
+  assert.equal(button.title, 'Copied!');
+  button.textContent = 'Copy';
+  await Promise.resolve();
+  assert.equal(button.dataset.iconAction, 'copy');
+  dom.window.close();
+});
+
+test('includes the section edit action in its tooltip', async () => {
+  const dom = new JSDOM(
+    '<div class="dokuwiki"><div class="secedit"><button title="Example">Edit</button></div></div>',
+    { runScripts: 'outside-only' },
+  );
+  dom.window.eval(script);
+  await new Promise((resolve) =>
+    dom.window.document.addEventListener('DOMContentLoaded', resolve),
+  );
+  assert.equal(
+    dom.window.document.querySelector('button').title,
+    'Edit: Example',
+  );
+  dom.window.close();
+});
+
 test('maps DokuWiki toolbar icons to locally bundled SVGs', () => {
   const css = readFileSync(
     new URL('../css/zenlike.css', import.meta.url),

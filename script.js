@@ -1,5 +1,48 @@
 // Zenlike JavaScript Functions
 
+function setupCodeCopyButtons() {
+  document
+    .querySelectorAll('.dokuwiki pre.code, .dokuwiki pre.file')
+    .forEach((code) => {
+      let copyButton;
+      let copyLabel;
+      const updateButton = () => {
+        const button = code.querySelector('.code-copy-btn');
+        if (!button) return;
+        if (button !== copyButton) {
+          copyButton = button;
+          copyLabel = button.textContent.trim();
+          button.setAttribute('aria-live', 'polite');
+          if (!code.querySelector(':scope > .code-copy-content')) {
+            const content = document.createElement('span');
+            content.className = 'code-copy-content';
+            [...code.childNodes].forEach((node) => {
+              if (node !== button) content.append(node);
+            });
+            code.prepend(content);
+          }
+        }
+        const label = button.textContent.trim();
+        button.title = label;
+        button.dataset.iconAction = label === copyLabel ? 'copy' : 'feedback';
+      };
+      new document.defaultView.MutationObserver(updateButton).observe(code, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+      updateButton();
+    });
+}
+
+function setupSectionEditButtons() {
+  document.querySelectorAll('.dokuwiki .secedit button').forEach((button) => {
+    const label = button.textContent.trim();
+    const section = button.title.trim();
+    if (section && section !== label) button.title = `${label}: ${section}`;
+  });
+}
+
 function setupSiteMenuToggle() {
   const toggle = document.getElementById('toggle_sitemenu');
   const menuContent = document.getElementById('zenlike__menucontent');
@@ -384,6 +427,8 @@ function setupThemePreference(closeSiteMenu) {
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
+    setupCodeCopyButtons();
+    setupSectionEditButtons();
     const closeSiteMenu = setupSiteMenuToggle();
     setupBackToTopVisibility();
     setupSidebarToggle();
@@ -391,6 +436,8 @@ if (document.readyState === 'loading') {
     setupThemePreference(closeSiteMenu);
   });
 } else {
+  setupCodeCopyButtons();
+  setupSectionEditButtons();
   const closeSiteMenu = setupSiteMenuToggle();
   setupBackToTopVisibility();
   setupSidebarToggle();

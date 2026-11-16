@@ -124,6 +124,85 @@
   background-color: __border__;
 }
 
+.dokuwiki .secedit button,
+.dokuwiki .code-copy-btn[data-icon-action='copy'] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 0;
+}
+
+.dokuwiki .secedit button::before,
+.dokuwiki .code-copy-btn[data-icon-action='copy']::before {
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: currentColor;
+  content: '';
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+.dokuwiki .secedit button::before {
+  mask-image: url('images/toolbar/pencil.svg');
+}
+
+.dokuwiki .code-copy-btn[data-icon-action='copy']::before {
+  mask-image: url('images/toolbar/copy.svg');
+}
+
+.dokuwiki pre:has(> .code-copy-btn[data-icon-action]) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.dokuwiki pre > .code-copy-content {
+  display: block;
+  min-width: 0;
+  flex: 1 1 0;
+  overflow-x: auto;
+}
+
+.dokuwiki pre > .code-copy-btn[data-icon-action] {
+  position: static;
+  flex: none;
+}
+
+.dokuwiki .code-copy-btn[data-icon-action='feedback'] {
+  min-height: 2rem;
+}
+
+.dokuwiki .code-copy-btn[hidden] {
+  display: none;
+}
+
+.dokuwiki .code-copy-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .dokuwiki .secedit {
+    margin-top: 0;
+  }
+
+  .dokuwiki .secedit button,
+  .dokuwiki .code-copy-btn[data-icon-action='copy'] {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .dokuwiki .code-copy-btn[data-icon-action='feedback'] {
+    min-height: 2.75rem;
+  }
+}
+
 .dokuwiki :is(input, textarea, select, button):disabled {
   border-color: __border__;
   background-color: __background_alt__;
