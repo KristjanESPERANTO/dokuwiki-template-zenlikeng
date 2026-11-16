@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.4.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.3.0...v7.4.0) (2026-11-16)
+
+### Features
+
+* modernize editor toolbar with Lucide icons ([29d5674](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/29d5674f043e2fcec073d55e26e11910a0b9be8b))
+* replace copy and section edit buttons with icons ([4908a84](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/4908a84672a2ee6096bcf0c011c0c492007131a1))
+
+### Bug Fixes
+
+* improve link wizard on mobile and in dark mode ([af98367](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/af9836717e976aae74a9e2c77ab7e2b8c187bf23))
+* **menu:** prevent controls from flashing during page load ([6f23381](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/6f233817b551cda283155ccaf4cf69c1c061d2a5))
+
 ## [7.3.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.2.1...v7.3.0) (2026-11-15)
 
 ### Features
