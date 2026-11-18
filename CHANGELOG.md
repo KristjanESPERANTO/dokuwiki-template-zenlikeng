@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.4.2](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.4.1...v7.4.2) (2026-11-18)
+
+### Bug Fixes
+
+* **edit:** avoid layout shift on section highlight ([09f391e](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/09f391ed0c0ca24c0ed81bfa61a16010ef1f794d))
+
 ## [7.4.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.4.0...v7.4.1) (2026-11-18)
 
 ## [7.4.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.3.0...v7.4.0) (2026-11-16)
