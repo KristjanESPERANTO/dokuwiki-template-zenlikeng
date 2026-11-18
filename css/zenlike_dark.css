@@ -376,6 +376,27 @@
   :root[data-theme='dark']
     #dokuwiki__content
     .page
+    :is(.secedit button, .code-copy-btn[data-icon-action='copy']):not(
+      :disabled
+    ) {
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--zenlike-muted);
+  }
+
+  :root[data-theme='dark']
+    #dokuwiki__content
+    .page
+    :is(.secedit button, .code-copy-btn[data-icon-action='copy']):hover:not(
+      :disabled
+    ) {
+    background-color: var(--zenlike-surface-raised);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark']
+    #dokuwiki__content
+    .page
     div.toolbar
     button.toolbutton:not(:disabled) {
     border-color: transparent;

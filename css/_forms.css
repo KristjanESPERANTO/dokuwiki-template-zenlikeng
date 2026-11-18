@@ -126,6 +126,19 @@
 
 .dokuwiki .secedit button,
 .dokuwiki .code-copy-btn[data-icon-action='copy'] {
+  border-color: transparent;
+  background-color: transparent;
+  color: __text_neu__;
+}
+
+.dokuwiki .secedit button:hover:not(:disabled),
+.dokuwiki .code-copy-btn[data-icon-action='copy']:hover:not(:disabled) {
+  background-color: __background_neu__;
+  color: __text__;
+}
+
+.dokuwiki .secedit button,
+.dokuwiki .code-copy-btn[data-icon-action='copy'] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
