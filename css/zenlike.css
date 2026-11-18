@@ -212,6 +212,25 @@ ul.linklist li {
   vertical-align: middle;
 }
 
+#search button[type='submit'] {
+  position: relative;
+  width: 2.5em;
+  padding: 0;
+  overflow: hidden;
+  text-indent: -9999px;
+}
+
+#search button[type='submit']::before {
+  position: absolute;
+  inset: 0;
+  width: 1em;
+  height: 1em;
+  margin: auto;
+  background-color: currentColor;
+  content: '';
+  mask: url('images/toolbar/search.svg') center / contain no-repeat;
+}
+
 #search input.text:focus-visible,
 #search input.edit:focus-visible,
 #search input[type='text']:focus-visible,
