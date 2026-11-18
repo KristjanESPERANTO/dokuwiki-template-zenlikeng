@@ -43,6 +43,19 @@ HTML;
 }
 
 /**
+ * Print the header picture element, using the configured picture URL if there is one
+ */
+function _tpl_header_picture() {
+    if (!tpl_getConf('showHeaderPicture')) return;
+
+    $url = preg_replace('/[\x00-\x1f\x7f]/', '', trim((string) tpl_getConf('headerPicture')));
+    $style = $url === ''
+        ? ''
+        : ' style="' . hsc('background-image: url("' . addcslashes($url, '\\"') . '")') . '"';
+    echo '<div id="headerpic"' . $style . '></div>';
+}
+
+/**
  * Collect the page, site and user tool menus shown in the tools panel
  *
  * @return array[] non-empty menus with their element id, label and items

@@ -8,4 +8,5 @@ $lang['discussionPage']   = 'Paĝo de diskuto (lasu malplena por malŝalti disku
 $lang['userPage']         = 'Paĝo de uzanto (lasu malplena por malŝalti uzantopaĝojn)';
 $lang['hideTools']        = 'Ĉu kaŝi ilojn por nesalutintaj vizitantoj?';
 $lang['menuid']           = 'Vikipaĝo, kies enhavo aperas en la ĉefa navigada menuo.';
+$lang['showHeaderPicture'] = 'Ĉu montri la bildon en la kaplinio?';
 $lang['headerPicture']    = 'URL de la bildo en la kaplinio (lasu malplena por la norma bildo)';

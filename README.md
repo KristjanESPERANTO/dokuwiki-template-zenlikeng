@@ -46,13 +46,14 @@ settings from `zenlike` are not copied over.
 
 You can change these options in the Configuration Manager:
 
-| Setting          | Default           | Description                                                                                           |
-| ---------------- | ----------------- | ----------------------------------------------------------------------------------------------------- |
-| `menuid`         | `menu`            | Wiki page whose contents appear in the main navigation.                                               |
-| `discussionPage` | `discussion:@ID@` | Discussion page pattern. `@ID@` stands for the current page ID; leave empty to hide discussion links. |
-| `userPage`       | `user:@USER@:`    | User page pattern. `@USER@` stands for the logged-in username; leave empty to hide user-page links.   |
-| `hideTools`      | `0`               | When enabled, hides user tools from visitors who are not logged in.                                   |
-| `headerPicture`  | empty             | URL of the header image. Leave empty to use the default background.                                   |
+| Setting             | Default           | Description                                                                                           |
+| ------------------- | ----------------- | ----------------------------------------------------------------------------------------------------- |
+| `menuid`            | `menu`            | Wiki page whose contents appear in the main navigation.                                               |
+| `discussionPage`    | `discussion:@ID@` | Discussion page pattern. `@ID@` stands for the current page ID; leave empty to hide discussion links. |
+| `userPage`          | `user:@USER@:`    | User page pattern. `@USER@` stands for the logged-in username; leave empty to hide user-page links.   |
+| `hideTools`         | `0`               | When enabled, hides user tools from visitors who are not logged in.                                   |
+| `showHeaderPicture` | `1`               | Show the picture below the title bar. Disable it to remove the picture entirely.                      |
+| `headerPicture`     | empty             | URL of the header image. Leave empty to use the bundled image; ignored if the picture is hidden.      |
 
 ## Styling
 

@@ -209,10 +209,11 @@
     background: #42482a;
   }
 
-  :root[data-theme='dark'] #headerpic {
-    background-image:
-      linear-gradient(rgba(24, 25, 27, 0.3), rgba(24, 25, 27, 0.3)),
-      url('images/header.jpg');
+  :root[data-theme='dark'] #headerpic::after {
+    position: absolute;
+    inset: 0;
+    background: rgba(24, 25, 27, 0.3);
+    content: '';
   }
 
   :root[data-theme='dark'] #menubottom,

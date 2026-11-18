@@ -115,7 +115,7 @@ test('maps DokuWiki toolbar icons to locally bundled SVGs', () => {
   }
 });
 
-test('renders navigation, tools and theme options in their final locations', () => {
+function renderHeader(conf = {}) {
   const php = String.raw`
     class Item {
       public function __construct(private $type) {}
@@ -124,8 +124,10 @@ test('renders navigation, tools and theme options in their final locations', () 
     }
     $conf = ['title' => 'Wiki', 'tagline' => '', 'breadcrumbs' => false, 'youarehere' => false];
     $lang = ['tools' => 'Tools', 'btn_search' => 'Search', 'skip_to_content' => 'Skip'];
-    function tpl_getConf($key) { return $key === 'menuid' ? 'menu' : ''; }
+    $options = json_decode($argv[2], true) + ['menuid' => 'menu'];
+    function tpl_getConf($key) { global $options; return $options[$key] ?? ''; }
     function tpl_getLang($key) { return ['main_navigation' => 'Menu', 'appearance' => 'Appearance', 'theme_system' => 'System', 'theme_light' => 'Light', 'theme_dark' => 'Dark'][$key] ?? ''; }
+    function _tpl_header_picture() { echo '<div id="headerpic"></div>'; }
     function _tpl_tool_menus() {
       return [
         ['id' => 'dokuwiki__pagetools', 'label' => 'Page Tools', 'items' => [new Item('edit'), new Item('revert')]],
@@ -137,11 +139,20 @@ test('renders navigation, tools and theme options in their final locations', () 
     function tpl_include_page($id) { echo '<ul><li><a href="#custom">Custom navigation</a></li></ul>'; }
     include $argv[1];
   `;
-  const html = execFileSync(
+  return execFileSync(
     'php',
-    ['-r', php, new URL('../header.html', import.meta.url).pathname],
+    [
+      '-r',
+      php,
+      new URL('../header.html', import.meta.url).pathname,
+      JSON.stringify(conf),
+    ],
     { encoding: 'utf8' },
   );
+}
+
+test('renders navigation, tools and theme options in their final locations', () => {
+  const html = renderHeader();
   const dom = new JSDOM(html);
   const { document } = dom.window;
   const header = document.getElementById('zenlikeheader');
@@ -193,6 +204,61 @@ test('renders navigation, tools and theme options in their final locations', () 
   );
   assert.equal(document.querySelector('[hidden]'), null);
   dom.window.close();
+});
+
+function headerPicture(conf) {
+  const php = String.raw`
+    define('DOKU_INC', '/');
+    function tpl_getConf($key) { global $options; return $options[$key] ?? ''; }
+    function hsc($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
+    $options = json_decode($argv[2], true);
+    require $argv[1];
+    _tpl_header_picture();
+  `;
+  const html = execFileSync(
+    'php',
+    [
+      '-r',
+      php,
+      new URL('../tpl_functions.php', import.meta.url).pathname,
+      JSON.stringify({ showHeaderPicture: '1', ...conf }),
+    ],
+    { encoding: 'utf8' },
+  );
+  return new JSDOM(html).window.document.getElementById('headerpic');
+}
+
+test('renders the header picture only when it is enabled', () => {
+  assert.equal(headerPicture({ showHeaderPicture: '0' }), null);
+  assert.equal(headerPicture({ showHeaderPicture: '' }), null);
+  assert.ok(headerPicture());
+});
+
+test('uses the bundled header picture unless a URL is configured', () => {
+  assert.equal(headerPicture().hasAttribute('style'), false);
+  assert.equal(
+    headerPicture({ headerPicture: '  \n' }).hasAttribute('style'),
+    false,
+  );
+  assert.equal(
+    headerPicture({
+      headerPicture: ' https://example.com/header.jpg ',
+    }).getAttribute('style'),
+    'background-image: url("https://example.com/header.jpg")',
+  );
+});
+
+test('keeps a configured header picture URL inside its CSS string', () => {
+  assert.equal(
+    headerPicture({
+      headerPicture: 'x");background:red;}body{y:url("',
+    }).getAttribute('style'),
+    'background-image: url("x\\");background:red;}body{y:url(\\"")',
+  );
+  assert.equal(
+    headerPicture({ headerPicture: 'a\\b\nc.jpg' }).getAttribute('style'),
+    'background-image: url("a\\\\bc.jpg")',
+  );
 });
 
 function toolMenus({
