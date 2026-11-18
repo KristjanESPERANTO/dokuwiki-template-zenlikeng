@@ -55,6 +55,7 @@ jobs:
         run: |
           gh release create "$RELEASE_TAG" \
             "dist/zenlikeng-${RELEASE_TAG}.zip" \
+            "dist/zenlikeng.zip" \
             --title "Zenlike NG ${RELEASE_TAG}" \
             --generate-notes \
             --verify-tag

@@ -35,6 +35,9 @@ and extract it into `lib/tpl/` in your DokuWiki installation. The archive
 contains the `zenlikeng/` directory. After installation, select `zenlikeng` in
 the Configuration Manager.
 
+The latest release is always available at a fixed URL:
+<https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/releases/latest/download/zenlikeng.zip>
+
 Zenlike NG uses the template ID `zenlikeng`, so it can be installed alongside
 the original `zenlike` template. The two templates have separate settings;
 settings from `zenlike` are not copied over.

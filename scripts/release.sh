@@ -33,6 +33,9 @@ git diff --check "${release_commit}^" "$release_commit"
 mkdir -p dist
 safe_tag=${release_ref//[^a-zA-Z0-9._-]/-}
 archive="dist/zenlikeng-${safe_tag}.zip"
+latest_archive="dist/zenlikeng.zip"
 git archive --format=zip --prefix=zenlikeng/ --output="$archive" "$release_commit"
-sha256sum "$archive"
-printf 'Created %s\n' "$archive"
+# Fixed name keeps releases/latest/download/zenlikeng.zip valid across releases.
+cp "$archive" "$latest_archive"
+sha256sum "$archive" "$latest_archive"
+printf 'Created %s and %s\n' "$archive" "$latest_archive"
