@@ -261,6 +261,106 @@ test('keeps a configured header picture URL inside its CSS string', () => {
   );
 });
 
+function pageBackground(conf) {
+  const php = String.raw`
+    define('DOKU_INC', '/');
+    define('DOKU_BASE', '/wiki/');
+    function tpl_getConf($key) { global $options; return $options[$key] ?? ''; }
+    function hsc($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
+    $options = json_decode($argv[2], true);
+    require $argv[1];
+    echo '<html' . _tpl_page_background_attrs() . '></html>';
+  `;
+  const html = execFileSync(
+    'php',
+    [
+      '-r',
+      php,
+      new URL('../tpl_functions.php', import.meta.url).pathname,
+      JSON.stringify(conf),
+    ],
+    { encoding: 'utf8' },
+  );
+  const root = new JSDOM(html).window.document.documentElement;
+  return {
+    bg: root.getAttribute('data-page-bg'),
+    size: root.getAttribute('data-page-size'),
+    style: root.getAttribute('style'),
+    attributes: root.attributes.length,
+  };
+}
+
+test('keeps the bundled texture unless another page background is chosen', () => {
+  for (const conf of [
+    {},
+    { pageBackground: 'texture', pageBackgroundImage: '/bg.jpg' },
+    { pageBackground: 'image', pageBackgroundImage: '  ' },
+    { pageBackground: 'unknown', pageBackgroundImage: '/bg.jpg' },
+  ]) {
+    assert.equal(pageBackground(conf).attributes, 0, JSON.stringify(conf));
+  }
+});
+
+test('uses the styled color as page background without an image', () => {
+  assert.deepEqual(
+    pageBackground({ pageBackground: 'color', pageBackgroundImage: '/bg.jpg' }),
+    { bg: 'color', size: null, style: null, attributes: 1 },
+  );
+});
+
+test('fills the page background with a custom image or tiles it', () => {
+  const image = 'https://example.com/bg.jpg';
+  assert.deepEqual(
+    pageBackground({ pageBackground: 'image', pageBackgroundImage: image }),
+    {
+      bg: 'image',
+      size: null,
+      style: `--zenlike-page-image: url("${image}")`,
+      attributes: 2,
+    },
+  );
+  assert.equal(
+    pageBackground({
+      pageBackground: 'image',
+      pageBackgroundImage: image,
+      pageBackgroundSize: 'tile',
+    }).size,
+    'tile',
+  );
+});
+
+test('resolves relative page background URLs against the wiki base', () => {
+  const style = (url) =>
+    pageBackground({ pageBackground: 'image', pageBackgroundImage: url }).style;
+
+  assert.equal(
+    style('images/bg.jpg'),
+    '--zenlike-page-image: url("/wiki/images/bg.jpg")',
+  );
+  assert.equal(
+    style('/media/bg.jpg'),
+    '--zenlike-page-image: url("/media/bg.jpg")',
+  );
+  assert.equal(
+    style('//cdn.example.com/bg.jpg'),
+    '--zenlike-page-image: url("//cdn.example.com/bg.jpg")',
+  );
+  assert.equal(
+    style('data:image/gif;base64,R0lGOD'),
+    '--zenlike-page-image: url("data:image/gif;base64,R0lGOD")',
+  );
+});
+
+test('keeps a page background URL inside its CSS string', () => {
+  assert.equal(
+    pageBackground({
+      pageBackground: 'image',
+      pageBackgroundImage: '/x");}body{y:url("',
+    }).style,
+    '--zenlike-page-image: url("/x\\");}body{y:url(\\"")',
+  );
+});
+
 function toolMenus({
   id = 'wiki:welcome',
   user = '',

@@ -398,13 +398,35 @@ ul.linklist li {
 /* Basics */
 
 html {
-  background-color: #696252 !important;
+  --zenlike-page-tint: rgba(100, 93, 76, 0.48);
+  --zenlike-page-art: url('images/wood-texture.jpg');
+  --zenlike-page-art-size: 141px 184px;
+  background-color: __outer_background__ !important;
   background-image:
-    linear-gradient(rgba(100, 93, 76, 0.48), rgba(100, 93, 76, 0.48)),
-    url('images/wood-texture.jpg') !important;
-  background-size:
-    auto,
-    141px 184px;
+    linear-gradient(var(--zenlike-page-tint), var(--zenlike-page-tint)),
+    var(--zenlike-page-art) !important;
+  background-size: auto, var(--zenlike-page-art-size);
+}
+
+html[data-page-bg='color'] {
+  --zenlike-page-tint: transparent;
+  --zenlike-page-art: none;
+}
+
+html[data-page-bg='image'] {
+  --zenlike-page-tint: transparent;
+  --zenlike-page-art: var(--zenlike-page-image);
+  --zenlike-page-art-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+html[data-page-bg='image'][data-page-size='tile'] {
+  --zenlike-page-art-size: auto;
+  background-attachment: scroll;
+  background-position: 0 0;
+  background-repeat: repeat;
 }
 
 body {

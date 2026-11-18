@@ -46,14 +46,17 @@ settings from `zenlike` are not copied over.
 
 You can change these options in the Configuration Manager:
 
-| Setting             | Default           | Description                                                                                           |
-| ------------------- | ----------------- | ----------------------------------------------------------------------------------------------------- |
-| `menuid`            | `menu`            | Wiki page whose contents appear in the main navigation.                                               |
-| `discussionPage`    | `discussion:@ID@` | Discussion page pattern. `@ID@` stands for the current page ID; leave empty to hide discussion links. |
-| `userPage`          | `user:@USER@:`    | User page pattern. `@USER@` stands for the logged-in username; leave empty to hide user-page links.   |
-| `hideTools`         | `0`               | When enabled, hides user tools from visitors who are not logged in.                                   |
-| `showHeaderPicture` | `1`               | Show the picture below the title bar. Disable it to remove the picture entirely.                      |
-| `headerPicture`     | empty             | URL of the header image. Leave empty to use the bundled image; ignored if the picture is hidden.      |
+| Setting               | Default           | Description                                                                                                    |
+| --------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------- |
+| `menuid`              | `menu`            | Wiki page whose contents appear in the main navigation.                                                        |
+| `discussionPage`      | `discussion:@ID@` | Discussion page pattern. `@ID@` stands for the current page ID; leave empty to hide discussion links.          |
+| `userPage`            | `user:@USER@:`    | User page pattern. `@USER@` stands for the logged-in username; leave empty to hide user-page links.            |
+| `hideTools`           | `0`               | When enabled, hides user tools from visitors who are not logged in.                                            |
+| `showHeaderPicture`   | `1`               | Show the picture below the title bar. Disable it to remove the picture entirely.                               |
+| `headerPicture`       | empty             | URL of the header image. Leave empty to use the bundled image; ignored if the picture is hidden.               |
+| `pageBackground`      | `texture`         | Background around the page: `texture` (bundled wood), `color` (from Styling) or `image` (custom).              |
+| `pageBackgroundImage` | empty             | URL of the image for `image`. Relative URLs are resolved from the wiki root; without one, the texture is used. |
+| `pageBackgroundSize`  | `fill`            | Display of a custom image: `fill` covers the window and stays fixed, `tile` repeats it at its size.            |
 
 ## Styling
 
@@ -61,7 +64,9 @@ Colors, widths, and the content font size can be changed in DokuWiki's
 Template Styling admin page (`?do=admin&page=styling`). The content font size
 (`__content_font_size__`, default `1em`) accepts any CSS size such as `1.1em`.
 The `__dark_*__` colors apply to dark mode only; switch the appearance to dark
-to check them.
+to check them. `__outer_background__` and `__dark_outer_background__` set the
+color around the page, which is shown as is when `pageBackground` is `color`.
+The page background is not shown on small screens.
 
 ## Sidebar
 

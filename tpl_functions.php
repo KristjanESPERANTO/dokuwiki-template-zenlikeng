@@ -43,16 +43,40 @@ HTML;
 }
 
 /**
+ * Build a quoted CSS url() value from a configured URL, empty if there is none
+ */
+function _tpl_css_url($url) {
+    $url = preg_replace('/[\x00-\x1f\x7f]/', '', trim((string) $url));
+    return $url === '' ? '' : 'url("' . addcslashes($url, '\\"') . '")';
+}
+
+/**
  * Print the header picture element, using the configured picture URL if there is one
  */
 function _tpl_header_picture() {
     if (!tpl_getConf('showHeaderPicture')) return;
 
-    $url = preg_replace('/[\x00-\x1f\x7f]/', '', trim((string) tpl_getConf('headerPicture')));
-    $style = $url === ''
-        ? ''
-        : ' style="' . hsc('background-image: url("' . addcslashes($url, '\\"') . '")') . '"';
+    $image = _tpl_css_url(tpl_getConf('headerPicture'));
+    $style = $image === '' ? '' : ' style="' . hsc('background-image: ' . $image) . '"';
     echo '<div id="headerpic"' . $style . '></div>';
+}
+
+/**
+ * Return the html element attributes that select the background around the page
+ *
+ * The texture is the default and needs no attributes.
+ */
+function _tpl_page_background_attrs() {
+    $mode = tpl_getConf('pageBackground');
+    if ($mode === 'color') return ' data-page-bg="color"';
+
+    $url = trim((string) tpl_getConf('pageBackgroundImage'));
+    if ($mode !== 'image' || $url === '') return '';
+
+    // A custom property resolves relative URLs against the stylesheet, not the page.
+    if (!preg_match('~^(?:[a-z][a-z0-9+.-]*:|/)~i', $url)) $url = DOKU_BASE . $url;
+    $size = tpl_getConf('pageBackgroundSize') === 'tile' ? ' data-page-size="tile"' : '';
+    return ' data-page-bg="image"' . $size . ' style="' . hsc('--zenlike-page-image: ' . _tpl_css_url($url)) . '"';
 }
 
 /**

@@ -21,14 +21,13 @@
   }
 
   :root[data-theme='dark'] {
-    background-color: #282820 !important;
-    background-image:
-      linear-gradient(rgba(30, 31, 26, 0.75), rgba(30, 31, 26, 0.75)),
-      url('images/wood-texture.jpg') !important;
-    background-size:
-      auto,
-      141px 184px;
+    --zenlike-page-tint: rgba(30, 31, 26, 0.75);
+    background-color: __dark_outer_background__ !important;
     color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'][data-page-bg='color'] {
+    --zenlike-page-tint: transparent;
   }
 
   :root[data-theme='dark'] body {
