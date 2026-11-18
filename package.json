@@ -4,14 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "bash scripts/check.sh && npm run test && npm run lint && npm run format:check && npm run spellcheck",
+    "check": "bash scripts/check.sh && node --run test",
     "release": "commit-and-tag-version --commit-all",
     "release:package": "bash scripts/release.sh",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "test": "node --test tests/*.test.js",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "lint": "eslint && prettier --check .",
+    "lint:fix": "eslint --fix && prettier --write .",
+    "test": "node --test tests/*.test.js && node --run lint && node --run spellcheck",
     "spellcheck": "cspell ."
   },
   "devDependencies": {
