@@ -43,72 +43,67 @@ HTML;
 }
 
 /**
- * Create link/button to discussion page and back
+ * Collect the page, site and user tool menus shown in the tools panel
  *
- * @author Anika Henke <anika@selfthinker.org>
+ * @return array[] non-empty menus with their element id, label and items
  */
-function _tpl_discussion($discussionPage, $title, $backTitle, $link=0, $wrapper=0) {
+function _tpl_tool_menus() {
+    global $conf, $lang, $ID;
+
+    $context = \dokuwiki\Menu\Item\AbstractItem::CTX_ALL;
+    $groups = [
+        'page' => [],
+        'site' => (new \dokuwiki\Menu\SiteMenu($context))->getItems(),
+        'user' => [],
+    ];
+    if (!tpl_getConf('hideTools') || !empty($_SERVER['REMOTE_USER'])) {
+        $groups['page'] = array_filter(
+            (new \dokuwiki\Menu\PageMenu($context))->getItems(),
+            static fn($item) => $item->getType() !== 'top'
+        );
+        $discussionPage = tpl_getConf('discussionPage');
+        if ($discussionPage) {
+            $discussionNs = str_replace('@ID@', '', $discussionPage);
+            $groups['page'][] = strpos($ID, $discussionNs) !== false
+                ? _tpl_page_item('discussion', str_replace($discussionNs, '', $ID), tpl_getLang('back_to_article'), DOKU_INC . 'lib/images/menu/12-back_arrow-left.svg')
+                : _tpl_page_item('discussion', str_replace('@ID@', $ID, $discussionPage), tpl_getLang('discussion'), __DIR__ . '/images/discussion.svg');
+        }
+        if ($conf['useacl']) {
+            $groups['user'] = (new \dokuwiki\Menu\UserMenu($context))->getItems();
+            if (tpl_getConf('userPage') && !empty($_SERVER['REMOTE_USER'])) {
+                $groups['user'][] = _tpl_page_item('userpage', str_replace('@USER@', $_SERVER['REMOTE_USER'], tpl_getConf('userPage')), tpl_getLang('userpage'), DOKU_INC . 'lib/images/interwiki/user.svg');
+            }
+        }
+    }
+
+    $menus = [];
+    foreach (array_filter($groups) as $group => $items) {
+        $menus[] = [
+            // DokuWiki's scripts find page actions by this ID.
+            'id' => $group === 'page' ? 'dokuwiki__pagetools' : "zenlike__{$group}tools",
+            'label' => $lang[$group . '_tools'],
+            'items' => array_values($items),
+        ];
+    }
+    return $menus;
+}
+
+/**
+ * Create a menu item linking to a wiki page, rendered like DokuWiki's own items
+ */
+function _tpl_page_item($type, $pageId, $label, $svg) {
     global $ID;
 
-    $discussPage    = str_replace('@ID@', $ID, $discussionPage);
-    $discussPageRaw = str_replace('@ID@', '', $discussionPage);
-    $isDiscussPage  = strpos($ID, $discussPageRaw) !== false;
-    $backID         = str_replace($discussPageRaw, '', $ID);
-
-    if ($wrapper) echo "<$wrapper>";
-
-    if ($isDiscussPage) {
-        if ($link)
-            tpl_pagelink($backID, $backTitle);
-        else
-            echo html_btn('back2article', $backID, '', array(), 'get', 0, $backTitle);
-    } else {
-        if ($link)
-            tpl_pagelink($discussPage, $title);
-        else
-            echo html_btn('discussion', $discussPage, '', array(), 'get', 0, $title);
-    }
-
-    if ($wrapper) echo "</$wrapper>";
-}
-
-/**
- * Create link/button to user page
- *
- * @author Anika Henke <anika@selfthinker.org>
- */
-function _tpl_userpage($userPage, $title, $link=0, $wrapper=0) {
-    if (empty($_SERVER['REMOTE_USER'])) return;
-
-    global $conf;
-    $userPage = str_replace('@USER@', $_SERVER['REMOTE_USER'], $userPage);
-
-    if ($wrapper) echo "<$wrapper>";
-
-    if ($link)
-        tpl_pagelink($userPage, $title);
-    else
-        echo html_btn('userpage', $userPage, '', array(), 'get', 0, $title);
-
-    if ($wrapper) echo "</$wrapper>";
-}
-
-/**
- * Wrapper around Zenlike-specific discussion and user-page actions.
- *
- * @author Anika Henke <anika@selfthinker.org>
- */
-function _tpl_action($type, $link=0, $wrapper=0) {
-    switch ($type) {
-        case 'discussion':
-            if (tpl_getConf('discussionPage')) {
-                _tpl_discussion(tpl_getConf('discussionPage'), tpl_getLang('discussion'), tpl_getLang('back_to_article'), $link, $wrapper);
-            }
-            break;
-        case 'userpage':
-            if (tpl_getConf('userPage')) {
-                _tpl_userpage(tpl_getConf('userPage'), tpl_getLang('userpage'), $link, $wrapper);
-            }
-            break;
-    }
+    $pageId = (new \dokuwiki\File\PageResolver($ID))->resolveId($pageId);
+    return new class ($type, $pageId, $label, $svg) extends \dokuwiki\Menu\Item\AbstractItem {
+        public function __construct($type, $pageId, $label, $svg) {
+            $this->type = $type;
+            parent::__construct();
+            $this->id = $pageId;
+            $this->params = [];
+            $this->label = $label;
+            $this->svg = $svg;
+            $this->nofollow = false;
+        }
+    };
 }

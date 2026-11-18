@@ -40,7 +40,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
 
             <!-- ********** ASIDE ********** -->
             <?php if ($showSidebar): ?>
-                <button type="button" id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="true" hidden>
+                <button type="button" id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="false">
                     <?php echo hsc($lang['sidebar']) ?>
                 </button>
                 <nav id="dokuwiki__aside" aria-label="<?php echo $lang['sidebar'] ?>"><div class="pad include">
@@ -69,7 +69,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
                     $pageMenuItems = $showTools ? (new \dokuwiki\Menu\PageMenu())->getItems() : [];
                     foreach ($pageMenuItems as $item) {
                         if ($item->getType() !== 'top') continue;
-                        echo '<nav id="zenlike__back-to-top" aria-label="' . hsc($lang['page_tools']) . '"><ul><li class="action top">';
+                        echo '<nav id="zenlike__back-to-top" aria-label="' . hsc($lang['page_tools']) . '" hidden><ul><li class="action top">';
                         echo $item->asHtmlLink(false);
                         echo '</li></ul></nav>';
                     }
@@ -81,28 +81,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
         </div><!-- /wrapper -->
 
         <!-- ********** FOOTER ********** -->
-        <footer id="dokuwiki__footer">
-            <!-- PAGE ACTIONS -->
-            <?php if ($showTools): ?>
-                <nav id="dokuwiki__pagetools" aria-labelledby="dokuwiki__pagetools__heading">
-                    <h3 class="a11y" id="dokuwiki__pagetools__heading"><?php echo $lang['page_tools'] ?></h3>
-                    <ul>
-                        <?php
-                            foreach ($pageMenuItems as $item) {
-                                if ($item->getType() === 'top') continue;
-                                echo '<li class="action ' . hsc($item->getType()) . '">' . $item->asHtmlLink(false) . '</li>';
-                            }
-                            if (tpl_getConf('discussionPage')) {
-                                echo '<li class="action discussion">';
-                                _tpl_action('discussion', 1);
-                                echo '</li>';
-                            }
-                        ?>
-                    </ul>
-                </nav>
-            <?php endif; ?>
-
-        <div class="pad">
+        <footer id="dokuwiki__footer"><div class="pad">
             <div class="doc"><?php tpl_pageinfo() /* 'Last modified' etc */ ?></div>
             <?php tpl_license('button') /* content license, parameters: img=*badge|button|0, imgonly=*0|1, return=*0|1 */ ?>
         </div></footer><!-- /footer -->

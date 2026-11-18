@@ -113,180 +113,52 @@
 
   #zenlike__menucontent {
     display: block;
+    padding: 0 0 0.75em;
   }
 
   #zenlike__navigation {
     display: block;
   }
 
-  #zenlike__menucontent[hidden] {
+  .zenlike-desktop-label {
     display: none;
   }
 
-  #zenlike__menucontent:not([hidden]) {
-    padding: 0.75em 0;
+  #header-tools {
+    position: static;
+    display: block;
+    padding: 0.75em 0 0;
+    background: #626b2b;
   }
 
-  #custommenu,
-  #menu #rightmenu {
+  .js #zenlikeheader:not(.menu-open) #header-tools,
+  .js #zenlikeheader:not(.menu-open) #zenlike__menucontent,
+  #zenlikeheader.menu-open #headerpic {
+    display: none;
+  }
+
+  .js #toggle_sidebar[aria-expanded='false'] + #dokuwiki__aside {
+    display: none;
+  }
+
+  #custommenu {
     width: 100%;
     max-width: none;
   }
 
-  #menu #rightmenu {
-    margin-top: 0.5em;
-  }
-
-  #menu .mobile-tools {
-    display: block;
-  }
-
-  #menu #rightmenu .desktop-tools {
-    display: none;
-  }
-
-  #menu .mobile-tools form {
-    display: flex;
-    width: 100%;
-  }
-
-  #menu .mobile-tools form[hidden] {
-    display: none;
-  }
-
-  #menu .mobile-tools form > .no {
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 1em;
-  }
-
-  #menu .mobile-tools select {
-    flex: 1 1 auto;
-    width: 100%;
-    min-width: 0;
-    min-height: 3em;
-    padding: 0.65em 0.75em;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 0.375rem;
-    background: rgba(0, 0, 0, 0.12);
-    color: #fff;
-    font: inherit;
-  }
-
-  #menu .mobile-tools optgroup,
-  #menu .mobile-tools option {
-    background-color: #f2f2f2;
-    color: #333;
-  }
-
-  #menu .mobile-tools option:hover,
-  #menu .mobile-tools option:checked {
-    background-color: #656900;
-    color: #fff;
-  }
-
-  #menu .mobile-tools-list:not([hidden]) {
-    margin: 0 1em;
-    border: 1px solid __border__;
+  #zenlike__tools {
+    margin: 0.5em 1em 0;
     border-radius: 0.25rem;
-    background: __background__;
-    color: __text__;
-    text-align: start;
   }
 
-  #menu .mobile-tools-group {
-    padding: 0.25rem;
-  }
-
-  #menu .mobile-tools-group:not([hidden]) ~ .mobile-tools-group:not([hidden]),
-  #menu .mobile-appearance {
-    border-top: 1px solid __border__;
-  }
-
-  #menu .mobile-tools-group ul {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  #menu .mobile-tools-group li {
-    margin: 0;
-  }
-
-  #menu .mobile-tools-group button[data-mobile-action],
-  #menu .mobile-tools-group li.discussion a,
-  #menu .mobile-tools-group li.userpage a {
-    display: flex;
-    align-items: center;
-    gap: 0.4em;
-    width: 100%;
+  #zenlike__tools a {
     min-height: 44px;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0.4em 0.7em;
-    border: 0;
-    border-radius: 0.25rem;
-    background: transparent;
-    color: __text__;
-    font:
-      0.875rem system-ui,
-      sans-serif;
-    text-align: start;
-    text-decoration: none;
-    cursor: pointer;
   }
 
-  #menu .mobile-tools-group li.discussion a,
-  #menu .mobile-tools-group li.userpage a {
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-  }
-
-  #menu .mobile-tools-group button:hover,
-  #menu .mobile-tools-group button:focus-visible,
-  #menu .mobile-tools-group li.discussion a:hover,
-  #menu .mobile-tools-group li.discussion a:focus-visible,
-  #menu .mobile-tools-group li.userpage a:hover,
-  #menu .mobile-tools-group li.userpage a:focus-visible {
-    background: __background_neu__;
-  }
-
-  #menu .mobile-tools-group button:focus-visible,
-  #menu .mobile-tools-group li.discussion a:focus-visible,
-  #menu .mobile-tools-group li.userpage a:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
-  }
-
-  #menu .mobile-tools-group svg {
-    flex: none;
-    width: 1.1em;
-    height: 1.1em;
-    fill: currentColor;
-  }
-
-  #menu .mobile-appearance {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    padding: 0.75rem;
-    font:
-      0.875rem system-ui,
-      sans-serif;
-  }
-
-  #menu .mobile-tools #mobile-theme {
-    box-sizing: border-box;
-    min-height: 2.5rem;
-    padding: 0.4rem;
+  .zenlike-appearance select {
     border: 1px solid __border__;
     background: __background__;
     color: __text__;
-    font: inherit;
   }
 
   #custommenu ul {
@@ -314,21 +186,7 @@
     text-align: start;
   }
 
-  #menu .desktop-menu {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.25em;
-  }
-
-  #menu .desktop-menu li {
-    float: none;
-    flex: 1 1 100%;
-    width: 100%;
-  }
-
-  #menu li a {
+  #zenlike__navigation li a {
     display: block;
     min-height: 3em;
     padding: 0.65em 0.75em;
@@ -338,60 +196,14 @@
     text-decoration: none;
   }
 
-  #menu li a:hover,
-  #menu li a:focus-visible {
+  #zenlike__navigation li a:hover,
+  #zenlike__navigation li a:focus-visible {
     background: #656900;
     text-decoration: none;
   }
 
-  #menu .desktop-menu li .current a {
+  #zenlike__navigation li .current a {
     background: #565a00;
-  }
-
-  #menu #rightmenu {
-    float: none;
-  }
-
-  #menu #rightmenu .desktop-menu {
-    top: 0;
-  }
-
-  #menu .desktop-menu li.menusplit {
-    width: 100%;
-  }
-
-  #toggle_usertools {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    min-height: 3em;
-    box-sizing: border-box;
-    padding: 0.65em 0.75em;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(0, 0, 0, 0.12);
-  }
-
-  #toggle_usertools:hover,
-  #toggle_usertools:focus-visible {
-    background: #656900;
-  }
-
-  #usertools {
-    position: static;
-    width: 100%;
-    height: auto;
-    padding: 0.5em;
-    box-sizing: border-box;
-  }
-
-  #usertools ul {
-    position: static;
-    top: auto;
-    padding: 0.5em;
-  }
-
-  #usertools ul li {
-    width: auto;
   }
 
   #headerpic {
@@ -399,10 +211,6 @@
     background-size: cover;
     height: 6em;
     margin-bottom: 0;
-  }
-
-  #zenlikeheader:has(#toggle_sitemenu[aria-expanded='true']) #headerpic {
-    display: none;
   }
 
   .page {
@@ -413,34 +221,7 @@
     padding-inline: 1em;
   }
 
-  #dokuwiki__pagetools {
-    display: block;
-    position: static;
-    bottom: auto;
-    left: auto;
-    float: none;
-    clear: both;
-    width: auto;
-    padding: 0 1em 1em;
-    border: 0;
-    background: transparent;
-    z-index: auto;
-  }
-
-  #dokuwiki__pagetools[hidden] {
-    display: none;
-  }
-
-  #dokuwiki__pagetools ul {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0;
-  }
-
-  #dokuwiki__pagetools li:not(.top) {
-    display: none;
-  }
-
+  .no-js #zenlike__back-to-top,
   #zenlike__back-to-top:not([hidden]) {
     padding: 0 1em;
   }
@@ -452,11 +233,7 @@
     margin: 1em;
   }
 
-  #dokuwiki__aside[hidden] {
-    display: none;
-  }
-
-  #toggle_sidebar:not([hidden]) {
+  .js #toggle_sidebar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -474,7 +251,7 @@
     cursor: pointer;
   }
 
-  #toggle_sidebar:not([hidden])::after {
+  .js #toggle_sidebar::after {
     content: '+';
   }
 

@@ -222,8 +222,6 @@ ul.linklist li {
 }
 
 #menu,
-#usertools,
-#dokuwiki__pagetools,
 #search,
 #search button,
 #search input {
@@ -242,8 +240,11 @@ ul.linklist li {
   margin-bottom: 2px;
 }
 
-#menu {
+#zenlikeheader {
   position: relative;
+}
+
+#menu {
   display: flex;
   align-items: center;
   background: #626b2b;
@@ -292,26 +293,7 @@ ul.linklist li {
   float: none;
 }
 
-#menu .desktop-menu {
-  position: static;
-  top: auto;
-  display: flex;
-  align-items: center;
-  margin: 0;
-}
-
-#menu .desktop-menu li {
-  position: relative;
-  display: block;
-}
-
-#usertools ul li {
-  position: relative;
-  display: inline;
-}
-
-#menu ul li a,
-#usertools ul li a {
+#zenlike__navigation li a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -325,121 +307,48 @@ ul.linklist li {
 }
 
 @media (min-width: 42.01em) {
-  #menu ul li a {
+  #zenlike__navigation li a {
     border-radius: 0.25rem;
   }
 }
 
-#menu ul li a:hover,
-#usertools ul li a:hover {
+#zenlike__navigation li a:hover {
   text-decoration: underline;
 }
 
-#menu ul li a:focus-visible,
-#usertools ul li a:focus-visible,
-#dokuwiki__pagetools ul li a:focus-visible {
+#zenlike__navigation li a:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 3px;
 }
 
-#menu ul li .current a,
-#usertools ul li .current a {
+#zenlike__navigation li .current a {
   background: rgba(0, 0, 0, 0.14);
 }
 
 /* The menu padding is too small for DokuWiki's link icons */
-#menu a.urlextern,
-#menu a.windows,
-#menu a.mail,
-#menu a.mediafile,
-#menu a.interwiki {
+#zenlike__navigation a.urlextern,
+#zenlike__navigation a.windows,
+#zenlike__navigation a.mail,
+#zenlike__navigation a.mediafile,
+#zenlike__navigation a.interwiki {
   background-image: none;
 }
 
 @media (min-width: 80em) {
-  #zenlike__navigation {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    justify-content: stretch;
-    gap: 0;
-  }
-
-  #custommenu {
-    min-width: 0;
-  }
-
   #custommenu ul {
-    flex-wrap: wrap;
     justify-content: flex-start;
   }
 
-  #menu ul li a {
+  #zenlike__navigation li a {
     padding-inline: 0.75em;
     font-size: 0.875em;
   }
 }
 
 @media (min-width: 42.01em) and (max-width: 79.99em) {
-  #zenlike__navigation {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-  }
-
-  #custommenu {
-    flex: 1 1 auto;
-    width: 100%;
-  }
-
-  #custommenu ul {
-    justify-content: center;
-  }
-
   #custommenu ul li a {
     padding-inline: 0.75em;
     font-size: 0.875em;
-  }
-
-  #menu #rightmenu {
-    align-self: stretch;
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-  }
-
-  #menu #rightmenu .desktop-tools,
-  #menu #rightmenu .desktop-menu {
-    width: 100%;
-  }
-
-  #menu #rightmenu .desktop-menu {
-    justify-content: flex-end;
-  }
-}
-
-@media (min-width: 42.01em) {
-  #usertools {
-    height: auto;
-    min-width: 12em;
-    box-sizing: border-box;
-  }
-
-  #usertools ul {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0;
-  }
-
-  #usertools ul li {
-    display: block;
-  }
-
-  #usertools ul li a {
-    justify-content: flex-start;
-    text-align: start;
   }
 }
 
@@ -901,75 +810,11 @@ input.button {
 
 /* MENUS */
 
-#dokuwiki__pagetools {
-  float: none;
-  box-sizing: border-box;
-  max-width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-@media (min-width: 42.01em) {
-  #dokuwiki__pagetools {
-    margin: 0 0 1em;
-    padding: 0 2em 0.75rem;
-    border-bottom: 1px solid __border__;
-  }
-}
-
-#dokuwiki__pagetools ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.125rem;
-  padding: 0;
-  margin: 0;
-}
-
-#dokuwiki__pagetools ul li {
-  position: relative;
-  display: block;
-  padding: 0;
-  margin: 0;
-}
-
-#dokuwiki__pagetools ul li a {
-  display: inline-flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  gap: 0.4em;
-  min-height: 2.5rem;
-  box-sizing: border-box;
-  padding: 0.4em 0.7em;
-  border-radius: 0.25rem;
-  color: __text__;
-  font-size: 0.875rem;
-  text-decoration: none;
-}
-
-#dokuwiki__pagetools ul li a:hover,
-#dokuwiki__pagetools ul li a:focus-visible {
-  background: __background_neu__;
-}
-
-#dokuwiki__pagetools svg,
 #zenlike__back-to-top svg {
   flex: none;
   width: 1.1em;
   height: 1.1em;
   fill: currentColor;
-}
-
-#dokuwiki__pagetools li.discussion a::after,
-#menu .mobile-tools-list li.discussion a::after {
-  content: '';
-  flex: none;
-  width: 1.1em;
-  height: 1.1em;
-  background: currentColor;
-  -webkit-mask: url('images/discussion.svg') center / contain no-repeat;
-  mask: url('images/discussion.svg') center / contain no-repeat;
 }
 
 .zenlike-menu-icon {
@@ -986,7 +831,15 @@ input.button {
   background: currentColor;
 }
 
-#toggle_sitemenu:not([hidden]) {
+#toggle_sitemenu {
+  display: none;
+}
+
+#toggle_sidebar {
+  display: none;
+}
+
+.js #toggle_sitemenu {
   position: absolute;
   top: 0.75em;
   right: 0.75em;
@@ -1020,48 +873,30 @@ input.button {
   text-decoration: none;
 }
 
-#desktop-tools-content {
-  position: absolute;
-  top: 0.75em;
-  right: 0.75em;
-  z-index: 20;
-  margin-top: 44px;
-  width: 18rem;
-  max-width: 90vw;
-  max-height: 70vh;
-  overflow: auto;
+#zenlike__tools {
+  box-sizing: border-box;
   border: 1px solid __border__;
   background: __background__;
-  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.2);
-}
-
-#desktop-tools-content #dokuwiki__pagetools {
-  position: static;
-  width: auto;
-  margin: 0;
-  padding: 0.25rem;
-  border: 0;
-}
-
-#desktop-tools-content #dokuwiki__pagetools ul {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-#desktop-tools-content #dokuwiki__pagetools ul li a {
-  display: flex;
-  justify-content: flex-end;
-  min-height: 2.5rem;
   color: __text__;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-size: 0.875rem;
   text-align: start;
 }
 
-#desktop-sitetools {
+#zenlike__tools nav {
   padding: 0.25rem;
+}
+
+#zenlike__tools nav + nav,
+#zenlike__tools .zenlike-appearance {
   border-top: 1px solid __border__;
 }
 
-#desktop-sitetools ul {
+#zenlike__tools ul {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
@@ -1070,17 +905,11 @@ input.button {
   list-style: none;
 }
 
-#desktop-sitetools li {
+#zenlike__tools li {
   margin: 0;
 }
 
-#desktop-sitetools li.user-tools-start {
-  margin-top: 0.25rem;
-  padding-top: 0.25rem;
-  border-top: 1px solid __border__;
-}
-
-#desktop-sitetools a {
+#zenlike__tools a {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -1091,98 +920,76 @@ input.button {
   padding: 0.4em 0.7em;
   border-radius: 0.25rem;
   color: __text__;
-  font-family: system-ui, sans-serif;
-  font-size: 0.875rem;
   text-decoration: none;
 }
 
-#desktop-sitetools a:hover,
-#desktop-sitetools a:focus-visible {
+#zenlike__tools a:hover,
+#zenlike__tools a:focus-visible {
   background: __background_neu__;
 }
 
-#desktop-sitetools a:focus-visible {
+#zenlike__tools a:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: -2px;
 }
 
-#desktop-sitetools svg {
+#zenlike__tools svg {
   flex: none;
   width: 1.1em;
   height: 1.1em;
   fill: currentColor;
 }
 
-#desktop-sitetools li.userpage a::after,
-#menu .mobile-tools-group li.userpage a::after {
-  content: '';
-  flex: none;
-  width: 1.1em;
-  height: 1.1em;
-  background-color: currentColor;
-  mask: url(../../images/interwiki/user.svg) no-repeat center / contain;
+/* DokuWiki's user icon has a fixed fill color. */
+#zenlike__tools li.userpage svg path {
+  fill: currentColor;
 }
 
-.desktop-appearance {
+.zenlike-appearance {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
   padding: 0.75rem;
-  border-top: 1px solid __border__;
-  color: __text__;
-  font-family: system-ui, sans-serif;
-  font-size: 0.875rem;
-  text-align: start;
 }
 
-.desktop-appearance select {
+.zenlike-appearance select {
   box-sizing: border-box;
   width: 100%;
   min-height: 2.5rem;
   padding: 0.4rem;
+  font: inherit;
 }
 
-#menu #rightmenu {
-  float: none;
-  width: auto;
-  flex: 0 0 auto;
-  text-align: center;
-}
-
-#menu .mobile-tools {
+.no-js .zenlike-appearance {
   display: none;
 }
 
-#menu #rightmenu .desktop-tools {
-  display: block;
-}
+@media (min-width: 42.01em) {
+  .zenlike-mobile-label {
+    display: none;
+  }
 
-#menu #rightmenu .desktop-menu {
-  position: static;
-  top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .js #zenlike__tools {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 20;
+    width: 18rem;
+    max-width: 90vw;
+    max-height: 70vh;
+    margin-top: 44px;
+    overflow: auto;
+    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.2);
+  }
 
-#menu #rightmenu .desktop-menu li {
-  display: block;
-  float: none;
-}
+  .js #zenlikeheader:not(.menu-open) #zenlike__tools {
+    display: none;
+  }
 
-#menu .desktop-menu {
-  padding: 0;
-}
-
-#menu .desktop-menu li {
-  float: none;
-  padding: 0;
-  margin: 0;
-  color: #fff;
-}
-
-#menu .desktop-menu li.menusplit {
-  padding-left: 1em;
+  .no-js #zenlike__tools {
+    width: 100%;
+    margin-bottom: 0.75em;
+  }
 }
 
 /* SPECIAL STYLES */
@@ -1357,6 +1164,7 @@ nav.breadcrumb-trace {
   vertical-align: middle;
 }
 
+.no-js #zenlike__back-to-top,
 #zenlike__back-to-top:not([hidden]) {
   display: flex;
   justify-content: flex-end;
@@ -1525,60 +1333,6 @@ nav.breadcrumb-trace {
 
 #headerpic {
   background-color: #000;
-}
-
-#toggle_usertools {
-  appearance: none;
-  display: inline-flex;
-  list-style: none;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #fff;
-}
-
-#toggle_usertools::marker {
-  content: '';
-}
-
-#toggle_usertools::-webkit-details-marker {
-  display: none;
-}
-
-#toggle_usertools img {
-  filter: brightness(0) invert(1);
-}
-
-#toggle_usertools::after {
-  content: '';
-  width: 0;
-  height: 0;
-  border-top: 5px solid currentColor;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-}
-
-#toggle_usertools:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
-}
-
-#usertools {
-  position: absolute;
-  top: 100%;
-  inset-inline-end: 0;
-  z-index: 20;
-  background: linear-gradient(180deg, #898e00 0%, #737800 100%);
-  height: 3.5em;
-  right: 0;
-}
-
-#usertools ul {
-  padding-top: 1em;
-  padding-right: 1.5em;
 }
 
 /** List **/

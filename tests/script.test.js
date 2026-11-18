@@ -115,30 +115,27 @@ test('maps DokuWiki toolbar icons to locally bundled SVGs', () => {
   }
 });
 
-test('renders site tools and translated theme options in their final locations', () => {
+test('renders navigation, tools and theme options in their final locations', () => {
   const php = String.raw`
-    namespace dokuwiki\Menu {
-      class SiteMenu {
-        public function getListItems($prefix = '', $svg = true) {
-          return '<li class="' . $prefix . 'recent"><a href="#recent">Recent</a></li>' .
-                 '<li class="' . $prefix . 'plugin"><a href="#plugin">Plugin</a></li>';
-        }
-      }
-      class MobileMenu {
-        public function getDropdown(...$args) { return ''; }
-        public function getGroupedItems() { return []; }
-      }
+    class Item {
+      public function __construct(private $type) {}
+      public function getType() { return $this->type; }
+      public function asHtmlLink($prefix) { return '<a href="#' . $this->type . '">' . $this->type . '</a>'; }
     }
-    namespace {
-      $conf = ['title' => 'Wiki', 'tagline' => '', 'useacl' => false, 'breadcrumbs' => false, 'youarehere' => false];
-      $lang = ['tools' => 'Tools', 'btn_search' => 'Search', 'skip_to_content' => 'Skip'];
-      function tpl_getConf($key) { return $key === 'menuid' ? 'menu' : ''; }
-      function tpl_getLang($key) { return ['appearance' => 'Appearance', 'theme_system' => 'System', 'theme_light' => 'Light', 'theme_dark' => 'Dark'][$key] ?? ''; }
-      function hsc($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
-      function tpl_searchform() {}
-      function tpl_include_page($id) { echo '<ul><li><a href="#custom">Custom navigation</a></li></ul>'; }
-      include $argv[1];
+    $conf = ['title' => 'Wiki', 'tagline' => '', 'breadcrumbs' => false, 'youarehere' => false];
+    $lang = ['tools' => 'Tools', 'btn_search' => 'Search', 'skip_to_content' => 'Skip'];
+    function tpl_getConf($key) { return $key === 'menuid' ? 'menu' : ''; }
+    function tpl_getLang($key) { return ['main_navigation' => 'Menu', 'appearance' => 'Appearance', 'theme_system' => 'System', 'theme_light' => 'Light', 'theme_dark' => 'Dark'][$key] ?? ''; }
+    function _tpl_tool_menus() {
+      return [
+        ['id' => 'dokuwiki__pagetools', 'label' => 'Page Tools', 'items' => [new Item('edit'), new Item('revert')]],
+        ['id' => 'zenlike__sitetools', 'label' => 'Site Tools', 'items' => [new Item('recent')]],
+      ];
     }
+    function hsc($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
+    function tpl_searchform() { echo '<form id="dw__search"></form>'; }
+    function tpl_include_page($id) { echo '<ul><li><a href="#custom">Custom navigation</a></li></ul>'; }
+    include $argv[1];
   `;
   const html = execFileSync(
     'php',
@@ -147,27 +144,172 @@ test('renders site tools and translated theme options in their final locations',
   );
   const dom = new JSDOM(html);
   const { document } = dom.window;
+  const header = document.getElementById('zenlikeheader');
+  const toggle = document.getElementById('toggle_sitemenu');
+  const tools = document.getElementById('zenlike__tools');
 
-  assert.ok(document.querySelector('#custommenu a[href="#custom"]'));
-  assert.ok(document.querySelector('#desktop-sitetools .action.recent'));
-  assert.ok(document.querySelector('#desktop-sitetools .action.plugin'));
-  assert.equal(document.querySelector('#menu .action.recent'), null);
-  assert.equal(document.querySelector('#menu .action.plugin'), null);
-  assert.equal(document.getElementById('toggle_theme'), null);
-  for (const id of ['desktop-theme', 'mobile-theme']) {
-    assert.deepEqual(
-      [...document.getElementById(id).options].map(({ value, textContent }) => [
+  assert.equal(toggle.hasAttribute('hidden'), false);
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(toggle.getAttribute('aria-controls'), 'zenlike__menucontent');
+  assert.deepEqual(
+    [...toggle.querySelectorAll('.a11y')].map((label) => label.textContent),
+    ['Menu', 'Tools'],
+  );
+  assert.equal(
+    header.querySelector('#header-tools > #search > form').id,
+    'dw__search',
+  );
+  assert.ok(header.querySelector('#menu #custommenu a[href="#custom"]'));
+  assert.equal(tools.parentElement.id, 'zenlike__menucontent');
+  assert.deepEqual(
+    [...tools.querySelectorAll('nav')].map((nav) => [
+      nav.id,
+      nav.getAttribute('aria-label'),
+      [...nav.querySelectorAll('li')].map((item) => item.className),
+    ]),
+    [
+      ['dokuwiki__pagetools', 'Page Tools', ['action edit', 'action revert']],
+      ['zenlike__sitetools', 'Site Tools', ['action recent']],
+    ],
+  );
+  assert.deepEqual(
+    [...document.querySelectorAll('select')].map((select) => [
+      select.id,
+      [...select.options].map(({ value, textContent }) => [
         value,
         textContent.trim(),
       ]),
+    ]),
+    [
       [
-        ['system', 'System'],
-        ['light', 'Light'],
-        ['dark', 'Dark'],
+        'zenlike-theme',
+        [
+          ['system', 'System'],
+          ['light', 'Light'],
+          ['dark', 'Dark'],
+        ],
       ],
-    );
-  }
+    ],
+  );
+  assert.equal(document.querySelector('[hidden]'), null);
   dom.window.close();
+});
+
+function toolMenus({
+  id = 'wiki:welcome',
+  user = '',
+  hideTools = false,
+  useacl = true,
+} = {}) {
+  const php = String.raw`
+    namespace dokuwiki\Menu\Item {
+      abstract class AbstractItem {
+        public const CTX_ALL = 3;
+        protected $type = '';
+        protected $id = '';
+        protected $params = [];
+        protected $label = '';
+        protected $svg = '';
+        protected $nofollow = true;
+        public function __construct() { global $ID; $this->id = $ID; $this->params['do'] = $this->type; }
+        public function getType() { return $this->type; }
+        public function describe() { return [$this->type, $this->id, $this->label, basename($this->svg), $this->params, $this->nofollow]; }
+      }
+      class Core extends AbstractItem {
+        public function __construct($type, public $context) { $this->type = $type; }
+      }
+    }
+    namespace dokuwiki\Menu {
+      use dokuwiki\Menu\Item\Core;
+      class PageMenu { public function __construct(private $context) {} public function getItems() { return [new Core('edit', $this->context), new Core('top', $this->context)]; } }
+      class SiteMenu { public function __construct(private $context) {} public function getItems() { return [new Core('recent', $this->context)]; } }
+      class UserMenu { public function __construct(private $context) {} public function getItems() { return [new Core('login', $this->context)]; } }
+    }
+    namespace dokuwiki\File {
+      class PageResolver {
+        public function __construct($context) {}
+        public function resolveId($id) { return str_ends_with($id, ':') ? $id . 'start' : $id; }
+      }
+    }
+    namespace {
+      define('DOKU_INC', '/doku/');
+      [$file, $options] = [$argv[1], json_decode($argv[2], true)];
+      $ID = $options['id'];
+      $conf = ['useacl' => $options['useacl']];
+      $lang = ['page_tools' => 'Page Tools', 'site_tools' => 'Site Tools', 'user_tools' => 'User Tools'];
+      if ($options['user']) $_SERVER['REMOTE_USER'] = $options['user'];
+      function tpl_getConf($key) {
+        global $options;
+        return ['discussionPage' => 'discussion:@ID@', 'userPage' => 'user:@USER@:', 'hideTools' => $options['hideTools']][$key];
+      }
+      function tpl_getLang($key) { return 'lang:' . $key; }
+      require $file;
+      $menus = [];
+      foreach (_tpl_tool_menus() as $menu) {
+        $menus[$menu['id']] = [$menu['label'], array_map(fn($item) => $item->describe(), $menu['items'])];
+      }
+      echo json_encode($menus);
+    }
+  `;
+  return JSON.parse(
+    execFileSync(
+      'php',
+      [
+        '-r',
+        php,
+        new URL('../tpl_functions.php', import.meta.url).pathname,
+        JSON.stringify({ id, user, hideTools, useacl }),
+      ],
+      { encoding: 'utf8' },
+    ),
+  );
+}
+
+test('collects page, site and user tools with discussion and user page links', () => {
+  const discussion = [
+    'discussion',
+    'discussion:wiki:welcome',
+    'lang:discussion',
+    'discussion.svg',
+    [],
+    false,
+  ];
+
+  assert.deepEqual(toolMenus(), {
+    dokuwiki__pagetools: [
+      'Page Tools',
+      [['edit', '', '', '', [], true], discussion],
+    ],
+    zenlike__sitetools: ['Site Tools', [['recent', '', '', '', [], true]]],
+    zenlike__usertools: ['User Tools', [['login', '', '', '', [], true]]],
+  });
+  assert.deepEqual(toolMenus({ user: 'demo' }).zenlike__usertools[1], [
+    ['login', '', '', '', [], true],
+    ['userpage', 'user:demo:start', 'lang:userpage', 'user.svg', [], false],
+  ]);
+  assert.deepEqual(
+    toolMenus({ id: 'discussion:wiki:welcome' }).dokuwiki__pagetools[1][1],
+    [
+      'discussion',
+      'wiki:welcome',
+      'lang:back_to_article',
+      '12-back_arrow-left.svg',
+      [],
+      false,
+    ],
+  );
+  assert.deepEqual(Object.keys(toolMenus({ hideTools: true })), [
+    'zenlike__sitetools',
+  ]);
+  assert.deepEqual(Object.keys(toolMenus({ hideTools: true, user: 'demo' })), [
+    'dokuwiki__pagetools',
+    'zenlike__sitetools',
+    'zenlike__usertools',
+  ]);
+  assert.deepEqual(Object.keys(toolMenus({ useacl: false })), [
+    'dokuwiki__pagetools',
+    'zenlike__sitetools',
+  ]);
 });
 
 test('versions only the DokuWiki JavaScript bundle with the template script hash', () => {
@@ -251,58 +393,29 @@ async function createPage(
   savedTheme = null,
   initialDiffMode = 'sidebyside',
   pageUrl = 'https://example.test/',
-  userToolsItems = '<li class="action profile"><a href="#user">User tools</a></li>',
 ) {
   const dom = new JSDOM(
     `<!doctype html>
     <html><body>
-      <div class="headings">
-        <div id="headercontent"></div>
-        <button id="toggle_sitemenu" aria-expanded="false" data-mobile-label="Menu" data-desktop-label="Tools" hidden></button>
-        <div id="header-tools">
-          <div id="search">
-            <form>
-              <input class="edit">
-              <button type="submit">Search</button>
-            </form>
+      <header id="zenlikeheader">
+        <div class="headings">
+          <button id="toggle_sitemenu" aria-controls="zenlike__menucontent" aria-expanded="false"></button>
+          <div id="header-tools"><div id="search"><form><input class="edit" placeholder="Search"><button type="submit">Search</button></form></div></div>
+        </div>
+        <div id="menu">
+          <div id="zenlike__menucontent">
+            <nav id="zenlike__navigation"><a href="#page">Page</a></nav>
+            <div id="zenlike__tools">
+              <nav id="dokuwiki__pagetools"><ul><li class="action edit"><a href="#edit">Edit this page</a></li></ul></nav>
+              <nav id="zenlike__sitetools"><ul><li class="action recent"><a href="#recent">Recent Changes</a></li></ul></nav>
+              <div class="zenlike-appearance"><label for="zenlike-theme">Appearance</label><select id="zenlike-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
+            </div>
           </div>
         </div>
-        <div id="desktop-tools-content" hidden><div id="desktop-pagetools-content"></div><nav id="desktop-sitetools"><ul><li class="action recent"><a href="#recent">Recent Changes</a></li><li class="action media"><a href="#media">Media Manager</a></li><li class="action index"><a href="#index">Sitemap</a></li><li class="action plugin"><a href="#plugin">Plugin</a></li></ul></nav><label for="desktop-theme">Appearance</label><select id="desktop-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
-      </div>
-      <button id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="true" hidden>Sidebar</button>
+      </header>
+      <button id="toggle_sidebar" aria-controls="dokuwiki__aside" aria-expanded="false">Sidebar</button>
       <nav id="dokuwiki__aside"><a href="#sidebar">Sidebar link</a></nav>
-      <div id="zenlike__menucontent" hidden>
-        <nav><a href="#page">Page</a></nav>
-        <div class="desktop-tools"><ul class="desktop-menu"></ul></div>
-        <div class="mobile-tools">
-          <form>
-            <select name="do">
-              <option value="">Tools</option>
-              <optgroup label="Page Tools">
-                <option value="edit">Edit this page</option>
-              </optgroup>
-              <optgroup label="Site Tools">
-                <option value="recent">Recent Changes</option>
-              </optgroup>
-            </select>
-          </form>
-          <div class="mobile-tools-list" hidden>
-            <section class="mobile-tools-group" data-mobile-group="page"><ul><li><button type="button" data-mobile-action="edit"><svg></svg><span>Edit this page</span></button></li></ul></section>
-            <section class="mobile-tools-group" data-mobile-group="site"><ul><li><button type="button" data-mobile-action="recent"><svg></svg><span>Recent Changes</span></button></li><li><button type="button" data-mobile-action="missing"><svg></svg><span>Unavailable</span></button></li></ul></section>
-            <section class="mobile-tools-group" data-mobile-group="user"><ul></ul></section>
-            <label for="mobile-theme">Appearance</label><select id="mobile-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
-          </div>
-        </div>
-      </div>
-      <main id="dokuwiki__content"><div class="page"></div><nav id="zenlike__back-to-top"><ul><li class="action top"><a href="#dokuwiki__top">Back to top</a></li></ul></nav></main>
-      <footer id="dokuwiki__footer">
-        <nav id="dokuwiki__pagetools">
-          <h3>Page Tools</h3>
-          <ul>
-            <li class="action discussion"><a href="/doku.php?id=talk:welcome" data-wiki-id="talk:welcome">Discussion</a></li>
-          </ul>
-        </nav>
-      </footer>
+      <main id="dokuwiki__content"><div class="page"></div><nav id="zenlike__back-to-top" hidden><ul><li class="action top"><a href="#dokuwiki__top">Back to top</a></li></ul></nav></main>
       <div class="diffoptions">
         <form>
           <select name="difftype">
@@ -312,14 +425,11 @@ async function createPage(
           <button type="submit">Go</button>
         </form>
       </div>
-      <ul><li class="menusplit"><details>
-        <summary id="toggle_usertools">User tools</summary>
-        <div id="usertools"><ul>${userToolsItems}</ul></div>
-      </details></li></ul>
     </body></html>`,
     { runScripts: 'outside-only', url: pageUrl },
   );
   const { document } = dom.window;
+  const initialMarkup = document.body.innerHTML;
   let contentHeight = 0;
   const resizeObservers = [];
   Object.defineProperty(
@@ -388,6 +498,7 @@ async function createPage(
   return {
     dom,
     document,
+    initialMarkup,
     getDiffSubmissions: () => diffSubmissions,
     setContentHeight(height) {
       contentHeight = height;
@@ -424,21 +535,12 @@ test('shows back to top only for content over two viewport heights', async () =>
   dom.window.close();
 });
 
-test('initializes the mobile menu and moves search into its panel', async () => {
-  const { document, dom } = await createPage();
-  const toggle = document.getElementById('toggle_sitemenu');
-  const menu = document.getElementById('zenlike__menucontent');
-  const search = document.getElementById('search');
-  const input = search.querySelector('input');
-
-  assert.equal(toggle.hidden, false);
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(menu.hidden, true);
-  assert.equal(search.parentElement, menu);
-  assert.equal(document.getElementById('toggle_theme'), null);
-  assert.equal(input.placeholder, 'Search ...');
-
-  dom.window.close();
+test('leaves the server-rendered markup unchanged on initialization', async () => {
+  for (const mobile of [true, false]) {
+    const { document, dom, initialMarkup } = await createPage(mobile);
+    assert.equal(document.body.innerHTML, initialMarkup);
+    dom.window.close();
+  }
 });
 
 test('uses inline diffs on mobile and side-by-side diffs on desktop', async () => {
@@ -502,44 +604,44 @@ test('keeps a manual diff selection when the viewport changes', async () => {
   dom.window.close();
 });
 
-test('collapses the sidebar on mobile and toggles its ARIA state', async () => {
+test('toggles the sidebar state and collapses it on Escape on mobile', async () => {
   const { document, dom } = await createPage();
   const toggle = document.getElementById('toggle_sidebar');
-  const sidebar = document.getElementById('dokuwiki__aside');
-
-  assert.equal(toggle.hidden, false);
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(sidebar.hidden, true);
+  const escape = () =>
+    document.dispatchEvent(
+      new dom.window.KeyboardEvent('keydown', { key: 'Escape' }),
+    );
 
   toggle.click();
   assert.equal(toggle.getAttribute('aria-expanded'), 'true');
-  assert.equal(sidebar.hidden, false);
 
+  escape();
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(document.activeElement, toggle);
+
+  toggle.click();
+  toggle.click();
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
   dom.window.close();
 });
 
-test('closes the mobile sidebar on Escape and restores focus', async () => {
-  const { document, dom } = await createPage();
+test('ignores Escape for the always visible desktop sidebar', async () => {
+  const { document, dom } = await createPage(false);
   const toggle = document.getElementById('toggle_sidebar');
-  const sidebar = document.getElementById('dokuwiki__aside');
-  toggle.click();
-  toggle.focus();
+  toggle.setAttribute('aria-expanded', 'true');
 
   document.dispatchEvent(
     new dom.window.KeyboardEvent('keydown', { key: 'Escape' }),
   );
 
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(sidebar.hidden, true);
-  assert.equal(document.activeElement, toggle);
-
+  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
   dom.window.close();
 });
 
 test('follows system appearance and stores explicit theme choices', async () => {
   const { document, dom, setSystemDark } = await createPage(false, true);
   const root = document.documentElement;
-  const theme = document.getElementById('desktop-theme');
+  const theme = document.getElementById('zenlike-theme');
 
   assert.equal(root.getAttribute('data-theme'), 'dark');
   assert.equal(theme.value, 'system');
@@ -563,280 +665,100 @@ test('follows system appearance and stores explicit theme choices', async () => 
   dom.window.close();
 });
 
-test('uses icon actions and synchronized appearance in mobile tools', async () => {
-  const { document, dom } = await createPage();
-  const select = document.querySelector('.mobile-tools form select');
-  const theme = document.getElementById('mobile-theme');
-  const desktopTheme = document.getElementById('desktop-theme');
-  const tools = document.querySelector('.mobile-tools-list');
-  const menuToggle = document.getElementById('toggle_sitemenu');
-  const menu = document.getElementById('zenlike__menucontent');
-  const discussionLink = tools.querySelector('li.discussion a');
-  let action = null;
+test('restores a saved theme preference and ignores unknown values', async () => {
+  const saved = await createPage(false, false, 'dark');
+  assert.equal(saved.document.documentElement.dataset.theme, 'dark');
+  assert.equal(saved.document.getElementById('zenlike-theme').value, 'dark');
+  saved.dom.window.close();
 
-  discussionLink.addEventListener('click', (event) => {
-    event.preventDefault();
-  });
-  select.addEventListener('change', () => {
-    action = select.value;
-  });
-
-  assert.equal(tools.hidden, false);
-  assert.equal(select.closest('form').hidden, true);
-  assert.equal(tools.querySelectorAll('[data-mobile-action] svg').length, 2);
-  assert.equal(tools.querySelector('[data-mobile-action="missing"]'), null);
-  assert.equal(tools.querySelector('[data-mobile-group="user"]').hidden, true);
-  assert.equal(discussionLink.getAttribute('data-wiki-id'), 'talk:welcome');
-  assert.deepEqual(
-    [...theme.options].map((option) => option.value),
-    ['system', 'light', 'dark'],
-  );
-
-  menuToggle.click();
-  theme.value = 'dark';
-  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
-  assert.equal(document.documentElement.getAttribute('data-theme'), 'dark');
-  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'dark');
-  assert.equal(desktopTheme.value, 'dark');
-  assert.equal(action, null);
-
-  tools.querySelector('[data-mobile-action="recent"]').click();
-  assert.equal(action, 'recent');
-  assert.equal(menu.hidden, true);
-  assert.equal(menuToggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(document.activeElement, menuToggle);
-
-  menuToggle.click();
-  discussionLink.click();
-  assert.equal(menu.hidden, true);
-
-  dom.window.close();
-});
-
-test('restores a saved theme preference on initialization', async () => {
-  const { document, dom } = await createPage(false, false, 'dark');
-
-  assert.equal(document.documentElement.getAttribute('data-theme'), 'dark');
-  assert.equal(document.getElementById('desktop-theme').value, 'dark');
-  assert.equal(document.getElementById('mobile-theme').value, 'dark');
-
-  dom.window.close();
-});
-
-test('opens and closes the mobile menu with synchronized ARIA state', async () => {
-  const { document, dom } = await createPage();
-  const toggle = document.getElementById('toggle_sitemenu');
-  const menu = document.getElementById('zenlike__menucontent');
-
-  toggle.click();
-  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
-  assert.equal(menu.hidden, false);
-
-  toggle.click();
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(menu.hidden, true);
-
-  dom.window.close();
-});
-
-test('closes the mobile menu on Escape and restores focus to its toggle', async () => {
-  const { document, dom } = await createPage();
-  const toggle = document.getElementById('toggle_sitemenu');
-  const menu = document.getElementById('zenlike__menucontent');
-  toggle.click();
-
-  document.dispatchEvent(
-    new dom.window.KeyboardEvent('keydown', { key: 'Escape' }),
-  );
-
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(menu.hidden, true);
-  assert.equal(document.activeElement, toggle);
-
-  dom.window.close();
-});
-
-test('closes the mobile menu after following a menu link', async () => {
-  const { document, dom } = await createPage();
-  const toggle = document.getElementById('toggle_sitemenu');
-  const menu = document.getElementById('zenlike__menucontent');
-  toggle.click();
-
-  menu.querySelector('a').click();
-
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(menu.hidden, true);
-
-  dom.window.close();
-});
-
-test('restores the search on desktop and updates menu visibility on resize', async () => {
-  const { document, dom, setMobile } = await createPage();
-  const toggle = document.getElementById('toggle_sitemenu');
-  const menu = document.getElementById('zenlike__menucontent');
-  const search = document.getElementById('search');
-  const searchHome = document.getElementById('header-tools');
-  const sidebarToggle = document.getElementById('toggle_sidebar');
-  const sidebar = document.getElementById('dokuwiki__aside');
-  const pageTools = document.getElementById('dokuwiki__pagetools');
-  const backToTop = document.querySelector('#zenlike__back-to-top li.top');
-
-  assert.equal(pageTools.parentElement.id, 'dokuwiki__footer');
-  setMobile(false);
-  assert.equal(toggle.hidden, false);
-  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(toggle.getAttribute('aria-controls'), 'desktop-tools-content');
-  assert.equal(toggle.getAttribute('aria-label'), 'Tools');
-  assert.equal(menu.hidden, false);
-  assert.equal(search.parentElement, searchHome);
-  assert.equal(sidebarToggle.hidden, true);
-  assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'true');
-  assert.equal(sidebar.hidden, false);
-  assert.equal(pageTools.parentElement.id, 'desktop-pagetools-content');
-  assert.equal(backToTop.closest('main').id, 'dokuwiki__content');
-  assert.equal(pageTools.hidden, false);
-  assert.equal(document.getElementById('desktop-tools-content').hidden, true);
-  assert.deepEqual(
-    [...document.querySelectorAll('#desktop-sitetools li')].map(
-      (item) => item.className,
-    ),
-    [
-      'action recent',
-      'action media',
-      'action index',
-      'action plugin',
-      'action profile user-tools-start',
-    ],
-  );
-  assert.ok(document.querySelector('#desktop-sitetools li.action.plugin'));
-
-  setMobile(true);
-  assert.equal(toggle.hidden, false);
-  assert.equal(menu.hidden, true);
-  assert.equal(search.parentElement, menu);
-  assert.equal(sidebarToggle.hidden, false);
-  assert.equal(sidebarToggle.getAttribute('aria-expanded'), 'false');
-  assert.equal(sidebar.hidden, true);
-  assert.equal(backToTop.closest('main').id, 'dokuwiki__content');
-  assert.equal(pageTools.parentElement.id, 'dokuwiki__footer');
-  assert.equal(pageTools.hidden, true);
-  assert.equal(document.getElementById('desktop-tools-content').hidden, true);
-  assert.equal(toggle.getAttribute('aria-controls'), 'zenlike__menucontent');
-  assert.equal(toggle.getAttribute('aria-label'), 'Menu');
-
-  dom.window.close();
-});
-
-test('closes desktop page tools on Escape and outside click', async () => {
-  const { document, dom } = await createPage(false);
-  const menu = document.getElementById('desktop-tools-content');
-  const toggle = document.getElementById('toggle_sitemenu');
-
-  toggle.click();
-  assert.equal(menu.hidden, false);
-  document.dispatchEvent(
-    new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
-  );
-  assert.equal(menu.hidden, true);
-  assert.equal(document.activeElement, toggle);
-
-  toggle.click();
-  document.body.click();
-  assert.equal(menu.hidden, true);
-
-  toggle.click();
-  document.querySelector('#dokuwiki__pagetools a').click();
-  assert.equal(menu.hidden, true);
-
-  dom.window.close();
-});
-
-test('changes appearance from the desktop tools menu', async () => {
-  const { document, dom, setMobile } = await createPage(false);
-  const select = document.getElementById('desktop-theme');
-  assert.deepEqual(
-    [...select.options].map((option) => option.value),
-    ['system', 'light', 'dark'],
-  );
-  select.value = 'dark';
-  select.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
-  assert.equal(document.documentElement.dataset.theme, 'dark');
-  assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'dark');
-  const menu = document.getElementById('desktop-tools-content');
-  document.getElementById('toggle_sitemenu').click();
-  assert.equal(menu.hidden, false);
-  setMobile(true);
-  assert.equal(menu.hidden, true);
-  setMobile(false);
-  assert.equal(select.value, 'dark');
-  dom.window.close();
-});
-
-test('moves login and registration into desktop tools', async () => {
-  const { document, dom, setMobile } = await createPage(
-    false,
-    false,
-    null,
-    'sidebyside',
-    'https://example.test/',
-    '<li class="action register"><a href="#register">Register</a></li><li class="action login"><a href="#login">Log In</a></li>',
-  );
-
-  assert.ok(document.querySelector('#desktop-sitetools .action.register'));
-  assert.ok(document.querySelector('#desktop-sitetools .action.login'));
-  assert.ok(
-    document
-      .querySelector('#desktop-sitetools .action.register')
-      .classList.contains('user-tools-start'),
-  );
+  const unknown = await createPage(false, true, 'sepia');
+  assert.equal(unknown.document.documentElement.dataset.theme, 'dark');
   assert.equal(
-    document
-      .querySelector('#desktop-sitetools .action.login')
-      .classList.contains('user-tools-start'),
-    false,
+    unknown.document.getElementById('zenlike-theme').value,
+    'system',
   );
-  assert.equal(document.getElementById('toggle_usertools'), null);
-  setMobile(true);
+  unknown.dom.window.close();
+});
+
+for (const mobile of [true, false]) {
+  const viewport = mobile ? 'mobile' : 'desktop';
+
+  test(`opens and closes the ${viewport} menu with synchronized state`, async () => {
+    const { document, dom } = await createPage(mobile);
+    const header = document.getElementById('zenlikeheader');
+    const toggle = document.getElementById('toggle_sitemenu');
+
+    toggle.click();
+    assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+    assert.equal(header.classList.contains('menu-open'), true);
+
+    toggle.click();
+    assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+    assert.equal(header.classList.contains('menu-open'), false);
+    dom.window.close();
+  });
+
+  test(`closes the ${viewport} menu on Escape and restores focus`, async () => {
+    const { document, dom } = await createPage(mobile);
+    const toggle = document.getElementById('toggle_sitemenu');
+    toggle.click();
+    document.getElementById('zenlike-theme').focus();
+
+    document.dispatchEvent(
+      new dom.window.KeyboardEvent('keydown', { key: 'Escape' }),
+    );
+
+    assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+    assert.equal(document.activeElement, toggle);
+    dom.window.close();
+  });
+
+  test(`closes the ${viewport} menu after following a link`, async () => {
+    const { document, dom } = await createPage(mobile);
+    const toggle = document.getElementById('toggle_sitemenu');
+
+    for (const selector of ['#zenlike__navigation a', '#zenlike__tools a']) {
+      toggle.click();
+      document.querySelector(selector).click();
+      assert.equal(toggle.getAttribute('aria-expanded'), 'false', selector);
+    }
+    dom.window.close();
+  });
+}
+
+test('closes the desktop dropdown on outside clicks only', async () => {
+  const { document, dom } = await createPage(false);
+  const toggle = document.getElementById('toggle_sitemenu');
+
+  toggle.click();
+  document.getElementById('zenlike-theme').click();
+  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+
+  document.getElementById('dokuwiki__content').click();
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  dom.window.close();
+});
+
+test('keeps the mobile menu open when the page below is clicked', async () => {
+  const { document, dom } = await createPage();
+  const toggle = document.getElementById('toggle_sitemenu');
+
+  toggle.click();
+  document.getElementById('dokuwiki__content').click();
+
+  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+  dom.window.close();
+});
+
+test('closes the menu when the viewport switches layouts', async () => {
+  const { document, dom, setMobile } = await createPage();
+  const header = document.getElementById('zenlikeheader');
+  const toggle = document.getElementById('toggle_sitemenu');
+
+  toggle.click();
   setMobile(false);
-  assert.ok(document.querySelector('#desktop-sitetools .action.login'));
-  dom.window.close();
-});
 
-test('separates login when registration is unavailable', async () => {
-  const { document, dom } = await createPage(
-    false,
-    false,
-    null,
-    'sidebyside',
-    'https://example.test/',
-    '<li class="action login"><a href="#login">Log In</a></li>',
-  );
-
-  assert.ok(
-    document.querySelector('#desktop-sitetools .login.user-tools-start'),
-  );
-  dom.window.close();
-});
-
-test('moves logged-in user actions into desktop tools', async () => {
-  const { document, dom } = await createPage(
-    false,
-    false,
-    null,
-    'sidebyside',
-    'https://example.test/',
-    '<li class="action profile"><a href="#profile">Update Profile</a></li><li class="action admin"><a href="#admin">Admin</a></li><li class="action logout"><a href="#logout">Log Out</a></li><li class="userpage"><a href="#userpage">User page</a></li>',
-  );
-
-  assert.ok(
-    document.querySelector('#desktop-sitetools .profile.user-tools-start'),
-  );
-  assert.ok(document.querySelector('#desktop-sitetools .action.admin'));
-  assert.ok(document.querySelector('#desktop-sitetools .action.logout'));
-  assert.ok(document.querySelector('#desktop-sitetools a[href="#userpage"]'));
-  assert.ok(
-    document.querySelector('[data-mobile-group="user"] a[href="#userpage"]'),
-  );
-  assert.equal(document.getElementById('toggle_usertools'), null);
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(header.classList.contains('menu-open'), false);
   dom.window.close();
 });

@@ -43,130 +43,44 @@ function setupSectionEditButtons() {
   });
 }
 
-function setupSiteMenuToggle() {
+function setupSiteMenu() {
+  const header = document.getElementById('zenlikeheader');
   const toggle = document.getElementById('toggle_sitemenu');
-  const menuContent = document.getElementById('zenlike__menucontent');
-  const search = document.getElementById('search');
-  const pageTools = document.getElementById('dokuwiki__pagetools');
-  const desktopMenu = document.getElementById('desktop-tools-content');
-  const desktopPageToolsContent = document.getElementById(
-    'desktop-pagetools-content',
-  );
-  const desktopSiteTools = document.querySelector('#desktop-sitetools ul');
-  if (!toggle || !menuContent || !search || !desktopMenu) return;
+  const tools = document.getElementById('zenlike__tools');
+  if (!header || !toggle || !tools) return;
 
-  if (desktopSiteTools) {
-    const userActions = document.querySelectorAll('#usertools > ul > li');
-    if (desktopSiteTools.children.length) {
-      userActions[0]?.classList.add('user-tools-start');
-    }
-    userActions.forEach((item) => desktopSiteTools.append(item));
-
-    const userTools = document.getElementById('usertools');
-    if (userTools && !userTools.querySelector('li')) {
-      userTools.closest('li.menusplit')?.remove();
-    }
-  }
-
-  const searchInput = search.querySelector('input.edit');
-  const searchButton = search.querySelector(
-    'button[type="submit"], input[type="submit"]',
-  );
-  if (searchInput && searchButton) {
-    const searchLabel =
-      searchButton.tagName === 'INPUT'
-        ? searchButton.value
-        : searchButton.textContent.trim();
-    searchInput.placeholder = `${searchLabel} ...`;
-  }
-
-  const searchHome = search.parentElement;
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
-  const pageToolsHome = pageTools?.parentElement;
-  const pageToolsNext = pageTools?.nextSibling;
-  function updatePageToolsLocation() {
-    if (!pageTools || !pageToolsHome || !desktopPageToolsContent) return;
+  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
-    if (mobileViewport.matches) {
-      pageToolsHome.insertBefore(
-        pageTools,
-        pageToolsNext?.parentElement === pageToolsHome ? pageToolsNext : null,
-      );
-      pageTools.hidden = true;
-      return;
-    }
-
-    desktopPageToolsContent.append(pageTools);
-    pageTools.hidden = false;
-  }
-
-  function updateMenuVisibility() {
-    if (mobileViewport.matches) {
-      menuContent.insertBefore(search, menuContent.firstChild);
-    } else {
-      searchHome.appendChild(search);
-    }
-
-    toggle.hidden = false;
-    menuContent.hidden = mobileViewport.matches;
-    desktopMenu.hidden = true;
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute(
-      'aria-controls',
-      mobileViewport.matches ? menuContent.id : desktopMenu.id,
-    );
-    toggle.setAttribute(
-      'aria-label',
-      mobileViewport.matches
-        ? toggle.dataset.mobileLabel
-        : toggle.dataset.desktopLabel,
-    );
-    updatePageToolsLocation();
-  }
-
-  function closeMenu(restoreFocus = false) {
-    toggle.setAttribute('aria-expanded', 'false');
-    if (mobileViewport.matches) menuContent.hidden = true;
-    else desktopMenu.hidden = true;
+  function setOpen(open, restoreFocus = false) {
+    header.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
     if (restoreFocus) toggle.focus();
   }
 
   toggle.addEventListener('click', function () {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!expanded));
-    if (mobileViewport.matches) menuContent.hidden = expanded;
-    else desktopMenu.hidden = expanded;
+    setOpen(!isOpen());
   });
 
-  menuContent.addEventListener('click', function (event) {
-    if (mobileViewport.matches && event.target.closest('a')) closeMenu();
+  header.addEventListener('click', function (event) {
+    if (event.target.closest('#zenlike__menucontent a')) setOpen(false);
   });
 
   document.addEventListener('keydown', function (event) {
-    if (
-      event.key !== 'Escape' ||
-      toggle.getAttribute('aria-expanded') !== 'true'
-    )
-      return;
-    closeMenu(true);
+    if (event.key === 'Escape' && isOpen()) setOpen(false, true);
   });
 
+  // On desktop the tools open as a dropdown that closes on outside clicks.
   document.addEventListener('click', function (event) {
-    if (
-      mobileViewport.matches ||
-      desktopMenu.hidden ||
-      toggle.contains(event.target)
-    )
-      return;
-    if (!desktopMenu.contains(event.target) || event.target.closest('a')) {
-      closeMenu();
+    if (!isOpen() || mobileViewport.matches) return;
+    if (!toggle.contains(event.target) && !tools.contains(event.target)) {
+      setOpen(false);
     }
   });
 
-  mobileViewport.addEventListener('change', updateMenuVisibility);
-
-  updateMenuVisibility();
-  return closeMenu;
+  mobileViewport.addEventListener('change', function () {
+    setOpen(false);
+  });
 }
 
 function setupBackToTopVisibility() {
@@ -191,38 +105,23 @@ function setupBackToTopVisibility() {
 
 function setupSidebarToggle() {
   const toggle = document.getElementById('toggle_sidebar');
-  const sidebar = document.getElementById('dokuwiki__aside');
-  if (!toggle || !sidebar) return;
+  if (!toggle) return;
 
   const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
-
-  function setExpanded(expanded) {
-    toggle.setAttribute('aria-expanded', String(expanded));
-    sidebar.hidden = !expanded;
-  }
-
-  function updateSidebarVisibility() {
-    const isMobile = mobileViewport.matches;
-    toggle.hidden = !isMobile;
-    setExpanded(!isMobile);
-  }
+  const isExpanded = () => toggle.getAttribute('aria-expanded') === 'true';
 
   toggle.addEventListener('click', function () {
-    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+    toggle.setAttribute('aria-expanded', String(!isExpanded()));
   });
 
   document.addEventListener('keydown', function (event) {
-    if (event.key !== 'Escape' || !mobileViewport.matches || sidebar.hidden) {
+    if (event.key !== 'Escape' || !mobileViewport.matches || !isExpanded()) {
       return;
     }
 
-    setExpanded(false);
+    toggle.setAttribute('aria-expanded', 'false');
     toggle.focus();
   });
-
-  mobileViewport.addEventListener('change', updateSidebarVisibility);
-
-  updateSidebarVisibility();
 }
 
 function setupResponsiveDiff() {
@@ -317,42 +216,24 @@ function setupResponsiveDiff() {
   updateDiffType();
 }
 
-function setupThemePreference(closeSiteMenu) {
-  const storageKey = 'zenlike-theme';
-  const modes = ['system', 'light', 'dark'];
-  const toolsSelect = document.querySelector('.mobile-tools select');
-  const mobileTools = document.querySelector('.mobile-tools-list');
-  const mobileTheme = document.getElementById('mobile-theme');
-  const desktopTheme = document.getElementById('desktop-theme');
-  if (!desktopTheme && !mobileTheme) return;
+function setupThemePreference() {
+  const select = document.getElementById('zenlike-theme');
+  if (!select) return;
 
-  const mobileViewport = document.defaultView.matchMedia('(max-width: 42em)');
+  const storageKey = 'zenlike-theme';
+  const modes = [...select.options].map((option) => option.value);
   const systemPreference = document.defaultView.matchMedia(
     '(prefers-color-scheme: dark)',
   );
   const root = document.documentElement;
   let preference = 'system';
 
-  function readStoredPreference() {
-    try {
-      return document.defaultView.localStorage.getItem(storageKey);
-    } catch {
-      return null;
-    }
-  }
-
-  function storePreference(value) {
-    try {
-      document.defaultView.localStorage.setItem(storageKey, value);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  const savedPreference = readStoredPreference();
-  if (modes.includes(savedPreference)) {
-    preference = savedPreference;
+  try {
+    const savedPreference =
+      document.defaultView.localStorage.getItem(storageKey);
+    if (modes.includes(savedPreference)) preference = savedPreference;
+  } catch {
+    // Fall back to the system preference when storage is unavailable.
   }
 
   function updateTheme() {
@@ -360,87 +241,38 @@ function setupThemePreference(closeSiteMenu) {
       preference === 'dark' ||
       (preference === 'system' && systemPreference.matches);
     root.setAttribute('data-theme', isDark ? 'dark' : 'light');
-    if (mobileTheme) mobileTheme.value = preference;
-    if (desktopTheme) desktopTheme.value = preference;
+    select.value = preference;
   }
 
-  if (toolsSelect && mobileTools && mobileTheme) {
-    const pageTools = document.getElementById('dokuwiki__pagetools');
-    const availableActions = new Set(
-      [...toolsSelect.options].map((option) => option.value),
-    );
-    mobileTools.querySelectorAll('[data-mobile-action]').forEach((button) => {
-      if (!availableActions.has(button.dataset.mobileAction)) {
-        button.parentElement.remove();
-        return;
-      }
-      button.addEventListener('click', function () {
-        toolsSelect.value = button.dataset.mobileAction;
-        if (mobileViewport.matches) closeSiteMenu?.(true);
-        toolsSelect.dispatchEvent(
-          new document.defaultView.Event('change', { bubbles: true }),
-        );
-      });
-    });
-
-    const discussionLink = pageTools?.querySelector('li.discussion a');
-    const pageToolsList = mobileTools.querySelector(
-      '[data-mobile-group="page"] ul',
-    );
-    if (discussionLink && pageToolsList) {
-      const item = document.createElement('li');
-      item.className = 'discussion';
-      item.append(discussionLink.cloneNode(true));
-      pageToolsList.append(item);
+  select.addEventListener('change', function () {
+    preference = select.value;
+    try {
+      document.defaultView.localStorage.setItem(storageKey, preference);
+    } catch {
+      // Apply the choice for this page even when it cannot be stored.
     }
-
-    const userPage = document.querySelector('#desktop-sitetools li.userpage');
-    const userToolsList = mobileTools.querySelector(
-      '[data-mobile-group="user"] ul',
-    );
-    if (userPage && userToolsList) {
-      userToolsList.append(userPage.cloneNode(true));
-    }
-
-    mobileTools.querySelectorAll('.mobile-tools-group').forEach((group) => {
-      group.hidden = !group.querySelector('li');
-    });
-    toolsSelect.closest('form').hidden = true;
-    mobileTools.hidden = false;
-  }
-
-  [mobileTheme, desktopTheme].filter(Boolean).forEach((themeSelect) => {
-    themeSelect.addEventListener('change', function () {
-      preference = themeSelect.value;
-      storePreference(preference);
-      updateTheme();
-    });
+    updateTheme();
   });
 
-  const updateSystemTheme = function () {
+  systemPreference.addEventListener('change', function () {
     if (preference === 'system') updateTheme();
-  };
-  systemPreference.addEventListener('change', updateSystemTheme);
+  });
 
   updateTheme();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function () {
-    setupCodeCopyButtons();
-    setupSectionEditButtons();
-    const closeSiteMenu = setupSiteMenuToggle();
-    setupBackToTopVisibility();
-    setupSidebarToggle();
-    setupResponsiveDiff();
-    setupThemePreference(closeSiteMenu);
-  });
-} else {
+function init() {
   setupCodeCopyButtons();
   setupSectionEditButtons();
-  const closeSiteMenu = setupSiteMenuToggle();
+  setupSiteMenu();
   setupBackToTopVisibility();
   setupSidebarToggle();
   setupResponsiveDiff();
-  setupThemePreference(closeSiteMenu);
+  setupThemePreference();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
 }
