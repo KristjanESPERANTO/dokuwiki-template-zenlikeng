@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.5.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.4.2...v7.5.0) (2026-11-18)
+
+### Features
+
+* **background:** add page background options ([4af12e8](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/4af12e8c1f0fc3d70309c2ee35b50e831d076065))
+* **header:** add option to hide header picture ([33f51dd](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/33f51ddf47546b97aa1649e7118e65432423b98a))
+
 ## [7.4.2](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.4.1...v7.4.2) (2026-11-18)
 
 ### Bug Fixes
