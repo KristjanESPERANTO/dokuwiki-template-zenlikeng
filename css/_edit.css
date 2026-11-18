@@ -149,9 +149,21 @@ div.picker button.toolbutton {
 }
 
 /* style for section highlighting */
+/* Bars are drawn outside the box: borders/padding would change the text width. */
 .dokuwiki div.section_highlight {
-  margin: 0 -1em; /* negative side margin = side padding + side border */
-  padding: 0 0.5em;
-  border: solid __background_alt__;
-  border-width: 0 0.5em;
+  position: relative;
+}
+.dokuwiki div.section_highlight::before,
+.dokuwiki div.section_highlight::after {
+  position: absolute;
+  inset-block: 0;
+  width: 0.5em;
+  background: __background_alt__;
+  content: '';
+}
+.dokuwiki div.section_highlight::before {
+  inset-inline-start: -1em;
+}
+.dokuwiki div.section_highlight::after {
+  inset-inline-end: -1em;
 }
