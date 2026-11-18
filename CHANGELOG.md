@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.5.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.5.0...v7.5.1) (2026-11-18)
+
 ## [7.5.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.4.2...v7.5.0) (2026-11-18)
 
 ### Features
