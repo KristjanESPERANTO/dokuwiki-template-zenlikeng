@@ -6,11 +6,11 @@ To run the checks locally, install the Node.js dependencies and run:
 
 ```sh
 npm ci
-npm run check
+node --run check
 ```
 
 You need Node.js and PHP CLI. The checks cover PHP and HTML, JavaScript, Bash,
-CSS, formatting, and spelling. Run `npm run format` to format the files.
+CSS, formatting, and spelling. Run `node --run format` to format the files.
 GitHub Actions runs the checks with PHP 8.3 and 8.5. It does not test multiple
 DokuWiki releases.
 
@@ -23,7 +23,7 @@ from a clean working tree:
 
 ```sh
 npm ci
-npm run release
+node --run release
 ```
 
 This runs the project checks, updates `CHANGELOG.md` and the `date` field in
@@ -37,7 +37,7 @@ push tags or publish anything. To choose a release type explicitly, pass
 After creating the release, build its installable ZIP with the tag just created:
 
 ```sh
-npm run release:package
+node --run release:package
 ```
 
 The script derives the tag from the `package.json` version, verifies that it

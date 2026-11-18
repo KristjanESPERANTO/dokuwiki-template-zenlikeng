@@ -46,7 +46,7 @@ jobs:
           fi
 
       - name: Build installable ZIP
-        run: npm run release:package
+        run: node --run release:package
 
       - name: Create GitHub release
         env:

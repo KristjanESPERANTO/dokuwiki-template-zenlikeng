@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# -gt 0 ]]; then
-    printf 'Usage: npm run release:package\n' >&2
+    printf 'Usage: node --run release:package\n' >&2
     exit 2
 fi
 
@@ -27,7 +27,7 @@ if [[ -n $(git status --porcelain) ]]; then
     exit 1
 fi
 
-npm run check
+node --run check
 git diff --check "${release_commit}^" "$release_commit"
 
 mkdir -p dist
