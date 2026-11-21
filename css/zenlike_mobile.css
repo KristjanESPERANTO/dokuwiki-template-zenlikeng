@@ -107,9 +107,9 @@
   #search button,
   #search input[type='submit'] {
     height: 2.75em;
-    background: #656900;
-    border-color: #555900;
-    color: #f2f3de;
+    background: color-mix(in srgb, __background__ 90%, __text__);
+    border-color: #d5d5d5;
+    color: __text__;
     font-weight: bold;
     min-height: 2.75em;
   }

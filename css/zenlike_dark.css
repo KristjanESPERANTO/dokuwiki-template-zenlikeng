@@ -520,9 +520,17 @@
 
   :root[data-theme='dark'] #search button,
   :root[data-theme='dark'] #search input[type='submit'] {
-    border-color: var(--zenlike-menu-active);
-    background: var(--zenlike-menu);
-    color: var(--zenlike-text);
+    border-color: var(--zenlike-border);
+    background: color-mix(in srgb, var(--zenlike-header-text) 8%, transparent);
+    color: var(--zenlike-header-text);
+  }
+
+  @media (max-width: 42em) {
+    :root[data-theme='dark'] #search button,
+    :root[data-theme='dark'] #search input[type='submit'] {
+      background: var(--zenlike-surface-raised);
+      color: var(--zenlike-text);
+    }
   }
 
   :root[data-theme='dark'] #search :is(input, button):focus-visible {
