@@ -7,6 +7,13 @@
     --zenlike-surface-raised: #34373c;
     --zenlike-button: #474b52;
     --zenlike-border: __dark_border__;
+    --zenlike-tab-border: color-mix(
+      in srgb,
+      var(--zenlike-border) 50%,
+      var(--zenlike-surface)
+    );
+    --zenlike-tab-divider: var(--zenlike-tab-border);
+    --zenlike-tab-panel-color: var(--zenlike-surface);
     --zenlike-control-border: color-mix(
       in srgb,
       var(--zenlike-text) 45%,
@@ -336,38 +343,42 @@
     color: var(--zenlike-text);
   }
 
-  :root[data-theme='dark'] .dokuwiki ul.tabs::after {
-    border-color: var(--zenlike-border);
-  }
-
   :root[data-theme='dark'] .dokuwiki ul.tabs li a {
-    border-color: var(--zenlike-border);
-    background-color: var(--zenlike-surface);
+    border-color: var(--zenlike-tab-border);
+    background-color: color-mix(
+      in srgb,
+      var(--zenlike-surface) 50%,
+      var(--zenlike-canvas)
+    );
     color: var(--zenlike-link);
   }
 
   :root[data-theme='dark'] .dokuwiki ul.tabs li strong {
-    border-color: var(--zenlike-border);
-    border-bottom-color: var(--zenlike-surface-raised);
-    background-color: var(--zenlike-surface-raised);
+    border-color: var(--zenlike-tab-border);
+    border-bottom-color: var(--zenlike-surface);
+    background-color: var(--zenlike-surface);
     color: var(--zenlike-text);
   }
 
   :root[data-theme='dark'] #extension__manager .panelHeader {
-    border-color: var(--zenlike-border);
-    background-color: var(--zenlike-surface);
+    background-color: transparent;
     color: var(--zenlike-text);
   }
 
   :root[data-theme='dark'] #extension__manager ul.tabs li a {
-    border-color: var(--zenlike-border);
-    background-color: var(--zenlike-surface);
+    border-color: var(--zenlike-tab-border);
+    background-color: color-mix(
+      in srgb,
+      var(--zenlike-surface) 50%,
+      var(--zenlike-canvas)
+    );
     color: var(--zenlike-link);
   }
 
   :root[data-theme='dark'] #extension__manager ul.tabs li.active a {
-    border-color: var(--zenlike-border);
-    background-color: var(--zenlike-surface-raised);
+    border-color: var(--zenlike-tab-border);
+    border-bottom-color: var(--zenlike-surface);
+    background-color: var(--zenlike-surface);
     color: var(--zenlike-text);
   }
 
@@ -606,7 +617,13 @@
   }
 
   :root[data-theme='dark'] #mediamanager__page .namespaces h2 {
+    border-color: var(--zenlike-tab-border);
     border-bottom-color: var(--zenlike-surface);
+  }
+
+  :root[data-theme='dark'] #mediamanager__page .namespaces .panelHeader,
+  :root[data-theme='dark'] #mediamanager__page .panel > ul.tabs + .panelHeader {
+    background-color: transparent;
   }
 
   :root[data-theme='dark'] #mediamanager__page .panelHeader ul li,

@@ -17,7 +17,14 @@
   width: 100%;
   bottom: 0;
   left: 0;
-  border-bottom: 1px solid __border__;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--zenlike-tab-divider, __border__) 15%,
+    var(--zenlike-tab-divider, __border__) 85%,
+    transparent
+  );
   z-index: 1;
 }
 
@@ -41,6 +48,7 @@
   margin: 0 0 0 0.3em;
   background-color: __background_neu__;
   color: __text__;
+  text-decoration: none;
   border: 1px solid __border__;
   border-radius: 0.5em 0.5em 0 0;
   position: relative;
@@ -76,4 +84,59 @@
 .dokuwiki ul.tabs li strong {
   z-index: 2;
   border-bottom-color: __background_alt__;
+}
+
+.dokuwiki #extension__manager > ul.tabs li a,
+.dokuwiki #mediamanager__page .panel > ul.tabs li a {
+  text-decoration: none;
+}
+
+.dokuwiki #extension__manager > ul.tabs li:first-child a,
+.dokuwiki #mediamanager__page .panel > ul.tabs li:first-child :is(a, strong) {
+  margin-inline-start: 0.75em;
+}
+
+.dokuwiki #mediamanager__page .filelist > ul.tabs {
+  margin-right: 10px;
+}
+
+.dokuwiki #extension__manager > ul.tabs,
+.dokuwiki #mediamanager__page .panel > ul.tabs {
+  z-index: 2;
+}
+
+.dokuwiki #extension__manager > ul.tabs:has(+ .panelHeader)::after,
+.dokuwiki #mediamanager__page .panel > ul.tabs:has(+ .panelHeader)::after {
+  display: none;
+}
+
+.dokuwiki #extension__manager .panelHeader,
+.dokuwiki #mediamanager__page .panel > ul.tabs + .panelHeader,
+.dokuwiki #mediamanager__page .namespaces .panelHeader {
+  position: relative;
+  border-radius: 0.5em 0.5em 0 0;
+  background: linear-gradient(
+    to bottom,
+    var(--zenlike-tab-panel-color, __background_alt__),
+    transparent
+  );
+  z-index: 1;
+}
+
+.dokuwiki #extension__manager > ul.tabs + .panelHeader,
+.dokuwiki #mediamanager__page .panel > ul.tabs + .panelHeader {
+  margin-top: -1px;
+}
+
+.dokuwiki #extension__manager .panelHeader::before,
+.dokuwiki #mediamanager__page .panel > ul.tabs + .panelHeader::before,
+.dokuwiki #mediamanager__page .namespaces .panelHeader::before {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--zenlike-tab-divider, __border__);
+  border-bottom: 0;
+  border-radius: inherit;
+  mask-image: linear-gradient(to bottom, #000, transparent);
+  pointer-events: none;
+  content: '';
 }
