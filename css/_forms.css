@@ -49,6 +49,19 @@
   max-inline-size: 100%;
   vertical-align: middle;
 }
+
+.dokuwiki
+  .page
+  form
+  :where(
+    input:not([type='hidden'], [type='checkbox'], [type='radio']),
+    select,
+    textarea,
+    button
+  ) {
+  margin-block: 0.25rem;
+}
+
 .dokuwiki label.block input.edit,
 .dokuwiki label.block select.edit {
   box-sizing: border-box;
