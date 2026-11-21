@@ -52,8 +52,9 @@
     color: var(--zenlike-text);
   }
 
-  :root[data-theme='dark'] #zenlikeheader #headercontent h1 {
-    color: #fff;
+  :root[data-theme='dark'] #zenlikeheader .headings {
+    --zenlike-header-background: __dark_header_background__;
+    --zenlike-header-text: __dark_header_text__;
   }
 
   :root[data-theme='dark'] a,
@@ -488,6 +489,10 @@
     border-color: var(--zenlike-menu-active);
     background: var(--zenlike-menu);
     color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #search :is(input, button):focus-visible {
+    outline-color: var(--zenlike-text);
   }
 
   :root[data-theme='dark'] #toggle_sidebar {

@@ -8,6 +8,42 @@ import { JSDOM } from 'jsdom';
 
 const script = readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 
+test('exposes header colors for both appearance modes', () => {
+  const ini = new URL('../style.ini', import.meta.url).pathname;
+  const language = new URL('../lang/en/lang.php', import.meta.url).pathname;
+  const settings = JSON.parse(
+    execFileSync(
+      'php',
+      [
+        '-r',
+        '$style = parse_ini_file($argv[1], true); $lang = []; include $argv[2]; echo json_encode([$style["replacements"], $lang]);',
+        ini,
+        language,
+      ],
+      { encoding: 'utf8' },
+    ),
+  );
+  const css = readFileSync(
+    new URL('../css/zenlike.css', import.meta.url),
+    'utf8',
+  );
+  const darkCss = readFileSync(
+    new URL('../css/zenlike_dark.css', import.meta.url),
+    'utf8',
+  );
+  for (const [mode, stylesheet] of [
+    ['', css],
+    ['dark_', darkCss],
+  ]) {
+    for (const part of ['background', 'text']) {
+      const key = `__${mode}header_${part}__`;
+      assert.match(settings[0][key], /^#[0-9a-f]{6}$/i);
+      assert.ok(settings[1][key]);
+      assert.ok(stylesheet.includes(`--zenlike-header-${part}: ${key};`));
+    }
+  }
+});
+
 test('keeps copy feedback visible and updates its accessible tooltip', async () => {
   const dom = new JSDOM(
     '<div class="dokuwiki"><pre class="code"><span class="keyword">example</span>\nsecond line</pre></div>',

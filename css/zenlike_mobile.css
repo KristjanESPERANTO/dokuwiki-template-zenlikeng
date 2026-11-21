@@ -103,6 +103,14 @@
     min-height: 2.75em;
   }
 
+  #search input:focus-visible {
+    outline-color: #333;
+  }
+
+  #search :is(button, input[type='submit']):focus-visible {
+    outline-color: #fff;
+  }
+
   #menu {
     display: block;
     height: auto;
