@@ -47,9 +47,20 @@
     height: auto;
   }
 
+  .js #zenlikeheader .headings {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px 1rem;
+  }
+
   #headercontent {
     position: relative;
     padding-top: 1.5em;
+  }
+
+  .js #headercontent {
+    min-width: 0;
+    padding-inline-end: 1rem;
+    overflow-wrap: anywhere;
   }
 
   #zenlikeheader #headercontent h1 {
@@ -69,7 +80,7 @@
     justify-content: center;
     box-sizing: border-box;
     width: 100%;
-    padding-inline: 1em;
+    padding-inline: 1rem;
   }
 
   #search input.text,
@@ -132,11 +143,23 @@
     display: none;
   }
 
+  .js #toggle_sitemenu {
+    position: static;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+
   #header-tools {
     position: static;
     display: block;
     padding: 0.75em 0 0;
     background: #626b2b;
+  }
+
+  .js #header-tools {
+    grid-column-start: 1;
+    grid-column-end: -1;
   }
 
   .js #zenlikeheader:not(.menu-open) #header-tools,
