@@ -113,6 +113,10 @@
   border-radius: 0.375rem;
 }
 
+.dokuwiki #extension__manager form.search button[type='submit'] {
+  border-radius: 0.375rem;
+}
+
 .dokuwiki
   :where(
     input.button,
