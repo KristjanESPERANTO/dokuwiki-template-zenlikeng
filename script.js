@@ -217,11 +217,12 @@ function setupResponsiveDiff() {
 }
 
 function setupThemePreference() {
-  const select = document.getElementById('zenlike-theme');
-  if (!select) return;
+  const group = document.getElementById('zenlike-theme');
+  if (!group) return;
 
   const storageKey = 'zenlike-theme';
-  const modes = [...select.options].map((option) => option.value);
+  const radios = [...group.querySelectorAll('input[type="radio"]')];
+  const modes = radios.map((radio) => radio.value);
   const systemPreference = document.defaultView.matchMedia(
     '(prefers-color-scheme: dark)',
   );
@@ -241,11 +242,14 @@ function setupThemePreference() {
       preference === 'dark' ||
       (preference === 'system' && systemPreference.matches);
     root.setAttribute('data-theme', isDark ? 'dark' : 'light');
-    select.value = preference;
+    radios.forEach((radio) => {
+      radio.checked = radio.value === preference;
+    });
   }
 
-  select.addEventListener('change', function () {
-    preference = select.value;
+  group.addEventListener('change', function (event) {
+    if (!radios.includes(event.target) || !event.target.checked) return;
+    preference = event.target.value;
     try {
       document.defaultView.localStorage.setItem(storageKey, preference);
     } catch {

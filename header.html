@@ -67,18 +67,30 @@
         </nav>
         <?php endforeach; ?>
         <div class="zenlike-appearance">
-          <label for="zenlike-theme"
-            ><?= hsc(tpl_getLang('appearance')) ?></label
-          >
-          <select id="zenlike-theme">
-            <option value="system">
-              <?= hsc(tpl_getLang('theme_system')) ?>
-            </option>
-            <option value="light">
-              <?= hsc(tpl_getLang('theme_light')) ?>
-            </option>
-            <option value="dark"><?= hsc(tpl_getLang('theme_dark')) ?></option>
-          </select>
+          <fieldset id="zenlike-theme">
+            <legend><?= hsc(tpl_getLang('appearance')) ?></legend>
+            <div class="zenlike-theme-options">
+              <?php foreach (['system', 'light', 'dark'] as $mode): ?>
+              <label title="<?= hsc(tpl_getLang('theme_' . $mode)) ?>">
+                <?php if ($mode === 'system'): ?>
+                <input
+                  type="radio"
+                  name="zenlike-theme"
+                  value="<?= $mode ?>"
+                  checked
+                />
+                <?php else: ?>
+                <input type="radio" name="zenlike-theme" value="<?= $mode ?>" />
+                <?php endif; ?>
+                <span class="zenlike-theme-option zenlike-theme-<?= $mode ?>">
+                  <span class="a11y"
+                    ><?= hsc(tpl_getLang('theme_' . $mode)) ?></span
+                  >
+                </span>
+              </label>
+              <?php endforeach; ?>
+            </div>
+          </fieldset>
         </div>
       </div>
     </div>

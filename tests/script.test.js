@@ -183,23 +183,20 @@ test('renders navigation, tools and theme options in their final locations', () 
       ['zenlike__sitetools', 'Site Tools', ['action recent']],
     ],
   );
+  const theme = document.querySelector('fieldset#zenlike-theme');
+  assert.equal(theme.querySelector('legend').textContent.trim(), 'Appearance');
   assert.deepEqual(
-    [...document.querySelectorAll('select')].map((select) => [
-      select.id,
-      [...select.options].map(({ value, textContent }) => [
-        value,
-        textContent.trim(),
-      ]),
+    [...theme.querySelectorAll('input[type="radio"]')].map((radio) => [
+      radio.name,
+      radio.value,
+      radio.closest('label').querySelector('.a11y').textContent.trim(),
+      radio.closest('label').title,
+      radio.checked,
     ]),
     [
-      [
-        'zenlike-theme',
-        [
-          ['system', 'System'],
-          ['light', 'Light'],
-          ['dark', 'Dark'],
-        ],
-      ],
+      ['zenlike-theme', 'system', 'System', 'System', true],
+      ['zenlike-theme', 'light', 'Light', 'Light', false],
+      ['zenlike-theme', 'dark', 'Dark', 'Dark', false],
     ],
   );
   assert.equal(document.querySelector('[hidden]'), null);
@@ -574,7 +571,7 @@ async function createPage(
             <div id="zenlike__tools">
               <nav id="dokuwiki__pagetools"><ul><li class="action edit"><a href="#edit">Edit this page</a></li></ul></nav>
               <nav id="zenlike__sitetools"><ul><li class="action recent"><a href="#recent">Recent Changes</a></li></ul></nav>
-              <div class="zenlike-appearance"><label for="zenlike-theme">Appearance</label><select id="zenlike-theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
+              <fieldset id="zenlike-theme" class="zenlike-appearance"><legend>Appearance</legend><label><input type="radio" name="zenlike-theme" value="system" checked>System</label><label><input type="radio" name="zenlike-theme" value="light">Light</label><label><input type="radio" name="zenlike-theme" value="dark">Dark</label></fieldset>
             </div>
           </div>
         </div>
@@ -807,26 +804,28 @@ test('ignores Escape for the always visible desktop sidebar', async () => {
 test('follows system appearance and stores explicit theme choices', async () => {
   const { document, dom, setSystemDark } = await createPage(false, true);
   const root = document.documentElement;
-  const theme = document.getElementById('zenlike-theme');
+  const theme = (value) =>
+    document.querySelector(`[name="zenlike-theme"][value="${value}"]`);
 
   assert.equal(root.getAttribute('data-theme'), 'dark');
-  assert.equal(theme.value, 'system');
+  assert.equal(theme('system').checked, true);
 
-  theme.value = 'light';
-  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  theme('light').click();
   assert.equal(root.getAttribute('data-theme'), 'light');
   assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'light');
 
-  theme.value = 'dark';
-  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  theme('dark').click();
   assert.equal(root.getAttribute('data-theme'), 'dark');
   assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'dark');
-
-  theme.value = 'system';
-  theme.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  assert.equal(theme('dark').checked, true);
   setSystemDark(false);
+  assert.equal(root.getAttribute('data-theme'), 'dark');
+
+  theme('system').click();
   assert.equal(root.getAttribute('data-theme'), 'light');
   assert.equal(dom.window.localStorage.getItem('zenlike-theme'), 'system');
+  setSystemDark(true);
+  assert.equal(root.getAttribute('data-theme'), 'dark');
 
   dom.window.close();
 });
@@ -834,13 +833,16 @@ test('follows system appearance and stores explicit theme choices', async () => 
 test('restores a saved theme preference and ignores unknown values', async () => {
   const saved = await createPage(false, false, 'dark');
   assert.equal(saved.document.documentElement.dataset.theme, 'dark');
-  assert.equal(saved.document.getElementById('zenlike-theme').value, 'dark');
+  assert.equal(
+    saved.document.querySelector('[name="zenlike-theme"]:checked').value,
+    'dark',
+  );
   saved.dom.window.close();
 
   const unknown = await createPage(false, true, 'sepia');
   assert.equal(unknown.document.documentElement.dataset.theme, 'dark');
   assert.equal(
-    unknown.document.getElementById('zenlike-theme').value,
+    unknown.document.querySelector('[name="zenlike-theme"]:checked').value,
     'system',
   );
   unknown.dom.window.close();
@@ -868,7 +870,7 @@ for (const mobile of [true, false]) {
     const { document, dom } = await createPage(mobile);
     const toggle = document.getElementById('toggle_sitemenu');
     toggle.click();
-    document.getElementById('zenlike-theme').focus();
+    document.querySelector('[name="zenlike-theme"]:checked').focus();
 
     document.dispatchEvent(
       new dom.window.KeyboardEvent('keydown', { key: 'Escape' }),
@@ -897,7 +899,7 @@ test('closes the desktop dropdown on outside clicks only', async () => {
   const toggle = document.getElementById('toggle_sitemenu');
 
   toggle.click();
-  document.getElementById('zenlike-theme').click();
+  document.querySelector('[name="zenlike-theme"]').click();
   assert.equal(toggle.getAttribute('aria-expanded'), 'true');
 
   document.getElementById('dokuwiki__content').click();

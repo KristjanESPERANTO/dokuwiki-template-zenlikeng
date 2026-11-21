@@ -992,18 +992,84 @@ input.button {
 }
 
 .zenlike-appearance {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
   padding: 0.75rem;
 }
 
-.zenlike-appearance select {
+.zenlike-appearance fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.zenlike-appearance legend {
+  padding: 0;
+  margin-bottom: 0.3rem;
+}
+
+.zenlike-theme-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.zenlike-theme-options label {
+  position: relative;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.zenlike-theme-options input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.zenlike-theme-option {
   box-sizing: border-box;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
   min-height: 2.5rem;
-  padding: 0.4rem;
-  font: inherit;
+  padding: 0.35rem 0.2rem;
+  border: 1px solid __border__;
+  border-radius: 0.25rem;
+  background: color-mix(in srgb, __background__ 90%, __text__);
+  color: __text__;
+}
+
+.zenlike-theme-option::before {
+  width: 1.125rem;
+  height: 1.125rem;
+  background: currentColor;
+  content: '';
+  mask: center / contain no-repeat;
+}
+
+.zenlike-theme-system::before {
+  mask-image: url('images/toolbar/monitor.svg');
+}
+
+.zenlike-theme-light::before {
+  mask-image: url('images/toolbar/sun.svg');
+}
+
+.zenlike-theme-dark::before {
+  mask-image: url('images/toolbar/moon.svg');
+}
+
+.zenlike-theme-options input:checked + .zenlike-theme-option {
+  background: __background_neu__;
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.zenlike-theme-options input:focus-visible + .zenlike-theme-option {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .no-js .zenlike-appearance {

@@ -192,10 +192,17 @@
     background: var(--zenlike-surface-raised);
   }
 
-  :root[data-theme='dark'] .zenlike-appearance select {
+  :root[data-theme='dark'] .zenlike-theme-option {
     border-color: var(--zenlike-control-border);
     background: var(--zenlike-surface-raised);
     color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark']
+    .zenlike-theme-options
+    input:checked
+    + .zenlike-theme-option {
+    background: var(--zenlike-button);
   }
 
   :root[data-theme='dark'] #menu {

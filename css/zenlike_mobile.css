@@ -155,12 +155,6 @@
     min-height: 44px;
   }
 
-  .zenlike-appearance select {
-    border: 1px solid __border__;
-    background: __background__;
-    color: __text__;
-  }
-
   #custommenu ul {
     flex-direction: column;
     align-items: stretch;
