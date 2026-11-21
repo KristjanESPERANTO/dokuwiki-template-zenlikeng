@@ -203,6 +203,7 @@
   }
 
   :root[data-theme='dark'] #zenlike__tools {
+    --zenlike-tools-shadow: 0 0 1rem 0.125rem rgba(0, 0, 0, 0.6);
     border-color: var(--zenlike-border);
     background: var(--zenlike-surface);
     color: var(--zenlike-text);

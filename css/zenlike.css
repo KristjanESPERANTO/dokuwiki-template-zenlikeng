@@ -1112,7 +1112,11 @@ input.button {
     max-height: 70vh;
     margin-top: 44px;
     overflow: auto;
-    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.2);
+    border-radius: 0.375rem;
+    box-shadow: var(
+      --zenlike-tools-shadow,
+      0 0 1rem 0.125rem rgba(0, 0, 0, 0.35)
+    );
   }
 
   .js #zenlikeheader:not(.menu-open) #zenlike__tools {
