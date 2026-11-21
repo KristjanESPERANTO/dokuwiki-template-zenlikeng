@@ -133,3 +133,76 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+html:has(body > #plugin__styling.ispopup) {
+  background: __background__ !important;
+}
+
+body:has(> #plugin__styling.ispopup) {
+  min-height: 100vh;
+  padding: 0;
+  color: __text__;
+}
+
+#plugin__styling.ispopup {
+  box-sizing: border-box;
+  max-width: 48rem;
+  margin-inline: auto;
+  padding: 1.25rem;
+}
+
+#plugin__styling.ispopup h1 {
+  font-size: 1.5rem;
+}
+
+#plugin__styling.ispopup form.styling {
+  display: block;
+}
+
+#plugin__styling.ispopup table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#plugin__styling.ispopup td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid __border__;
+  vertical-align: middle;
+}
+
+#plugin__styling.ispopup td:first-child {
+  width: 100%;
+  padding-inline-end: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+#plugin__styling.ispopup input {
+  box-sizing: border-box;
+  max-width: 8rem;
+  min-height: 2.5rem;
+}
+
+#plugin__styling.ispopup input[type='color'] {
+  width: 3rem;
+  padding: 0.2rem;
+}
+
+#plugin__styling button {
+  border-radius: 0.375rem;
+}
+
+#plugin__styling.ispopup button {
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  max-width: 100%;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid __text_neu__;
+  border-radius: 0.375rem;
+  background: __background_neu__;
+  color: __text__;
+  white-space: normal;
+}
+
+#plugin__styling.ispopup button:hover {
+  background: __border__;
+}

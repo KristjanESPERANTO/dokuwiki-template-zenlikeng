@@ -35,6 +35,28 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark']:has(body > #plugin__styling.ispopup) {
+    background: var(--zenlike-page) !important;
+  }
+
+  :root[data-theme='dark'] body:has(> #plugin__styling.ispopup) {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #plugin__styling.ispopup td {
+    border-color: var(--zenlike-border);
+  }
+
+  :root[data-theme='dark'] #plugin__styling.ispopup button {
+    border-color: var(--zenlike-control-border);
+    background: var(--zenlike-button);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] #plugin__styling.ispopup button:hover {
+    background: var(--zenlike-surface-raised);
+  }
+
   :root[data-theme='dark'] #dokuwiki__site,
   :root[data-theme='dark'] #media__manager,
   :root[data-theme='dark'] #dokuwiki__detail {

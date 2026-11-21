@@ -884,6 +884,45 @@ test('restores a saved theme preference and ignores unknown values', async () =>
   unknown.dom.window.close();
 });
 
+test('keeps the styling popup in sync with the appearance preference', async () => {
+  const dom = new JSDOM(
+    '<!doctype html><html><body class="dokuwiki"><div id="plugin__styling" class="ispopup page"></div></body></html>',
+    { runScripts: 'outside-only', url: 'https://example.test/' },
+  );
+  let systemDark = false;
+  let onSystemChange;
+  dom.window.matchMedia = () => ({
+    get matches() {
+      return systemDark;
+    },
+    addEventListener(type, listener) {
+      if (type === 'change') onSystemChange = listener;
+    },
+  });
+  dom.window.localStorage.setItem('zenlike-theme', 'dark');
+  const ready = new Promise((resolve) =>
+    dom.window.document.addEventListener('DOMContentLoaded', resolve, {
+      once: true,
+    }),
+  );
+  dom.window.eval(script);
+  await ready;
+
+  const root = dom.window.document.documentElement;
+  assert.equal(root.dataset.theme, 'dark');
+  dom.window.dispatchEvent(
+    new dom.window.StorageEvent('storage', {
+      key: 'zenlike-theme',
+      newValue: 'system',
+    }),
+  );
+  assert.equal(root.dataset.theme, 'light');
+  systemDark = true;
+  onSystemChange();
+  assert.equal(root.dataset.theme, 'dark');
+  dom.window.close();
+});
+
 for (const mobile of [true, false]) {
   const viewport = mobile ? 'mobile' : 'desktop';
 

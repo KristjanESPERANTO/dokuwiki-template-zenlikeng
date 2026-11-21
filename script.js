@@ -218,11 +218,14 @@ function setupResponsiveDiff() {
 
 function setupThemePreference() {
   const group = document.getElementById('zenlike-theme');
-  if (!group) return;
+  const popup = document.querySelector('#plugin__styling.ispopup');
+  if (!group && !popup) return;
 
   const storageKey = 'zenlike-theme';
-  const radios = [...group.querySelectorAll('input[type="radio"]')];
-  const modes = radios.map((radio) => radio.value);
+  const radios = group
+    ? [...group.querySelectorAll('input[type="radio"]')]
+    : [];
+  const modes = ['system', 'light', 'dark'];
   const systemPreference = document.defaultView.matchMedia(
     '(prefers-color-scheme: dark)',
   );
@@ -247,7 +250,7 @@ function setupThemePreference() {
     });
   }
 
-  group.addEventListener('change', function (event) {
+  group?.addEventListener('change', function (event) {
     if (!radios.includes(event.target) || !event.target.checked) return;
     preference = event.target.value;
     try {
@@ -261,6 +264,14 @@ function setupThemePreference() {
   systemPreference.addEventListener('change', function () {
     if (preference === 'system') updateTheme();
   });
+
+  if (popup) {
+    document.defaultView.addEventListener('storage', function (event) {
+      if (event.key !== storageKey) return;
+      preference = modes.includes(event.newValue) ? event.newValue : 'system';
+      updateTheme();
+    });
+  }
 
   updateTheme();
 }
