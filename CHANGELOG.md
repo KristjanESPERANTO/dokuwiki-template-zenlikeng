@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.6.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.5.1...v7.6.0) (2026-11-21)
+
+### Features
+
+* add configurable header colors ([469ef60](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/469ef60fa54f430fd41b5c9f2cfbfdfc9d51c116))
+* replace theme dropdown with icon controls ([61a5082](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/61a508285b3a909c3004b323eb1d359cc098812c))
+
+### Bug Fixes
+
+* add spacing between page form controls ([764e9a6](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/764e9a6715a4036e1ef49dcc83fa51c6ea9c28fd))
+* improve styling manager and popup appearance ([90c9e8b](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/90c9e8b9d5b55c176ac686ee46285cdd2118bcf7))
+* round extension manager search button ([7317842](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/7317842df34502231a56fd19b98dce73db015f1c))
+* translate outer background color labels ([beb5e9b](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/beb5e9bb613bdb4b78df1fd805421c8fa5045c42))
+
 ## [7.5.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.5.0...v7.5.1) (2026-11-18)
 
 ## [7.5.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.4.2...v7.5.0) (2026-11-18)
