@@ -10,6 +10,7 @@ $lang['recently_visited']  = 'Lastatempe vizititaj';
 $lang['back_to_article']   = 'Reen al artikolo';
 $lang['userpage']          = 'Paĝo de uzanto';
 $lang['appearance']        = 'Aspekto';
+$lang['navigation_tools']  = 'Navigado kaj iloj';
 $lang['theme_system']      = 'Sistemo';
 $lang['theme_light']       = 'Hela';
 $lang['theme_dark']        = 'Malhela';

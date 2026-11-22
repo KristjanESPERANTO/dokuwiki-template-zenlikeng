@@ -26,7 +26,10 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
     <?php tpl_includeFile('meta.html') ?>
 </head>
 
-<body>
+<body
+  data-appearance-label="<?= hsc(tpl_getLang('appearance')) ?>"
+  data-navigation-label="<?= hsc(tpl_getLang('navigation_tools')) ?>"
+>
     <?php /* the "dokuwiki__top" id is needed somewhere at the top, because that's where the "back to top" button/link links to */ ?>
     <?php /* classes mode_<action> are added to make it possible to e.g. style a page differently if it's in edit mode,
          see http://www.dokuwiki.org/devel:action_modes for a list of action modes */ ?>

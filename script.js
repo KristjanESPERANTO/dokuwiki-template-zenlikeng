@@ -43,6 +43,48 @@ function setupSectionEditButtons() {
   });
 }
 
+function setupTemplateConfig() {
+  const fieldset = document.querySelector(
+    '#config__manager fieldset[id$="____tpl_settings_name"]',
+  );
+  if (!fieldset || fieldset.dataset.grouped === 'true') return;
+
+  const appearanceKeys = new Set([
+    'showHeaderPicture',
+    'headerPicture',
+    'pageBackground',
+    'pageBackgroundImage',
+    'pageBackgroundSize',
+  ]);
+  const body = fieldset.querySelector('table tbody');
+  const appearanceRows = [];
+  for (const row of body?.rows ?? []) {
+    const name = row.querySelector('input, select, textarea')?.name ?? '';
+    if (appearanceKeys.has(name.split('____').pop().replace(']', ''))) {
+      appearanceRows.push(row);
+    }
+  }
+  if (!appearanceRows.length) return;
+
+  const appearanceFieldset = document.createElement('fieldset');
+  const legend = document.createElement('legend');
+  legend.textContent = document.body.dataset.appearanceLabel;
+  appearanceFieldset.append(legend);
+  const wrapper = document.createElement('div');
+  wrapper.className = 'table';
+  const table = document.createElement('table');
+  table.className = 'inline';
+  const appearanceBody = document.createElement('tbody');
+  table.append(appearanceBody);
+  wrapper.append(table);
+  appearanceFieldset.append(wrapper);
+  appearanceBody.append(...appearanceRows);
+  fieldset.before(appearanceFieldset);
+  fieldset.querySelector('legend').textContent =
+    document.body.dataset.navigationLabel;
+  fieldset.dataset.grouped = 'true';
+}
+
 function setupStylingTable() {
   const table = document.querySelector('#plugin__styling form.styling > table');
   if (!table || table.dataset.organized === 'true') return;
@@ -154,7 +196,9 @@ function setupStylingTable() {
   const organizedRows = [];
   let modeHeadings;
   for (const group of groups) {
-    const present = group.filter((keys) => keys.some((key) => entries.has(key)));
+    const present = group.filter((keys) =>
+      keys.some((key) => entries.has(key)),
+    );
     if (!present.length) continue;
 
     const first = entries.get(present[0][0]);
@@ -215,7 +259,10 @@ function setupStylingTable() {
       } else {
         const prefix = `${groupTitle}:`;
         if (label.textContent.trim().startsWith(prefix)) {
-          label.textContent = label.textContent.trim().slice(prefix.length).trim();
+          label.textContent = label.textContent
+            .trim()
+            .slice(prefix.length)
+            .trim();
         }
         const value = createCell('td');
         value.colSpan = 2;
@@ -488,6 +535,7 @@ function setupThemePreference() {
 function init() {
   setupCodeCopyButtons();
   setupSectionEditButtons();
+  setupTemplateConfig();
   setupStylingTable();
   setupSiteMenu();
   setupBackToTopVisibility();

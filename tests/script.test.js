@@ -100,6 +100,60 @@ test('orders and describes every styling option', () => {
   );
 });
 
+test('groups visual template settings separately from navigation tools', async () => {
+  const settings = [
+    'discussionPage',
+    'menuid',
+    'showHeaderPicture',
+    'headerPicture',
+    'pageBackground',
+    'pageBackgroundImage',
+    'pageBackgroundSize',
+  ];
+  const rows = settings
+    .map(
+      (key) =>
+        `<tr><td><label>${key}</label></td><td><input name="config[tpl____zenlikeng____${key}]"></td></tr>`,
+    )
+    .join('');
+  const dom = new JSDOM(
+    `<body data-appearance-label="Appearance" data-navigation-label="Navigation and tools"><div id="config__manager"><fieldset id="tpl____zenlikeng____tpl_settings_name"><legend>Zenlikeng</legend><div class="table"><table class="inline"><tbody>${rows}</tbody></table></div></fieldset></div></body>`,
+    { runScripts: 'outside-only' },
+  );
+  dom.window.eval(script);
+  await new Promise((resolve) =>
+    dom.window.document.addEventListener('DOMContentLoaded', resolve),
+  );
+
+  const fieldSets = dom.window.document.querySelectorAll(
+    '#config__manager fieldset',
+  );
+  assert.deepEqual(
+    [...fieldSets].map(
+      (fieldset) => fieldset.querySelector('legend').textContent,
+    ),
+    ['Appearance', 'Navigation and tools'],
+  );
+  assert.deepEqual(
+    [...fieldSets[0].querySelectorAll('input')].map((input) => input.name),
+    [
+      'config[tpl____zenlikeng____showHeaderPicture]',
+      'config[tpl____zenlikeng____headerPicture]',
+      'config[tpl____zenlikeng____pageBackground]',
+      'config[tpl____zenlikeng____pageBackgroundImage]',
+      'config[tpl____zenlikeng____pageBackgroundSize]',
+    ],
+  );
+  assert.deepEqual(
+    [...fieldSets[1].querySelectorAll('input')].map((input) => input.name),
+    [
+      'config[tpl____zenlikeng____discussionPage]',
+      'config[tpl____zenlikeng____menuid]',
+    ],
+  );
+  dom.window.close();
+});
+
 test('organizes styling options into light and dark columns', async () => {
   const rows = [
     ['__site_width__', 'Layout: site width'],

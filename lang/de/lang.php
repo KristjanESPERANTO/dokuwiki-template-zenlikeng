@@ -11,6 +11,7 @@ $lang['recently_visited']  = 'Zuletzt besucht';
 $lang['back_to_article']   = 'Zurück zum Artikel';
 $lang['userpage']          = 'Benutzer-Seite';
 $lang['appearance']        = 'Darstellung';
+$lang['navigation_tools']  = 'Navigation und Werkzeuge';
 $lang['theme_system']      = 'System';
 $lang['theme_light']       = 'Hell';
 $lang['theme_dark']        = 'Dunkel';

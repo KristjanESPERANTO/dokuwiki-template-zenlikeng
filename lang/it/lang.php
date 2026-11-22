@@ -12,6 +12,7 @@ $lang['recently_visited']  = 'Visitati di recente';
 $lang['back_to_article']   = 'Torna all’articolo';
 $lang['userpage']          = 'Pagina dell’autore';
 $lang['appearance']        = 'Aspetto';
+$lang['navigation_tools']  = 'Navigazione e strumenti';
 $lang['theme_system']      = 'Sistema';
 $lang['theme_light']       = 'Chiaro';
 $lang['theme_dark']        = 'Scuro';
