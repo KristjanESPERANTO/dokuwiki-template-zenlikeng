@@ -4,7 +4,7 @@
     --zenlike-canvas: #18191b;
     --zenlike-page: __dark_page__;
     --zenlike-surface: __dark_surface__;
-    --zenlike-surface-raised: #34373c;
+    --zenlike-surface-raised: __dark_background_neu__;
     --zenlike-button: #474b52;
     --zenlike-border: __dark_border__;
     --zenlike-tab-border: color-mix(
@@ -20,11 +20,14 @@
       var(--zenlike-surface)
     );
     --zenlike-text: __dark_text__;
-    --zenlike-muted: #c0b8ad;
+    --zenlike-text-alt: __dark_text_alt__;
+    --zenlike-text-neutral: __dark_text_neu__;
+    --zenlike-muted: var(--zenlike-text-neutral);
     --zenlike-link: __dark_link__;
-    --zenlike-missing: #ff9b8f;
+    --zenlike-existing: __dark_existing__;
+    --zenlike-missing: __dark_missing__;
     --zenlike-menu: #404a20;
-    --zenlike-menu-active: #58632d;
+    --zenlike-highlight: __dark_highlight__;
   }
 
   :root[data-theme='dark'] {
@@ -88,9 +91,12 @@
 
   :root[data-theme='dark'] a,
   :root[data-theme='dark'] a:link,
-  :root[data-theme='dark'] a:visited,
-  :root[data-theme='dark'] .dokuwiki a.wikilink1 {
+  :root[data-theme='dark'] a:visited {
     color: var(--zenlike-link);
+  }
+
+  :root[data-theme='dark'] .dokuwiki a.wikilink1 {
+    color: var(--zenlike-existing);
   }
 
   :root[data-theme='dark'] .dokuwiki a.wikilink2 {
@@ -98,11 +104,11 @@
   }
 
   :root[data-theme='dark'] nav.breadcrumb-trace {
-    color: var(--zenlike-muted);
+    color: var(--zenlike-text-alt);
   }
 
   :root[data-theme='dark'] .breadcrumb-trace .bcsep {
-    color: var(--zenlike-muted);
+    color: var(--zenlike-text-alt);
   }
 
   :root[data-theme='dark'] .breadcrumb-trace .curid a.breadcrumbs {
@@ -110,12 +116,12 @@
   }
 
   :root[data-theme='dark'] #acl__tree a.cur {
-    background-color: var(--zenlike-menu-active);
+    background-color: var(--zenlike-highlight);
     color: var(--zenlike-text);
   }
 
   :root[data-theme='dark'] .dokuwiki mark {
-    background-color: var(--zenlike-menu-active);
+    background-color: var(--zenlike-highlight);
     color: var(--zenlike-text);
   }
 
@@ -124,11 +130,7 @@
   }
 
   :root[data-theme='dark'] #extension__list .actions .available .version {
-    background: linear-gradient(
-      to top,
-      var(--zenlike-menu-active),
-      transparent
-    );
+    background: linear-gradient(to top, var(--zenlike-highlight), transparent);
   }
 
   :root[data-theme='dark'] #link__wiz {
@@ -170,7 +172,7 @@
   }
 
   :root[data-theme='dark'] #link__wiz_result div.selected {
-    background-color: var(--zenlike-menu-active);
+    background-color: var(--zenlike-highlight);
   }
 
   :root[data-theme='dark'] #link__wiz_result span {
@@ -649,7 +651,7 @@
   }
 
   :root[data-theme='dark'] #mediamanager__page .namespaces ul .selected {
-    background-color: var(--zenlike-menu-active);
+    background-color: var(--zenlike-highlight);
     color: var(--zenlike-text);
   }
 
@@ -693,8 +695,8 @@
   :root[data-theme='dark']
     #mediamanager__page
     .ui-button.ui-state-active:hover {
-    border-color: var(--zenlike-menu-active);
-    background: var(--zenlike-menu-active);
+    border-color: var(--zenlike-highlight);
+    background: var(--zenlike-highlight);
     color: var(--zenlike-text);
   }
 
@@ -706,7 +708,7 @@
   }
 
   :root[data-theme='dark'] #mediamanager__diff dl dd strong {
-    background-color: var(--zenlike-menu-active);
+    background-color: var(--zenlike-highlight);
     color: var(--zenlike-text);
   }
 }

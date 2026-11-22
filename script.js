@@ -43,6 +43,215 @@ function setupSectionEditButtons() {
   });
 }
 
+function setupStylingTable() {
+  const table = document.querySelector('#plugin__styling form.styling > table');
+  if (!table || table.dataset.organized === 'true') return;
+
+  const body = table.tBodies[0];
+  const entries = new Map();
+  for (const row of body.rows) {
+    const input = row.querySelector('input[name^="tpl["]');
+    const match = input?.name.match(/^tpl\[(.+)\]$/);
+    if (!match) continue;
+    entries.set(match[1], { input, label: row.querySelector('label'), row });
+  }
+
+  const layoutKeys = [
+    '__site_width__',
+    '__sidebar_width__',
+    '__content_font_size__',
+  ];
+  const groups = [
+    [
+      ['__header_background__', '__dark_header_background__'],
+      ['__header_text__', '__dark_header_text__'],
+    ],
+    [
+      ['__outer_background__', '__dark_outer_background__'],
+      ['__background__', '__dark_page__'],
+      ['__text__', '__dark_text__'],
+      ['__background_alt__', '__dark_surface__'],
+      ['__text_alt__', '__dark_text_alt__'],
+      ['__background_neu__', '__dark_background_neu__'],
+      ['__text_neu__', '__dark_text_neu__'],
+      ['__border__', '__dark_border__'],
+    ],
+    [
+      ['__link__', '__dark_link__'],
+      ['__existing__', '__dark_existing__'],
+      ['__missing__', '__dark_missing__'],
+    ],
+    [['__highlight__', '__dark_highlight__']],
+  ];
+
+  const createCell = (tag, text, className = '') => {
+    const cell = document.createElement(tag);
+    if (text) cell.textContent = text;
+    if (className) cell.className = className;
+    return cell;
+  };
+
+  const pairedLabel = (light, dark) => {
+    const lightSeparator = light.indexOf(':');
+    const darkSeparator = dark.indexOf(':');
+    if (lightSeparator < 0 || darkSeparator < 0) return [light, '', ''];
+    return [
+      light.slice(lightSeparator + 1).trim(),
+      light.slice(0, lightSeparator).trim(),
+      dark.slice(0, darkSeparator).trim(),
+    ];
+  };
+
+  const lightOnly = new Set();
+  const remaining = new Set(entries.keys());
+  const firstLayoutLabel = entries.get(layoutKeys[0])?.label.textContent.trim();
+  const layoutCaption = firstLayoutLabel?.includes(':')
+    ? firstLayoutLabel.slice(0, firstLayoutLabel.indexOf(':')).trim()
+    : '';
+  const layoutBody = document.createElement('tbody');
+  const layoutTable = document.createElement('table');
+  layoutTable.className = 'zenlike-styling-layout';
+  layoutTable.dataset.organized = 'true';
+  layoutTable.append(layoutBody);
+
+  for (const key of layoutKeys) {
+    const entry = entries.get(key);
+    if (!entry) continue;
+    const title = entry.label.textContent.trim();
+    entry.label.textContent = title.includes(':')
+      ? title.slice(title.indexOf(':') + 1).trim()
+      : title;
+    const row = document.createElement('tr');
+    row.className = 'zenlike-styling-setting';
+    const heading = createCell('th');
+    heading.scope = 'row';
+    heading.append(entry.label);
+    const value = createCell('td');
+    value.append(entry.input);
+    row.append(heading, value);
+    layoutBody.append(row);
+    remaining.delete(key);
+  }
+
+  if (layoutBody.childElementCount) {
+    const layoutHead = document.createElement('thead');
+    const layoutGroup = document.createElement('tr');
+    layoutGroup.className = 'zenlike-styling-group';
+    const layoutHeading = createCell('th', layoutCaption);
+    layoutHeading.colSpan = 2;
+    layoutGroup.append(layoutHeading);
+    layoutHead.append(layoutGroup);
+    layoutTable.prepend(layoutHead);
+    table.before(layoutTable);
+  }
+
+  const head = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  headRow.append(createCell('th', ''));
+  head.append(headRow);
+  table.prepend(head);
+
+  const organizedRows = [];
+  let modeHeadings;
+  for (const group of groups) {
+    const present = group.filter((keys) => keys.some((key) => entries.has(key)));
+    if (!present.length) continue;
+
+    const first = entries.get(present[0][0]);
+    const firstDark = present[0][1] ? entries.get(present[0][1]) : undefined;
+    const firstLabel = firstDark
+      ? pairedLabel(first.label.textContent, firstDark.label.textContent)[0]
+      : first.label.textContent;
+    const groupTitle = firstLabel.includes(':')
+      ? firstLabel.slice(0, firstLabel.indexOf(':')).trim()
+      : firstLabel.trim();
+    const groupRow = document.createElement('tr');
+    groupRow.className = 'zenlike-styling-group';
+    groupRow.append(createCell('th', groupTitle));
+    groupRow.firstElementChild.colSpan = 3;
+    organizedRows.push(groupRow);
+
+    for (const keys of present) {
+      const light = entries.get(keys[0]);
+      const dark = keys[1] ? entries.get(keys[1]) : undefined;
+      if (!light) continue;
+
+      const row = document.createElement('tr');
+      row.className = 'zenlike-styling-setting';
+      const label = light.label;
+      const heading = createCell('th');
+      heading.scope = 'row';
+      heading.append(label);
+      row.append(heading);
+
+      if (dark) {
+        const [shared, lightMode, darkMode] = pairedLabel(
+          light.label.textContent,
+          dark.label.textContent,
+        );
+        label.textContent = shared.startsWith(`${groupTitle}:`)
+          ? shared.slice(groupTitle.length + 1).trim()
+          : shared;
+        modeHeadings ??= [lightMode, darkMode];
+        const lightCell = createCell('td');
+        lightCell.append(light.input);
+        const darkCell = createCell('td');
+        dark.label.classList.add('a11y');
+        darkCell.append(dark.label, dark.input);
+        row.append(lightCell, darkCell);
+        remaining.delete(keys[0]);
+        remaining.delete(keys[1]);
+      } else if (lightOnly.has(keys[0])) {
+        const [shared, lightMode] = pairedLabel(
+          light.label.textContent,
+          light.label.textContent,
+        );
+        label.textContent = shared;
+        modeHeadings ??= [lightMode, ''];
+        const lightCell = createCell('td');
+        lightCell.append(light.input);
+        row.append(lightCell, createCell('td'));
+        remaining.delete(keys[0]);
+      } else {
+        const prefix = `${groupTitle}:`;
+        if (label.textContent.trim().startsWith(prefix)) {
+          label.textContent = label.textContent.trim().slice(prefix.length).trim();
+        }
+        const value = createCell('td');
+        value.colSpan = 2;
+        value.append(light.input);
+        row.append(value);
+        remaining.delete(keys[0]);
+      }
+      organizedRows.push(row);
+    }
+  }
+
+  for (const key of remaining) {
+    const entry = entries.get(key);
+    if (!entry) continue;
+    const row = document.createElement('tr');
+    row.className = 'zenlike-styling-setting';
+    const heading = createCell('th');
+    heading.scope = 'row';
+    heading.append(entry.label);
+    const value = createCell('td');
+    value.colSpan = 2;
+    value.append(entry.input);
+    row.append(heading, value);
+    organizedRows.push(row);
+  }
+
+  if (modeHeadings) {
+    headRow.append(
+      createCell('th', modeHeadings[0], 'zenlike-styling-mode'),
+      createCell('th', modeHeadings[1], 'zenlike-styling-mode'),
+    );
+  }
+  body.replaceChildren(...organizedRows);
+  table.dataset.organized = 'true';
+}
+
 function setupSiteMenu() {
   const header = document.getElementById('zenlikeheader');
   const toggle = document.getElementById('toggle_sitemenu');
@@ -279,6 +488,7 @@ function setupThemePreference() {
 function init() {
   setupCodeCopyButtons();
   setupSectionEditButtons();
+  setupStylingTable();
   setupSiteMenu();
   setupBackToTopVisibility();
   setupSidebarToggle();

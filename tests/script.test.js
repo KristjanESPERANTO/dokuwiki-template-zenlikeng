@@ -44,6 +44,127 @@ test('exposes header colors for both appearance modes', () => {
   }
 });
 
+test('orders and describes every styling option', () => {
+  const ini = new URL('../style.ini', import.meta.url).pathname;
+  const language = new URL('../lang/en/lang.php', import.meta.url).pathname;
+  const settings = JSON.parse(
+    execFileSync(
+      'php',
+      [
+        '-r',
+        '$style = parse_ini_file($argv[1], true); $lang = []; include $argv[2]; echo json_encode([array_keys($style["replacements"]), $style["replacements"], $lang]);',
+        ini,
+        language,
+      ],
+      { encoding: 'utf8' },
+    ),
+  );
+  assert.deepEqual(settings[0], [
+    '__site_width__',
+    '__sidebar_width__',
+    '__content_font_size__',
+    '__outer_background__',
+    '__dark_outer_background__',
+    '__header_background__',
+    '__dark_header_background__',
+    '__header_text__',
+    '__dark_header_text__',
+    '__background__',
+    '__dark_page__',
+    '__text__',
+    '__dark_text__',
+    '__background_alt__',
+    '__dark_surface__',
+    '__text_alt__',
+    '__dark_text_alt__',
+    '__background_neu__',
+    '__dark_background_neu__',
+    '__text_neu__',
+    '__dark_text_neu__',
+    '__border__',
+    '__dark_border__',
+    '__link__',
+    '__dark_link__',
+    '__existing__',
+    '__dark_existing__',
+    '__missing__',
+    '__dark_missing__',
+    '__highlight__',
+    '__dark_highlight__',
+  ]);
+  for (const key of settings[0]) assert.ok(settings[2][key], key);
+  assert.match(settings[1].__dark_highlight__, /^#[0-9a-f]{6}$/i);
+  assert.match(
+    readFileSync(new URL('../css/zenlike_dark.css', import.meta.url), 'utf8'),
+    /--zenlike-highlight: __dark_highlight__;/,
+  );
+});
+
+test('organizes styling options into light and dark columns', async () => {
+  const rows = [
+    ['__site_width__', 'Layout: site width'],
+    ['__content_font_size__', 'Layout: content font size'],
+    ['__text__', 'Light mode: Page: text'],
+    ['__background__', 'Light mode: Page: background'],
+    ['__custom__', 'Custom option'],
+    ['__dark_page__', 'Dark mode: Page: background'],
+    ['__dark_text__', 'Dark mode: Page: text'],
+  ]
+    .map(
+      ([key, label]) =>
+        `<tr><td><label for="id_${key}">${label}</label></td><td><input id="id_${key}" name="tpl[${key}]" value="${key}"></td></tr>`,
+    )
+    .join('');
+  const dom = new JSDOM(
+    `<div id="plugin__styling"><form class="styling"><table><tbody>${rows}</tbody></table></form></div>`,
+    { runScripts: 'outside-only' },
+  );
+  dom.window.eval(script);
+  await new Promise((resolve) =>
+    dom.window.document.addEventListener('DOMContentLoaded', resolve),
+  );
+
+  const layout = dom.window.document.querySelector('.zenlike-styling-layout');
+  assert.equal(
+    layout.querySelector('.zenlike-styling-group th').textContent,
+    'Layout',
+  );
+  assert.deepEqual(
+    [...layout.querySelectorAll('.zenlike-styling-setting th')].map(
+      (cell) => cell.textContent,
+    ),
+    ['site width', 'content font size'],
+  );
+  const table = dom.window.document.querySelector(
+    'table:not(.zenlike-styling-layout)',
+  );
+  assert.deepEqual(
+    [...table.querySelectorAll('thead th')].map((cell) => cell.textContent),
+    ['', 'Light mode', 'Dark mode'],
+  );
+  assert.deepEqual(
+    [...table.querySelectorAll('.zenlike-styling-group')].map((row) =>
+      row.textContent.trim(),
+    ),
+    ['Page'],
+  );
+  assert.deepEqual(
+    [...table.querySelectorAll('input')].map((input) => input.name),
+    [
+      'tpl[__background__]',
+      'tpl[__dark_page__]',
+      'tpl[__text__]',
+      'tpl[__dark_text__]',
+      'tpl[__custom__]',
+    ],
+  );
+  assert.equal(
+    table.querySelector('input[name="tpl[__custom__]"]').value,
+    '__custom__',
+  );
+  dom.window.close();
+});
+
 test('keeps copy feedback visible and updates its accessible tooltip', async () => {
   const dom = new JSDOM(
     '<div class="dokuwiki"><pre class="code"><span class="keyword">example</span>\nsecond line</pre></div>',

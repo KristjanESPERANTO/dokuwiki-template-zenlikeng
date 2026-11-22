@@ -168,15 +168,114 @@ body:has(> #plugin__styling.ispopup) {
   display: block;
 }
 
-#plugin__styling.ispopup table {
-  width: 100%;
-  border-collapse: collapse;
+#plugin__styling {
+  --zenlike-styling-label-width: 48%;
 }
 
-#plugin__styling.ispopup td {
-  padding: 0.4rem 0.5rem;
-  border-bottom: 1px solid __border__;
+#plugin__styling table {
+  width: 100%;
+  table-layout: fixed;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--zenlike-border, __border__);
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+#plugin__styling table caption {
+  padding: 0 0.5rem 0.5rem;
+  color: __text_neu__;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: start;
+  text-transform: uppercase;
+}
+
+#plugin__styling table.zenlike-styling-layout .zenlike-styling-setting th,
+#plugin__styling .zenlike-styling-setting th {
+  width: var(--zenlike-styling-label-width);
+}
+
+#plugin__styling table.zenlike-styling-layout {
+  table-layout: fixed;
+}
+
+#plugin__styling table.zenlike-styling-layout thead th {
+  width: 100%;
+  text-align: start;
+}
+
+#plugin__styling .zenlike-styling-setting input[type='text'] {
+  width: 100%;
+  padding-inline: 0.75rem;
+}
+
+#plugin__styling table.zenlike-styling-layout .zenlike-styling-setting td {
+  width: calc(100% - var(--zenlike-styling-label-width));
+}
+
+#plugin__styling thead th {
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid var(--zenlike-border, __border__);
+  background: var(--zenlike-surface-raised, __background_neu__);
+  text-align: center;
+}
+
+#plugin__styling thead th:first-child {
+  text-align: start;
+}
+
+#plugin__styling tr.zenlike-styling-group th {
+  padding: 0.8rem 0.5rem 0.35rem;
+  border-width: 0;
+  border-bottom: 1px solid var(--zenlike-border, __border__);
+  background: var(--zenlike-surface, __background_alt__);
+  color: var(--zenlike-text-neutral, __text_neu__);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+#plugin__styling .zenlike-styling-setting th,
+#plugin__styling .zenlike-styling-setting td {
+  padding: 0.5rem;
+  border-width: 0 0 1px;
+  border-color: var(--zenlike-border, __border__);
   vertical-align: middle;
+}
+
+#plugin__styling .zenlike-styling-setting:last-child th,
+#plugin__styling .zenlike-styling-setting:last-child td {
+  border-bottom: 0;
+}
+
+#plugin__styling .zenlike-styling-setting th {
+  width: 48%;
+  overflow-wrap: anywhere;
+}
+
+#plugin__styling .zenlike-styling-mode {
+  width: 26%;
+  text-align: center;
+}
+
+#plugin__styling .zenlike-styling-setting input {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 2.25rem;
+}
+
+#plugin__styling .zenlike-styling-setting input[type='color'] {
+  width: 3rem;
+  height: 2.25rem;
+  padding: 0.2rem;
+}
+
+#plugin__styling .zenlike-styling-setting td:not([colspan]) {
+  text-align: center;
 }
 
 #plugin__styling.ispopup td:first-child {
