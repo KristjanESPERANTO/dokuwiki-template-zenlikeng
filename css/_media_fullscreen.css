@@ -237,6 +237,7 @@
   display: inline-block;
   /* Inline-block whitespace adds about 4px, so a 6px margin gives a 10px visual gap. */
   margin: 0 6px 10px 0;
+  border-radius: 0.375rem;
   background-color: __background_neu__;
   color: __text__;
   padding: 5px;
@@ -287,6 +288,7 @@
   max-height: 50px;
   margin: 0;
   margin-bottom: 3px;
+  border-radius: 0.375rem;
   background-color: __background__;
   color: __text__;
   overflow: hidden;

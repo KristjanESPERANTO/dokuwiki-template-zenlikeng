@@ -58,6 +58,15 @@
   float: left;
 }
 
+.dokuwiki div.table {
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+#plugin__styling form.styling table {
+  border-radius: 0.375rem;
+}
+
 .dokuwiki .ui-admin {
   display: flex;
   flex-direction: column;
