@@ -167,18 +167,38 @@
 .dokuwiki form.search div.ajax_qsearch {
   position: absolute;
   top: 0;
-  left: -13.5em; /* -( width of #qsearch__in + padding of .ajax_qsearch + a bit more ) */
-  width: 12em;
+  right: 100%;
+  box-sizing: border-box;
+  width: 20rem;
+  max-width: 100%;
+  max-height: 60vh;
+  overflow: auto;
+  margin-right: 0.35rem;
   padding: 0.5em;
   font-size: 0.9em;
   z-index: 20;
   text-align: left;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
   display: none;
 }
 [dir='rtl'] .dokuwiki form.search div.ajax_qsearch {
-  left: auto;
-  right: -13.5em;
+  left: 100%;
+  right: auto;
+  margin-right: 0;
+  margin-left: 0.35rem;
   text-align: right;
+}
+
+@media (max-width: 42em) {
+  .dokuwiki form.search div.ajax_qsearch,
+  [dir='rtl'] .dokuwiki form.search div.ajax_qsearch {
+    top: 100%;
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
 }
 
 .dokuwiki form.search div.ajax_qsearch strong {
@@ -193,4 +213,19 @@
   margin: 0;
   padding: 0;
   display: block !important;
+}
+
+.dokuwiki form.search div.ajax_qsearch a {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.25em 0.35em;
+  border-radius: 0.25rem;
+  color: __text__;
+  text-decoration: none;
+}
+
+.dokuwiki form.search div.ajax_qsearch a:hover,
+.dokuwiki form.search div.ajax_qsearch a:focus-visible {
+  background: __background_neu__;
+  text-decoration: underline;
 }

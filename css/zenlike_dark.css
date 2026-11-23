@@ -129,6 +129,25 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] .dokuwiki form.search div.ajax_qsearch {
+    border-color: var(--zenlike-border);
+    background: var(--zenlike-surface);
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki form.search div.ajax_qsearch a {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki form.search div.ajax_qsearch a:hover,
+  :root[data-theme='dark']
+    .dokuwiki
+    form.search
+    div.ajax_qsearch
+    a:focus-visible {
+    background: var(--zenlike-surface-raised);
+  }
+
   :root[data-theme='dark'] .dokuwiki dl.search_results dd {
     color: var(--zenlike-text);
   }
