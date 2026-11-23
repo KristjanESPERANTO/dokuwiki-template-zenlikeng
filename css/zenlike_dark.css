@@ -129,6 +129,19 @@
     color: var(--zenlike-text);
   }
 
+  :root[data-theme='dark'] .dokuwiki dl.search_results dd {
+    color: var(--zenlike-text);
+  }
+
+  :root[data-theme='dark'] .dokuwiki dl.search_results dd.meta {
+    color: var(--zenlike-muted);
+  }
+
+  :root[data-theme='dark'] .search-results-form .advancedOptions .toggle > ul {
+    border-color: var(--zenlike-border);
+    background: var(--zenlike-surface);
+  }
+
   :root[data-theme='dark'] #extension__list .actions .available .version {
     background: linear-gradient(to top, var(--zenlike-highlight), transparent);
   }

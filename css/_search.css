@@ -6,6 +6,90 @@
 /* search results page
 ********************************************************************/
 
+.dokuwiki .search-results-form fieldset.search-form {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.dokuwiki .search-results-form fieldset.search-form > input[name='q'] {
+  box-sizing: border-box;
+  flex: 1 1 8rem;
+  min-width: 8rem;
+  max-width: 100%;
+  min-height: 2.75rem;
+}
+
+@media (min-width: 42.01em) {
+  .dokuwiki .search-results-form fieldset.search-form > input[name='q'] {
+    max-width: 30rem;
+  }
+}
+
+.dokuwiki .search-results-form fieldset.search-form > button {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 2.75rem;
+}
+
+.dokuwiki .search-results-form fieldset.search-form > .advancedOptions {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.dokuwiki .search-results-form .advancedOptions > .toggle {
+  display: inline-block;
+  position: relative;
+  margin: 0.25rem 0.75rem 0.25rem 0;
+}
+
+.dokuwiki .search-results-form .advancedOptions .current {
+  cursor: pointer;
+}
+
+.dokuwiki .search-results-form .advancedOptions .current::after {
+  display: inline-block;
+  margin-inline-start: 0.35em;
+  border: 0.3em solid transparent;
+  border-top-color: currentColor;
+  vertical-align: middle;
+  content: '';
+}
+
+.dokuwiki .search-results-form .advancedOptions .changed {
+  font-weight: bold;
+}
+
+.dokuwiki .search-results-form .advancedOptions .toggle > ul {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  min-width: 10em;
+  max-width: 15em;
+  max-height: 50vh;
+  overflow: auto;
+  margin: 0;
+  padding: 0.5em;
+  border: 1px solid __border__;
+  background: __background__;
+  list-style: none;
+}
+
+.dokuwiki .search-results-form .advancedOptions .toggle.open > ul {
+  display: block;
+}
+
+.dokuwiki .search-results-form .advancedOptions .toggle > ul li {
+  margin: 0.25em 0;
+  list-style: none;
+}
+
+.dokuwiki .search-results-form .advancedOptions .toggle > ul a {
+  display: block;
+}
+
 /* loading gif */
 #dw__loading {
   text-align: center;
@@ -42,9 +126,13 @@
 
 /* search snippet */
 .dokuwiki dl.search_results dd {
-  color: __text_alt__;
+  color: color-mix(in srgb, __text__ 83%, __background__);
   background-color: inherit;
   margin: 0 0 1.2em 0;
+}
+
+.dokuwiki dl.search_results dd.meta {
+  color: color-mix(in srgb, __text__ 75%, __background__);
 }
 
 /* search hit in normal text */
@@ -58,7 +146,7 @@
 }
 /* ellipsis separating snippets */
 .dokuwiki .search_results .search_sep {
-  color: __text__;
+  color: inherit;
   background-color: inherit;
 }
 
