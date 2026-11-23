@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.7.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.7.0...v7.7.1) (2026-11-23)
+
+### Bug Fixes
+
+* improve search layout and contrast ([8cab1db](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/8cab1db12dd2904c5764f3e017b00847d669904c))
+
 ## [7.7.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.6.0...v7.7.0) (2026-11-22)
 
 ### Features
