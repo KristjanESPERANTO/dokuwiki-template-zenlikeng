@@ -20,7 +20,6 @@ Their licenses are included in [images/toolbar/LICENSE](images/toolbar/LICENSE).
 | Light mode                                                    | Dark mode                                                   |
 | ------------------------------------------------------------- | ----------------------------------------------------------- |
 | ![Zenlike NG in light mode](screenshots/screenshot-light.png) | ![Zenlike NG in dark mode](screenshots/screenshot-dark.png) |
-| ------------------------------------------------------------- | ----------------------------------------------------------- |
 | ![Zenlike NG's text editor in light mode](screenshots/Screenshot-editor-light.png) | ![Zenlike NG's text editor in light mode](screenshots/Screenshot-editor-dark.png) |
 
 ### Mobile
