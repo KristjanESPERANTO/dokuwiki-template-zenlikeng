@@ -205,6 +205,26 @@
     padding-inline-start: 1em;
   }
 
+  #custommenu .zenlike-submenu {
+    padding-block: 0.25em;
+    background: transparent;
+  }
+
+  #custommenu .zenlike-submenu-heading > :is(a, .curid, .current) {
+    min-width: 0;
+  }
+
+  #custommenu .zenlike-submenu-button {
+    min-height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  #custommenu .zenlike-submenu-label {
+    justify-content: space-between;
+    text-align: start;
+  }
+
   #menu #custommenu li a {
     justify-content: flex-start;
     width: 100%;
@@ -228,6 +248,15 @@
   }
 
   #zenlike__navigation li :is(.current, .curid) a {
+    background: #656900;
+  }
+
+  #custommenu
+    .zenlike-linked-submenu:has(
+      > .zenlike-submenu > li:first-child :is(.curid, .current)
+    )
+    > .zenlike-submenu-heading
+    > .zenlike-submenu-button {
     background: #656900;
   }
 

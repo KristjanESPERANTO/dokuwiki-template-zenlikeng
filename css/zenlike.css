@@ -330,6 +330,129 @@ ul.linklist li {
   float: none;
 }
 
+#custommenu .li {
+  color: #fff;
+}
+
+#custommenu .zenlike-has-submenu {
+  position: relative;
+}
+
+#custommenu .zenlike-submenu-heading {
+  display: flex;
+  align-items: stretch;
+}
+
+#custommenu .zenlike-submenu-heading > :is(a, .curid, .current) {
+  flex: 1 1 auto;
+}
+
+#custommenu .zenlike-submenu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-width: 2.75em;
+  min-height: 3em;
+  box-sizing: border-box;
+  padding: 0.5em 0.75em;
+  border: 0;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: __navigation_font_size__;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#custommenu .zenlike-submenu-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#custommenu .zenlike-submenu-button:hover,
+#custommenu .zenlike-submenu-button[aria-expanded='true'],
+#custommenu
+  .zenlike-linked-submenu:has(
+    > .zenlike-submenu > li:first-child :is(.curid, .current)
+  )
+  > .zenlike-submenu-heading
+  > .zenlike-submenu-button {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+#custommenu .zenlike-submenu-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+#custommenu .zenlike-submenu-arrow {
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-0.15em);
+}
+
+#custommenu .zenlike-submenu[hidden] {
+  display: none;
+}
+
+#custommenu > :is(ul, ol) > li > :is(ul, ol) {
+  font-size: __navigation_font_size__;
+}
+
+#custommenu :is(ul, ol) :is(ul, ol) li > .li,
+#custommenu :is(ul, ol) :is(ul, ol) li > a {
+  font-size: __submenu_font_size__;
+}
+
+#custommenu :is(ul, ol) :is(ul, ol) li > .li a,
+#custommenu :is(ul, ol) :is(ul, ol) li > .li .zenlike-submenu-button {
+  font-size: inherit;
+}
+
+#custommenu .zenlike-submenu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.25em;
+  background: #505923;
+}
+
+#custommenu .zenlike-submenu > li {
+  margin: 0;
+}
+
+#custommenu .zenlike-submenu .zenlike-submenu {
+  padding-inline-start: 1em;
+}
+
+#custommenu .zenlike-submenu li a,
+#custommenu .zenlike-submenu-label {
+  justify-content: flex-start;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+
+@media (min-width: 42.01em) {
+  #custommenu > ul > li > .zenlike-submenu {
+    position: absolute;
+    z-index: 20;
+    top: 100%;
+    left: 0;
+    box-sizing: border-box;
+    width: max-content;
+    min-width: 13rem;
+    max-width: calc(100vw - 1rem);
+    max-height: 70vh;
+    overflow: auto;
+    box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.3);
+  }
+}
+
 #zenlike__navigation li a {
   display: flex;
   align-items: center;

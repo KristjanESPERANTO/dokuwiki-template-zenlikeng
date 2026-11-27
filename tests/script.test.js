@@ -8,6 +8,123 @@ import { JSDOM } from 'jsdom';
 
 const script = readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 
+test('filters nested menu instructions per reader', () => {
+  const php = String.raw`
+    define('DOKU_INC', '/');
+    require $argv[1];
+    $instructions = json_decode($argv[2], true);
+    $denied = json_decode($argv[3], true);
+    echo json_encode(_tpl_filter_menu_instructions($instructions, fn($id) => !in_array($id, $denied, true)));
+  `;
+  const entry = (type, argument) => [type, argument ? [argument] : [], 0];
+  const item = (label, children = []) => [
+    entry('listitem_open'),
+    entry('listcontent_open'),
+    entry(label[0], label[1]),
+    entry('listcontent_close'),
+    ...children,
+    entry('listitem_close'),
+  ];
+  const list = (...items) => [
+    entry('listu_open'),
+    ...items.flat(),
+    entry('listu_close'),
+  ];
+  const instructions = list(
+    item(['internallink', 'secret'], list(item(['internallink', 'public']))),
+    item(['cdata', 'Group'], list(item(['internallink', 'secret-child']))),
+    item(['internallink', 'missing']),
+    item(['externallink', 'https://example.com']),
+  );
+  const filter = (denied) =>
+    JSON.parse(
+      execFileSync(
+        'php',
+        [
+          '-r',
+          php,
+          new URL('../tpl_functions.php', import.meta.url).pathname,
+          JSON.stringify(instructions),
+          JSON.stringify(denied),
+        ],
+        { encoding: 'utf8' },
+      ),
+    );
+  const restricted = JSON.stringify(filter(['secret', 'secret-child']));
+  assert.doesNotMatch(restricted, /secret|public|Group/);
+  assert.match(restricted, /missing/);
+  assert.match(restricted, /example.com/);
+  assert.match(JSON.stringify(filter([])), /secret-child/);
+});
+
+test('renders menu instructions separately for each user and resolves targets', () => {
+  const php = String.raw`
+    namespace dokuwiki\File {
+      class PageResolver {
+        public function __construct(private $context) {}
+        public function resolveId($id, $rev = '', $date = false) { return 'section:' . $id; }
+      }
+    }
+    namespace {
+      define('DOKU_INC', '/');
+      define('AUTH_READ', 1);
+      $ID = 'current';
+      $TOC = ['original'];
+      $denied = [];
+      $instructions = json_decode($argv[2], true);
+      function tpl_getConf($key) { return 'section:menu'; }
+      function wikiFN($id) { return __DIR__ . '/tpl_functions.php'; }
+      function auth_quickaclcheck($id) { global $denied; return in_array($id, $denied, true) ? 0 : 1; }
+      function p_cached_instructions($file, $cached, $id) { global $instructions; return $instructions; }
+      function p_render($mode, $instructions, &$info) {
+        global $TOC;
+        $TOC = ['changed'];
+        return json_encode($instructions);
+      }
+      require $argv[1];
+      $output = [];
+      foreach ([['section:private'], [], ['section:menu']] as $denied) {
+        ob_start();
+        _tpl_navigation();
+        $output[] = ob_get_clean();
+      }
+      echo json_encode([$output, $ID, $TOC]);
+    }
+  `;
+  const instructions = [
+    ['listu_open', [], 0],
+    ['listitem_open', [1], 0],
+    ['listcontent_open', [], 0],
+    ['internallink', ['private?view=1#heading', 'Private'], 0],
+    ['listcontent_close', [], 0],
+    ['listitem_close', [], 0],
+    ['listitem_open', [1], 0],
+    ['listcontent_open', [], 0],
+    ['internallink', ['missing', 'Missing'], 0],
+    ['listcontent_close', [], 0],
+    ['listitem_close', [], 0],
+    ['listu_close', [], 0],
+  ];
+  const [output, id, toc] = JSON.parse(
+    execFileSync(
+      'php',
+      [
+        '-r',
+        php,
+        new URL('../tpl_functions.php', import.meta.url).pathname,
+        JSON.stringify(instructions),
+      ],
+      { encoding: 'utf8' },
+    ),
+  );
+  assert.doesNotMatch(output[0], /private/i);
+  assert.match(output[0], /missing/);
+  assert.match(output[1], /private/);
+  assert.equal(output[2], '');
+  assert.equal(id, 'current');
+  assert.deepEqual(toc, ['original']);
+});
+
 test('exposes header colors for both appearance modes', () => {
   const ini = new URL('../style.ini', import.meta.url).pathname;
   const language = new URL('../lang/en/lang.php', import.meta.url).pathname;
@@ -64,6 +181,7 @@ test('orders and describes every styling option', () => {
     '__sidebar_width__',
     '__content_font_size__',
     '__navigation_font_size__',
+    '__submenu_font_size__',
     '__outer_background__',
     '__dark_outer_background__',
     '__header_background__',
@@ -95,10 +213,31 @@ test('orders and describes every styling option', () => {
   ]);
   for (const key of settings[0]) assert.ok(settings[2][key], key);
   assert.equal(settings[1].__navigation_font_size__, '0.875em');
+  assert.equal(settings[1].__submenu_font_size__, '0.7em');
   assert.match(
     readFileSync(new URL('../css/zenlike.css', import.meta.url), 'utf8'),
     /font-size: __navigation_font_size__;/,
   );
+  assert.match(
+    readFileSync(new URL('../css/zenlike.css', import.meta.url), 'utf8'),
+    /font-size: __submenu_font_size__;/,
+  );
+  assert.match(
+    readFileSync(new URL('../css/zenlike.css', import.meta.url), 'utf8'),
+    /width: max-content;/,
+  );
+  for (const language of ['en', 'de', 'eo', 'it']) {
+    const label = execFileSync(
+      'php',
+      [
+        '-r',
+        '$lang = []; include $argv[1]; echo $lang["__submenu_font_size__"] ?? "";',
+        new URL(`../lang/${language}/lang.php`, import.meta.url).pathname,
+      ],
+      { encoding: 'utf8' },
+    );
+    assert.ok(label, language);
+  }
   assert.match(settings[1].__dark_highlight__, /^#[0-9a-f]{6}$/i);
   assert.match(
     readFileSync(new URL('../css/zenlike_dark.css', import.meta.url), 'utf8'),
@@ -165,6 +304,7 @@ test('organizes styling options into light and dark columns', async () => {
     ['__site_width__', 'Layout: site width'],
     ['__content_font_size__', 'Layout: content font size'],
     ['__navigation_font_size__', 'Layout: navigation font size'],
+    ['__submenu_font_size__', 'Layout: submenu font size'],
     ['__text__', 'Light mode: Page: text'],
     ['__background__', 'Light mode: Page: background'],
     ['__custom__', 'Custom option'],
@@ -194,7 +334,12 @@ test('organizes styling options into light and dark columns', async () => {
     [...layout.querySelectorAll('.zenlike-styling-setting th')].map(
       (cell) => cell.textContent,
     ),
-    ['site width', 'content font size', 'navigation font size'],
+    [
+      'site width',
+      'content font size',
+      'navigation font size',
+      'submenu font size',
+    ],
   );
   const table = dom.window.document.querySelector(
     'table:not(.zenlike-styling-layout)',
@@ -354,7 +499,7 @@ function renderHeader(conf = {}) {
     }
     function hsc($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
     function tpl_searchform() { echo '<form id="dw__search"></form>'; }
-    function tpl_include_page($id) { echo '<ul><li><a href="#custom">Custom navigation</a></li></ul>'; }
+    function _tpl_navigation() { echo '<ul><li><a href="#custom">Custom navigation</a></li></ul>'; }
     include $argv[1];
   `;
   return execFileSync(
@@ -774,6 +919,7 @@ async function createPage(
   savedTheme = null,
   initialDiffMode = 'sidebyside',
   pageUrl = 'https://example.test/',
+  menuMarkup = '<a href="#page">Page</a>',
 ) {
   const dom = new JSDOM(
     `<!doctype html>
@@ -785,7 +931,7 @@ async function createPage(
         </div>
         <div id="menu">
           <div id="zenlike__menucontent">
-            <nav id="zenlike__navigation"><a href="#page">Page</a></nav>
+            <nav id="zenlike__navigation"><div id="custommenu">${menuMarkup}</div></nav>
             <div id="zenlike__tools">
               <nav id="dokuwiki__pagetools"><ul><li class="action edit"><a href="#edit">Edit this page</a></li></ul></nav>
               <nav id="zenlike__sitetools"><ul><li class="action recent"><a href="#recent">Recent Changes</a></li></ul></nav>
@@ -899,6 +1045,66 @@ async function createPage(
     },
   };
 }
+
+test('enhances linked and text menu parents with accessible dropdowns', async () => {
+  const markup = `<ul>
+    <li><div class="li"><span class="curid"><a href="#parent"><strong>Explore</strong></a></span></div><ul>
+      <li><div class="li"><a href="#child">Child</a></div></li>
+      <li><div class="li">More</div><ul><li><div class="li"><a href="#nested">Nested</a></div></li></ul></li>
+    </ul></li>
+    <li><div class="li">Other</div><ul><li><div class="li"><a href="#other">Other child</a></div></li></ul></li>
+  </ul>`;
+  const { dom, document, initialMarkup } = await createPage(
+    false,
+    false,
+    null,
+    'sidebyside',
+    'https://example.test/',
+    markup,
+  );
+  assert.match(initialMarkup, /href="#child"/);
+  assert.match(initialMarkup, /href="#parent"/);
+  assert.doesNotMatch(initialMarkup, /zenlike-submenu-button/);
+  const buttons = [...document.querySelectorAll('.zenlike-submenu-button')];
+  const lists = buttons.map((button) =>
+    document.getElementById(button.getAttribute('aria-controls')),
+  );
+  assert.equal(buttons.length, 3);
+  assert.equal(
+    document.querySelector('a[href="#parent"]').textContent,
+    'Explore',
+  );
+  assert.equal(buttons[0].textContent.trim(), 'Explore');
+  assert.equal(buttons[0].querySelector('a'), null);
+  assert.equal(buttons[0].querySelector('strong').textContent, 'Explore');
+  assert.equal(
+    lists[0].firstElementChild.querySelector('a').getAttribute('href'),
+    '#parent',
+  );
+  assert.ok(lists[0].firstElementChild.querySelector('.curid a'));
+  assert.equal(buttons[1].textContent.trim(), 'More');
+  assert.ok(lists.every((list) => list.hidden));
+  buttons[0].click();
+  assert.equal(buttons[0].getAttribute('aria-expanded'), 'true');
+  assert.equal(lists[0].hidden, false);
+  buttons[1].click();
+  assert.equal(lists[1].hidden, false);
+  buttons[1].dispatchEvent(
+    new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+  );
+  assert.equal(lists[1].hidden, true);
+  assert.equal(document.activeElement, buttons[1]);
+  assert.equal(lists[0].hidden, false);
+  buttons[2].click();
+  assert.equal(lists[0].hidden, true);
+  assert.equal(lists[2].hidden, false);
+  document.body.click();
+  assert.equal(lists[2].hidden, true);
+  buttons[0].click();
+  dom.window.dispatchEvent(new dom.window.Event('resize'));
+  assert.equal(lists[0].hidden, true);
+  dom.window.close();
+});
 
 test('shows back to top only for content over two viewport heights', async () => {
   const { document, dom, setContentHeight, setViewportHeight } =

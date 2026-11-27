@@ -22,6 +22,7 @@ $lang['__site_width__']             = 'Layout: larghezza del sito';
 $lang['__sidebar_width__']          = 'Layout: larghezza della barra laterale';
 $lang['__content_font_size__']      = 'Layout: dimensione carattere del contenuto';
 $lang['__navigation_font_size__']   = 'Layout: dimensione carattere della navigazione';
+$lang['__submenu_font_size__']      = 'Layout: dimensione carattere dei sottomenu';
 $lang['__outer_background__']       = 'Modalità chiara: Pagina: sfondo esterno';
 $lang['__dark_outer_background__']  = 'Modalità scura: Pagina: sfondo esterno';
 $lang['__header_background__']       = 'Modalità chiara: Testata: sfondo';

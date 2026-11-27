@@ -20,6 +20,7 @@ $lang['__site_width__']            = 'Layout: site width';
 $lang['__sidebar_width__']         = 'Layout: sidebar width';
 $lang['__content_font_size__']     = 'Layout: content font size';
 $lang['__navigation_font_size__']  = 'Layout: navigation font size';
+$lang['__submenu_font_size__']     = 'Layout: submenu font size';
 $lang['__outer_background__']      = 'Light mode: Page: surroundings background';
 $lang['__dark_outer_background__'] = 'Dark mode: Page: surroundings background';
 $lang['__header_background__']      = 'Light mode: Header: background';

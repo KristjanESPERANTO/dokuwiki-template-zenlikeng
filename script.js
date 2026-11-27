@@ -103,6 +103,7 @@ function setupStylingTable() {
     '__sidebar_width__',
     '__content_font_size__',
     '__navigation_font_size__',
+    '__submenu_font_size__',
   ];
   const groups = [
     [
@@ -340,6 +341,143 @@ function setupSiteMenu() {
   });
 }
 
+function setupNavigationDropdowns() {
+  const menu = document.getElementById('custommenu');
+  if (!menu) return;
+
+  let nextId = 0;
+  const controls = [];
+  const close = (control) => {
+    control.button.setAttribute('aria-expanded', 'false');
+    control.list.hidden = true;
+    controls
+      .filter((child) => control.list.contains(child.button))
+      .forEach(close);
+  };
+
+  menu.querySelectorAll('li').forEach((item) => {
+    const list = [...item.children].find((child) =>
+      ['UL', 'OL'].includes(child.tagName),
+    );
+    const label = [...item.children].find((child) =>
+      child.classList.contains('li'),
+    );
+    if (!list || !label || !list.querySelector('li')) return;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'zenlike-submenu-button';
+    const interactive = label.querySelectorAll(
+      'a, button, input, select, textarea',
+    );
+    if (interactive.length === 1 && interactive[0].tagName === 'A') {
+      const link = interactive[0];
+      const copy = label.cloneNode(true);
+      const copiedLink = copy.querySelector('a');
+      copiedLink.replaceWith(...copiedLink.childNodes);
+      copy
+        .querySelectorAll('[id]')
+        .forEach((element) => element.removeAttribute('id'));
+      button.classList.add('zenlike-submenu-label');
+      if (link.hasAttribute('aria-label')) {
+        button.setAttribute('aria-label', link.getAttribute('aria-label'));
+      }
+      button.append(...copy.childNodes);
+
+      const linkItem = document.createElement('li');
+      const linkLabel = document.createElement('div');
+      linkLabel.className = 'li';
+      const current = link.closest('.curid, .current');
+      linkLabel.append(current && label.contains(current) ? current : link);
+      linkItem.append(linkLabel);
+      list.prepend(linkItem);
+      item.classList.add('zenlike-linked-submenu');
+      label.replaceChildren();
+    } else if (interactive.length) {
+      const name =
+        interactive[0].getAttribute('aria-label') ||
+        label.textContent.trim() ||
+        interactive[0].querySelector('img')?.alt ||
+        interactive[0].title ||
+        menu.closest('nav')?.getAttribute('aria-label') ||
+        'Menu';
+      button.setAttribute('aria-label', name);
+      button.title = name;
+    } else {
+      button.classList.add('zenlike-submenu-label');
+      button.append(...label.childNodes);
+    }
+    const arrow = document.createElement('span');
+    arrow.className = 'zenlike-submenu-arrow';
+    arrow.setAttribute('aria-hidden', 'true');
+    button.append(arrow);
+    label.append(button);
+    label.classList.add('zenlike-submenu-heading');
+    item.classList.add('zenlike-has-submenu');
+    list.classList.add('zenlike-submenu');
+    do {
+      nextId += 1;
+    } while (document.getElementById(`zenlike-submenu-${nextId}`));
+    list.id = `zenlike-submenu-${nextId}`;
+    button.setAttribute('aria-controls', list.id);
+    button.setAttribute('aria-expanded', 'false');
+    list.hidden = true;
+    const control = { button, list, item };
+    controls.push(control);
+
+    button.addEventListener('click', () => {
+      const opening = list.hidden;
+      controls
+        .filter(
+          (other) =>
+            other !== control &&
+            other.item.parentElement === item.parentElement,
+        )
+        .forEach(close);
+      if (!opening) {
+        close(control);
+        return;
+      }
+      list.hidden = false;
+      button.setAttribute('aria-expanded', 'true');
+      list.style.transform = '';
+      if (
+        !item.parentElement.closest('li') &&
+        document.defaultView.matchMedia('(min-width: 42.01em)').matches
+      ) {
+        const bounds = list.getBoundingClientRect();
+        const width = document.documentElement.clientWidth;
+        if (width && bounds.right > width - 8) {
+          list.style.transform = `translateX(${width - bounds.right - 8}px)`;
+        } else if (bounds.left < 8) {
+          list.style.transform = `translateX(${8 - bounds.left}px)`;
+        }
+      }
+    });
+  });
+
+  menu.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const open = controls.findLast(
+      (control) => !control.list.hidden && control.item.contains(event.target),
+    );
+    if (!open) return;
+    close(open);
+    open.button.focus();
+    event.preventDefault();
+    event.stopPropagation();
+  });
+  document.addEventListener('click', (event) => {
+    if (!menu.contains(event.target)) controls.forEach(close);
+  });
+  menu.addEventListener('focusout', (event) => {
+    if (!menu.contains(event.relatedTarget)) controls.forEach(close);
+  });
+  document.defaultView.addEventListener('resize', () =>
+    controls.forEach(close),
+  );
+}
+
 function setupBackToTopVisibility() {
   const content = document.querySelector('#dokuwiki__content .page');
   const backToTop = document.getElementById('zenlike__back-to-top');
@@ -539,6 +677,7 @@ function init() {
   setupTemplateConfig();
   setupStylingTable();
   setupSiteMenu();
+  setupNavigationDropdowns();
   setupBackToTopVisibility();
   setupSidebarToggle();
   setupResponsiveDiff();
