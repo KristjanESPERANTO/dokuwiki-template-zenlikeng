@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.8.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.7.2...v7.8.0) (2026-11-27)
+
+### Features
+
+* add ACL-aware dropdown navigation ([e8182fd](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/e8182fd9cd8cb9034326193128ffc5c05c909181))
+* make navigation font size configurable ([edcc089](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/edcc0899f3bd15a23aa9438439a4705434438c84))
+
+### Bug Fixes
+
+* highlight the current navigation item ([88c17b1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/88c17b163ff97cb48699aa31e96c1531f8b9bfcf))
+* improve skip link accessibility ([8a7bb92](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/8a7bb929cd9e23218c8ca33cffa03e30e3043f8e))
+
 ## [7.7.2](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.7.1...v7.7.2) (2026-11-23)
 
 ## [7.7.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.7.0...v7.7.1) (2026-11-23)
