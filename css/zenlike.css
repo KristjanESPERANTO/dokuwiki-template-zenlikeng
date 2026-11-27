@@ -345,6 +345,7 @@ ul.linklist li {
 
 @media (min-width: 42.01em) {
   #zenlike__navigation li a {
+    border-bottom: 0;
     border-radius: 0.25rem;
   }
 }
@@ -353,13 +354,14 @@ ul.linklist li {
   text-decoration: underline;
 }
 
+#zenlike__navigation li a:hover,
+#zenlike__navigation li :is(.current, .curid) a {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 #zenlike__navigation li a:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 3px;
-}
-
-#zenlike__navigation li .current a {
-  background: rgba(0, 0, 0, 0.14);
 }
 
 /* The menu padding is too small for DokuWiki's link icons */

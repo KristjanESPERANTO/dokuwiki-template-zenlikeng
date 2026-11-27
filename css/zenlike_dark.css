@@ -282,7 +282,7 @@
     background: #303323;
   }
 
-  :root[data-theme='dark'] #zenlike__navigation li .current a,
+  :root[data-theme='dark'] #zenlike__navigation li :is(.current, .curid) a,
   :root[data-theme='dark'] #zenlike__navigation li a:hover,
   :root[data-theme='dark'] #zenlike__navigation li a:focus-visible {
     background: #42482a;
