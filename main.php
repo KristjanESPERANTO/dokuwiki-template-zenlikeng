@@ -36,6 +36,9 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
     <?php /* .dokuwiki should always be in one of the surrounding elements (e.g. plugins and templates depend on it) */ ?>
     <div id="dokuwiki__site"><div id="dokuwiki__top"
         class="site <?php echo tpl_classes(); ?> <?php echo ($showSidebar) ? 'hasSidebar' : '' ?>">
+        <ul class="a11y skip">
+            <li><a href="#dokuwiki__content"><?php echo $lang['skip_to_content'] ?></a></li>
+        </ul>
         <?php html_msgarea() /* occasional error and info messages on top of the page */ ?>
         <?php tpl_includeFile('header.html') ?>
 
@@ -55,7 +58,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
             <?php endif; ?>
 
             <!-- ********** CONTENT ********** -->
-            <main id="dokuwiki__content"><div class="pad">
+            <main id="dokuwiki__content" tabindex="-1"><div class="pad">
                 <?php tpl_flush() /* flush the output buffer */ ?>
                 <?php tpl_includeFile('pageheader.html') ?>
 

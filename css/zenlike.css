@@ -1354,7 +1354,7 @@ nav.breadcrumb-trace {
   font-weight: 600;
 }
 
-#zenlikeheader ul.a11y.skip:focus-within {
+#dokuwiki__site ul.a11y.skip:focus-within {
   position: fixed !important;
   top: 0.5em !important;
   left: 0.5em !important;
@@ -1364,12 +1364,27 @@ nav.breadcrumb-trace {
   width: auto !important;
   height: auto !important;
   overflow: visible !important;
+  margin: 0;
   padding: 0.75em;
-  border: 1px solid __border__;
-  background: __background__;
+  list-style: none;
+  border: 1px solid var(--zenlike-border, __border__);
+  background: var(--zenlike-page, __background__);
 }
 
-[dir='rtl'] #zenlikeheader ul.a11y.skip:focus-within {
+#dokuwiki__site ul.a11y.skip li {
+  margin: 0;
+}
+
+#dokuwiki__site ul.a11y.skip a {
+  color: var(--zenlike-text, __text__);
+}
+
+#dokuwiki__site ul.a11y.skip a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+[dir='rtl'] #dokuwiki__site ul.a11y.skip:focus-within {
   right: 0.5em !important;
   left: auto !important;
 }

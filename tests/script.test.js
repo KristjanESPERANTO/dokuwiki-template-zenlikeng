@@ -514,6 +514,24 @@ function renderHeader(conf = {}) {
   );
 }
 
+test('styles the focused skip link for both appearance modes', () => {
+  const main = readFileSync(new URL('../main.php', import.meta.url), 'utf8');
+  assert.match(main, /<a href="#dokuwiki__content">/);
+  assert.ok(main.indexOf('class="a11y skip"') < main.indexOf('html_msgarea()'));
+  assert.match(main, /<main id="dokuwiki__content" tabindex="-1">/);
+  const css = readFileSync(
+    new URL('../css/zenlike.css', import.meta.url),
+    'utf8',
+  );
+  const list = css.match(
+    /#dokuwiki__site ul\.a11y\.skip:focus-within\s*\{([^}]+)\}/,
+  )[1];
+  assert.match(list, /list-style:\s*none/);
+  assert.match(list, /background:\s*var\(--zenlike-page,\s*__background__\)/);
+  assert.match(css, /color:\s*var\(--zenlike-text,\s*__text__\)/);
+  assert.match(css, /#dokuwiki__site ul\.a11y\.skip a:focus-visible/);
+});
+
 test('renders navigation, tools and theme options in their final locations', () => {
   const html = renderHeader();
   const dom = new JSDOM(html);
