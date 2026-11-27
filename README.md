@@ -97,13 +97,13 @@ The submenu font size (`__submenu_font_size__`, default `0.7em`) accepts CSS
 sizes; `em` values are relative to the main navigation font size.
 
 The `__dark_*__` colors apply to dark mode only; switch the appearance to dark
-to check them. 
+to check them.
 
 About backgrounds, `__outer_background__` and `__dark_outer_background__` set the
 color around the page, which is shown as is when `pageBackground` is `color`.
-The page background is not shown on small screens.  
+The page background is not shown on small screens.
 The header background and text colors can be configured separately for light
-and dark mode.  
+and dark mode.
 Check text and control contrast at both ends of the header
 gradient when choosing custom colors.
 
