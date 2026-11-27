@@ -19,6 +19,7 @@ $lang['theme_next']        = 'Sekva reĝimo';
 $lang['__site_width__']             = 'Aranĝo: larĝo de la retejo';
 $lang['__sidebar_width__']          = 'Aranĝo: larĝo de la flanka strio';
 $lang['__content_font_size__']      = 'Aranĝo: grandeco de la enhava tiparo';
+$lang['__navigation_font_size__']   = 'Aranĝo: grandeco de la navigada tiparo';
 $lang['__outer_background__']       = 'Hela reĝimo: Paĝo: ekstera fono';
 $lang['__dark_outer_background__']  = 'Malhela reĝimo: Paĝo: ekstera fono';
 $lang['__header_background__']       = 'Hela reĝimo: Kaplinio: fono';

@@ -63,6 +63,7 @@ test('orders and describes every styling option', () => {
     '__site_width__',
     '__sidebar_width__',
     '__content_font_size__',
+    '__navigation_font_size__',
     '__outer_background__',
     '__dark_outer_background__',
     '__header_background__',
@@ -93,6 +94,11 @@ test('orders and describes every styling option', () => {
     '__dark_highlight__',
   ]);
   for (const key of settings[0]) assert.ok(settings[2][key], key);
+  assert.equal(settings[1].__navigation_font_size__, '0.875em');
+  assert.match(
+    readFileSync(new URL('../css/zenlike.css', import.meta.url), 'utf8'),
+    /font-size: __navigation_font_size__;/,
+  );
   assert.match(settings[1].__dark_highlight__, /^#[0-9a-f]{6}$/i);
   assert.match(
     readFileSync(new URL('../css/zenlike_dark.css', import.meta.url), 'utf8'),
@@ -158,6 +164,7 @@ test('organizes styling options into light and dark columns', async () => {
   const rows = [
     ['__site_width__', 'Layout: site width'],
     ['__content_font_size__', 'Layout: content font size'],
+    ['__navigation_font_size__', 'Layout: navigation font size'],
     ['__text__', 'Light mode: Page: text'],
     ['__background__', 'Light mode: Page: background'],
     ['__custom__', 'Custom option'],
@@ -187,7 +194,7 @@ test('organizes styling options into light and dark columns', async () => {
     [...layout.querySelectorAll('.zenlike-styling-setting th')].map(
       (cell) => cell.textContent,
     ),
-    ['site width', 'content font size'],
+    ['site width', 'content font size', 'navigation font size'],
   );
   const table = dom.window.document.querySelector(
     'table:not(.zenlike-styling-layout)',

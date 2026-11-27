@@ -60,9 +60,10 @@ You can change these options in the Configuration Manager:
 
 ## Styling
 
-Colors, widths, and the content font size can be changed in DokuWiki's
-Template Styling admin page (`?do=admin&page=styling`). The content font size
-(`__content_font_size__`, default `1em`) accepts any CSS size such as `1.1em`.
+Colors, widths, and content and navigation font sizes can be changed in
+DokuWiki's Template Styling admin page (`?do=admin&page=styling`). The content
+and navigation font sizes (`__content_font_size__` and
+`__navigation_font_size__`, default `1em`) accept CSS sizes such as `1.1em`.
 The `__dark_*__` colors apply to dark mode only; switch the appearance to dark
 to check them. `__outer_background__` and `__dark_outer_background__` set the
 color around the page, which is shown as is when `pageBackground` is `color`.

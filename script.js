@@ -102,6 +102,7 @@ function setupStylingTable() {
     '__site_width__',
     '__sidebar_width__',
     '__content_font_size__',
+    '__navigation_font_size__',
   ];
   const groups = [
     [

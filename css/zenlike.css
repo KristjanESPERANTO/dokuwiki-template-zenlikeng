@@ -338,6 +338,7 @@ ul.linklist li {
   box-sizing: border-box;
   line-height: 1;
   padding: 0.5em 1em;
+  font-size: __navigation_font_size__;
   color: #fff;
   text-align: center;
   text-decoration: none;
@@ -380,14 +381,12 @@ ul.linklist li {
 
   #zenlike__navigation li a {
     padding-inline: 0.75em;
-    font-size: 0.875em;
   }
 }
 
 @media (min-width: 42.01em) and (max-width: 79.99em) {
   #custommenu ul li a {
     padding-inline: 0.75em;
-    font-size: 0.875em;
   }
 }
 

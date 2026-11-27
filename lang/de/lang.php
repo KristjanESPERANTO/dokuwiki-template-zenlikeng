@@ -20,6 +20,7 @@ $lang['theme_next']        = 'Nächster Modus';
 $lang['__site_width__']             = 'Layout: Seitenbreite';
 $lang['__sidebar_width__']          = 'Layout: Sidebar-Breite';
 $lang['__content_font_size__']      = 'Layout: Schriftgröße des Inhalts';
+$lang['__navigation_font_size__']   = 'Layout: Schriftgröße der Navigation';
 $lang['__outer_background__']       = 'Hellmodus: Seite: Hintergrund außen';
 $lang['__dark_outer_background__']  = 'Dunkelmodus: Seite: Hintergrund außen';
 $lang['__header_background__']       = 'Hellmodus: Header: Hintergrund';
