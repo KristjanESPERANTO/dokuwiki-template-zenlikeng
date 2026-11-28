@@ -1124,18 +1124,18 @@ test('enhances linked and text menu parents with accessible dropdowns', async ()
   dom.window.close();
 });
 
-test('shows back to top only for content over two viewport heights', async () => {
+test('shows back to top only for content over 1.5 viewport heights', async () => {
   const { document, dom, setContentHeight, setViewportHeight } =
     await createPage();
   const backToTop = document.getElementById('zenlike__back-to-top');
   setViewportHeight(800);
-  setContentHeight(1600);
+  setContentHeight(1200);
   assert.equal(backToTop.hidden, true);
-  setContentHeight(1601);
+  setContentHeight(1201);
   assert.equal(backToTop.hidden, false);
   setViewportHeight(900);
   assert.equal(backToTop.hidden, true);
-  setContentHeight(2000);
+  setContentHeight(1351);
   assert.equal(backToTop.hidden, false);
   dom.window.close();
 });

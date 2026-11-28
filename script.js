@@ -485,7 +485,7 @@ function setupBackToTopVisibility() {
 
   function updateVisibility() {
     backToTop.hidden =
-      content.offsetHeight <= document.defaultView.innerHeight * 2;
+      content.offsetHeight <= document.defaultView.innerHeight * 1.5;
   }
 
   document.defaultView.addEventListener('resize', updateVisibility);
