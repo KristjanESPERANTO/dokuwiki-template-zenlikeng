@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.8.1](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.8.0...v7.8.1) (2026-11-28)
+
+### Bug Fixes
+
+* keep back-to-top available with hidden tools ([aad1fd3](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/aad1fd3d477f74cadf33523c885116591a301a1a))
+* show back-to-top button on shorter pages ([f4675b7](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/commit/f4675b70b13a1b13894a4c5667927350973380db))
+
 ## [7.8.0](https://github.com/KristjanESPERANTO/dokuwiki-template-zenlikeng/compare/v7.7.2...v7.8.0) (2026-11-27)
 
 ### Features
