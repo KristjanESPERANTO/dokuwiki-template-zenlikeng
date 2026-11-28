@@ -17,9 +17,10 @@ Their licenses are included in [images/toolbar/LICENSE](images/toolbar/LICENSE).
 
 ### Desktop
 
-| Light mode                                                    | Dark mode                                                   |
-| ------------------------------------------------------------- | ----------------------------------------------------------- |
-| ![Zenlike NG in light mode](screenshots/screenshot-light.png) | ![Zenlike NG in dark mode](screenshots/screenshot-dark.png) |
+| Light mode                                                                         | Dark mode                                                                        |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| ![Zenlike NG in light mode](screenshots/screenshot-light.png)                      | ![Zenlike NG in dark mode](screenshots/screenshot-dark.png)                      |
+| ![Zenlike NG's text editor in light mode](screenshots/Screenshot-editor-light.png) | ![Zenlike NG's text editor in dark mode](screenshots/Screenshot-editor-dark.png) |
 
 ### Mobile
 
@@ -87,17 +88,23 @@ allowed to read that page can see its source and entries.
 ## Styling
 
 Colors, widths, and content and navigation font sizes can be changed in
-DokuWiki's Template Styling admin page (`?do=admin&page=styling`). The content
-and navigation font sizes (`__content_font_size__`, default `1em`, and
+DokuWiki's Template Styling admin page (`?do=admin&page=styling`).
+
+The content and navigation font sizes (`__content_font_size__`, default `1em`, and
 `__navigation_font_size__`, default `0.875em`) accept CSS sizes such as `1.1em`.
+
 The submenu font size (`__submenu_font_size__`, default `0.7em`) accepts CSS
 sizes; `em` values are relative to the main navigation font size.
+
 The `__dark_*__` colors apply to dark mode only; switch the appearance to dark
-to check them. `__outer_background__` and `__dark_outer_background__` set the
+to check them.
+
+About backgrounds, `__outer_background__` and `__dark_outer_background__` set the
 color around the page, which is shown as is when `pageBackground` is `color`.
 The page background is not shown on small screens.
 The header background and text colors can be configured separately for light
-and dark mode. Check text and control contrast at both ends of the header
+and dark mode.
+Check text and control contrast at both ends of the header
 gradient when choosing custom colors.
 
 ## Sidebar
