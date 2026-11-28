@@ -1140,6 +1140,75 @@ test('shows back to top only for content over two viewport heights', async () =>
   dom.window.close();
 });
 
+test('renders back to top independently of hidden tools', () => {
+  const php = String.raw`
+    namespace dokuwiki\Menu {
+      class PageMenu {
+        public function getItems() { global $options; return $options['top'] ? [new Top()] : []; }
+      }
+      class Top {
+        public function getType() { return 'top'; }
+        public function asHtmlLink($prefix) { return '<a href="#dokuwiki__top">Back to top</a>'; }
+      }
+    }
+    namespace {
+      define('DOKU_INC', '/');
+      define('DOKU_BASE', '/');
+      $options = json_decode($argv[2], true);
+      $conf = ['sidebar' => 'sidebar', 'lang' => 'en', 'title' => 'Wiki'];
+      $lang = ['direction' => 'ltr', 'skip_to_content' => 'Skip', 'page_tools' => 'Page Tools'];
+      $ACT = 'show';
+      if ($options['user']) $_SERVER['REMOTE_USER'] = $options['user'];
+      $EVENT_HANDLER = new class { public function register_hook(...$args) {} };
+      function tpl_getConf($key) { global $options; return $options[$key] ?? ''; }
+      function tpl_getLang($key) { return $key; }
+      function page_findnearest($id) { return false; }
+      function hsc($value) { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
+      function tpl_pagetitle() {}
+      function tpl_metaheaders() {}
+      function tpl_favicon($icons) { return ''; }
+      function tpl_includeFile($file) {}
+      function tpl_classes() { return 'dokuwiki'; }
+      function html_msgarea() {}
+      function tpl_flush() {}
+      function tpl_content() {}
+      function tpl_pageinfo() {}
+      function tpl_license(...$args) {}
+      function tpl_indexerWebBug() {}
+      include $argv[1];
+    }
+  `;
+  const render = (options) =>
+    new JSDOM(
+      execFileSync(
+        'php',
+        [
+          '-r',
+          php,
+          new URL('../main.php', import.meta.url).pathname,
+          JSON.stringify({ hideTools: true, user: '', top: true, ...options }),
+        ],
+        { encoding: 'utf8' },
+      ),
+    ).window.document;
+
+  for (const options of [
+    { hideTools: false },
+    { hideTools: true },
+    { hideTools: true, user: 'demo' },
+  ]) {
+    assert.ok(
+      render(options).querySelector(
+        '#zenlike__back-to-top a[href="#dokuwiki__top"]',
+      ),
+    );
+  }
+  assert.equal(
+    render({ top: false }).getElementById('zenlike__back-to-top'),
+    null,
+  );
+});
+
 test('leaves the server-rendered markup unchanged on initialization', async () => {
   for (const mobile of [true, false]) {
     const { document, dom, initialMarkup } = await createPage(mobile);

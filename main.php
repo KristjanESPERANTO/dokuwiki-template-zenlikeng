@@ -10,7 +10,6 @@
 if (!defined('DOKU_INC')) die(); /* must be run from within DokuWiki */
 @require_once(dirname(__FILE__).'/tpl_functions.php'); /* include hook for template functions */
 
-$showTools = !tpl_getConf('hideTools') || ( tpl_getConf('hideTools') && !empty($_SERVER['REMOTE_USER']) );
 $hasSidebar = page_findnearest($conf['sidebar']);
 $showSidebar = $hasSidebar && ($ACT == 'show');
 ?><!DOCTYPE html>
@@ -72,7 +71,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
                 <?php tpl_flush() ?>
                 <?php tpl_includeFile('pagefooter.html') ?>
                 <?php
-                    $pageMenuItems = $showTools ? (new \dokuwiki\Menu\PageMenu())->getItems() : [];
+                    $pageMenuItems = (new \dokuwiki\Menu\PageMenu())->getItems();
                     foreach ($pageMenuItems as $item) {
                         if ($item->getType() !== 'top') continue;
                         echo '<nav id="zenlike__back-to-top" aria-label="' . hsc($lang['page_tools']) . '" hidden><ul><li class="action top">';
