@@ -1,0 +1,6 @@
+  * Explore
+    * [[wiki:welcome|Visitor guide]]
+    * [[wiki:syntax|Field notebook]]
+  * [[wiki:welcome|Visitor guide]]
+    * [[wiki:syntax|Field notebook]]
+  * [[wiki:syntax|Field notebook]]

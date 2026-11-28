@@ -14,6 +14,24 @@ CSS, formatting, and spelling. Run `node --run format` to format the files.
 GitHub Actions runs the checks with PHP 8.3 and 8.5. It does not test multiple
 DokuWiki releases.
 
+## Desktop screenshots
+
+The screenshot fixture in `demo/` provides example pages and template settings.
+It does not use or change the configuration or content of your own wiki.
+Install PHP CLI, curl, and Chromium, and provide a DokuWiki installation with
+its Composer dependencies installed:
+
+```sh
+bash scripts/screenshots.sh /path/to/dokuwiki /path/to/empty-output-directory
+```
+
+The script creates a temporary wiki, starts a local server, and captures light
+and dark screenshots at 1920 × 993 pixels. It refuses to overwrite existing
+screenshots. Review the output before replacing the images in `screenshots/`.
+Set `CHROMIUM` to the browser executable or `SCREENSHOT_PORT` to a free port if
+the defaults (`chromium` and `18098`) are unsuitable. Browser, fonts, and
+DokuWiki versions can affect the appearance.
+
 ## Create a release
 
 Use [Conventional Commits](https://www.conventionalcommits.org/) for commit
